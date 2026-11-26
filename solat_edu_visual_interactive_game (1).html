@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOLAT EDU — Visual Interactive Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =========================================================================
+       SOLAT EDU — DARK NAVY GLASSMORPHISM DESIGN SYSTEM (.solatedu-)
+       Palette: Navy #102C40 | White #F7FAFC | Lime #DBFF00
+       All rules scoped cleanly under .solatedu-shell for Jotform HTML Embed.
+    ========================================================================= */
+    .solatedu-shell,
+    .solatedu-shell * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .solatedu-shell {
+      --navy: #102C40;
+      --navy-deep: #071621;
+      --navy-glass: rgba(16, 44, 64, 0.72);
+      --glass-card: rgba(247, 250, 252, 0.08);
+      --glass-card-hi: rgba(247, 250, 252, 0.14);
+      --glass-line: rgba(247, 250, 252, 0.18);
+      --glass-line-hi: rgba(247, 250, 252, 0.42);
+      --white: #F7FAFC;
+      --muted: rgba(247, 250, 252, 0.72);
+      --lime: #DBFF00;
+      --lime-soft: rgba(219, 255, 0, 0.22);
+      --lime-glow: rgba(219, 255, 0, 0.45);
+      --cyan: #22D3EE;
+      --amber: #FBBF24;
+      --violet: #A78BFA;
+      --emerald: #34D399;
+      --emerald-glow: rgba(52, 211, 153, 0.65);
+      --panther-red: #FF1E42;
+      --panther-crimson: #99001E;
+      --panther-glow: rgba(255, 30, 66, 0.65);
+      --radius-stage: clamp(22px, 3vw, 34px);
+      --radius-card: clamp(16px, 2vw, 22px);
+      --radius-pill: 14px;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(8px, 1.5vw, 18px);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--white);
+      overflow-x: clip;
+    }
+
+    .solatedu-stage {
+      position: relative;
+      min-height: min(740px, 90dvh);
+      border-radius: var(--radius-stage);
+      padding: clamp(16px, 2.4vw, 28px);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(219, 255, 0, 0.22), transparent 36%),
+        radial-gradient(circle at 86% 16%, rgba(34, 211, 238, 0.25), transparent 42%),
+        radial-gradient(circle at 50% 85%, rgba(167, 139, 250, 0.18), transparent 44%),
+        radial-gradient(circle at 82% 88%, rgba(52, 211, 153, 0.16), transparent 38%),
+        linear-gradient(155deg, #163E5C 0%, #0E2A40 48%, #06141F 100%);
+      border: 1.5px solid var(--glass-line-hi);
+      box-shadow:
+        0 30px 70px -24px rgba(4, 14, 22, 0.78),
+        inset 0 1px 0 rgba(255, 255, 255, 0.32);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: clamp(16px, 2vw, 24px);
+      overflow: clip;
+    }
+
+    /* Black Panther Kinetic Suit Red Overload Effect on Wrong Answer */
+    .solatedu-stage.is-panther-alert {
+      animation: sePantherSuitSurge 640ms var(--ease-out);
+    }
+
+    .solatedu-stage.is-panther-alert::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 50;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 30, 66, 0.08) 28%, rgba(255, 30, 66, 0.44) 100%);
+      box-shadow:
+        inset 0 0 56px rgba(255, 30, 66, 0.85),
+        0 0 36px var(--panther-glow);
+      animation: sePantherOverlayFlash 640ms var(--ease-out) forwards;
+    }
+
+    @keyframes sePantherSuitSurge {
+      0% { transform: translateX(0); border-color: var(--panther-red); }
+      18% { transform: translateX(-8px); border-color: var(--panther-red); }
+      36% { transform: translateX(8px); border-color: #FF5C77; }
+      54% { transform: translateX(-5px); border-color: var(--panther-red); }
+      72% { transform: translateX(4px); border-color: var(--panther-crimson); }
+      100% { transform: translateX(0); border-color: var(--glass-line-hi); }
+    }
+
+    @keyframes sePantherOverlayFlash {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      65% { opacity: 0.85; }
+      100% { opacity: 0; }
+    }
+
+    .is-panther-wrong {
+      border-color: var(--panther-red) !important;
+      background: rgba(255, 30, 66, 0.24) !important;
+      color: #FFD6DD !important;
+      box-shadow: 0 0 24px var(--panther-glow), inset 0 0 12px rgba(255, 30, 66, 0.45) !important;
+      animation: sePantherCardPulse 560ms var(--ease-out);
+    }
+
+    @keyframes sePantherCardPulse {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.03); }
+      55% { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+
+    /* Efek Hijau Khas Apabila Jawapan Betul */
+    .solatedu-stage.is-emerald-win {
+      animation: seEmeraldSuitSurge 580ms var(--ease-out);
+    }
+
+    .solatedu-stage.is-emerald-win::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 48;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 30%, rgba(52, 211, 153, 0.38) 100%);
+      box-shadow:
+        inset 0 0 52px rgba(52, 211, 153, 0.8),
+        0 0 34px var(--emerald-glow);
+      animation: seEmeraldOverlayFlash 580ms var(--ease-out) forwards;
+    }
+
+    @keyframes seEmeraldSuitSurge {
+      0% { transform: translateX(0); border-color: var(--emerald); }
+      20% { transform: translateX(-6px); border-color: var(--emerald); }
+      40% { transform: translateX(6px); border-color: #6EE7B7; }
+      65% { transform: translateX(-3px); border-color: var(--emerald); }
+      100% { transform: translateX(0); border-color: var(--glass-line-hi); }
+    }
+
+    @keyframes seEmeraldOverlayFlash {
+      0% { opacity: 0; }
+      22% { opacity: 1; }
+      70% { opacity: 0.82; }
+      100% { opacity: 0; }
+    }
+
+    .is-emerald-correct {
+      border-color: var(--emerald) !important;
+      background: rgba(52, 211, 153, 0.24) !important;
+      color: #D1FAE5 !important;
+      box-shadow: 0 0 24px var(--emerald-glow), inset 0 0 12px rgba(52, 211, 153, 0.45) !important;
+      animation: sePantherCardPulse 520ms var(--ease-out);
+    }
+
+    /* Kanvas Confetti Tahniah */
+    .solatedu-confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9900;
+    }
+
+    /* Close / Pangkah Button while Answering */
+    .solatedu-close-btn {
+      appearance: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 92, 119, 0.65);
+      background: rgba(255, 30, 66, 0.18);
+      color: #FF8FA3;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 130ms var(--ease-out), background 160ms var(--ease-out), color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+    }
+
+    .solatedu-close-btn:hover {
+      background: var(--panther-red);
+      border-color: #FF8FA3;
+      color: #FFFFFF;
+      box-shadow: 0 0 18px var(--panther-glow);
+    }
+
+    .solatedu-close-btn:active {
+      transform: scale(0.94);
+    }
+
+    /* Minimal Top Bar */
+    .solatedu-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .solatedu-brand {
+      appearance: none;
+      border: 1px solid var(--glass-line);
+      background: var(--glass-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      transition: transform 140ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+
+    .solatedu-brand:hover {
+      background: var(--glass-card-hi);
+      border-color: var(--glass-line-hi);
+    }
+
+    .solatedu-brand:active {
+      transform: scale(0.97);
+    }
+
+    .solatedu-brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 12px var(--lime);
+    }
+
+    .solatedu-hud-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .solatedu-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-line);
+      color: var(--white);
+    }
+
+    .solatedu-chip span {
+      color: var(--lime);
+    }
+
+    .solatedu-chip--cyan span {
+      color: var(--cyan);
+    }
+
+    .solatedu-chip--amber span {
+      color: var(--amber);
+    }
+
+    .solatedu-icon-btn {
+      appearance: none;
+      border: 1px solid var(--glass-line);
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 140ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+
+    .solatedu-icon-btn:hover {
+      background: var(--glass-card-hi);
+      border-color: var(--glass-line-hi);
+    }
+
+    .solatedu-icon-btn:active {
+      transform: scale(0.97);
+    }
+
+    .solatedu-icon-btn.is-off {
+      color: var(--muted);
+      border-style: dashed;
+    }
+
+    .solatedu-icon-btn.is-ambient-on {
+      border-color: rgba(34, 211, 238, 0.65);
+      background: rgba(34, 211, 238, 0.14);
+      color: #A5F3FC;
+    }
+
+    /* Screens & Smooth Transitions */
+    .solatedu-view {
+      display: none;
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(16px, 2vw, 24px);
+    }
+
+    .solatedu-view.is-active {
+      display: flex;
+      animation: seViewIn 340ms var(--ease-out) forwards;
+    }
+
+    @keyframes seViewIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Lime Primary & Glass Buttons */
+    .solatedu-btn-primary {
+      appearance: none;
+      border: 2px solid var(--lime);
+      background: var(--lime);
+      color: var(--navy);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: clamp(0.9rem, 1.3vw, 1.02rem);
+      letter-spacing: 0.02em;
+      padding: 13px 24px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 12px 28px -8px var(--lime-glow);
+      transition: transform 140ms var(--ease-out), box-shadow 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+
+    .solatedu-btn-primary:hover:not(:disabled) {
+      background: #E8FF52;
+      box-shadow: 0 16px 34px -8px var(--lime-glow);
+    }
+
+    .solatedu-btn-primary:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    .solatedu-btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .solatedu-btn-ghost {
+      appearance: none;
+      border: 1px solid var(--glass-line-hi);
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: var(--white);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 12px 18px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 140ms var(--ease-out), background 180ms var(--ease-out);
+    }
+
+    .solatedu-btn-ghost:hover {
+      background: var(--glass-card-hi);
+    }
+
+    .solatedu-btn-ghost:active {
+      transform: scale(0.97);
+    }
+
+    /* =========================================================================
+       1. HOME & 2. PILIH AKTIVITI (VISUAL GAME MENU)
+    ========================================================================= */
+    .solatedu-home-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(18px, 2.5vw, 28px);
+    }
+
+    .solatedu-hero-block {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .solatedu-hero-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--lime);
+      text-transform: uppercase;
+    }
+
+    .solatedu-hero-h1 {
+      margin: 6px 0 0 0;
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+    }
+
+    .solatedu-hero-h1 em {
+      font-style: normal;
+      color: var(--lime);
+    }
+
+    .solatedu-activity-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 2vw, 22px);
+    }
+
+    .solatedu-mode-tile {
+      appearance: none;
+      position: relative;
+      border: 1.5px solid var(--glass-line);
+      background: var(--glass-card);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border-radius: var(--radius-card);
+      padding: clamp(18px, 2.4vw, 26px);
+      color: var(--white);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 140ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+    }
+
+    .solatedu-mode-tile:hover {
+      background: var(--glass-card-hi);
+      border-color: var(--glass-line-hi);
+    }
+
+    .solatedu-mode-tile:active {
+      transform: scale(0.97);
+    }
+
+    .solatedu-mode-tile:nth-child(1) .solatedu-tile-icon {
+      background: rgba(219, 255, 0, 0.16);
+      border-color: rgba(219, 255, 0, 0.5);
+      color: var(--lime);
+    }
+
+    .solatedu-mode-tile:nth-child(1).is-picked {
+      border-color: var(--lime);
+      background: linear-gradient(145deg, rgba(219, 255, 0, 0.16), rgba(34, 211, 238, 0.08));
+      box-shadow: 0 0 0 2px var(--lime-soft), 0 20px 38px -14px rgba(0, 0, 0, 0.45);
+    }
+
+    .solatedu-mode-tile:nth-child(2) .solatedu-tile-icon {
+      background: rgba(34, 211, 238, 0.16);
+      border-color: rgba(34, 211, 238, 0.52);
+      color: var(--cyan);
+    }
+
+    .solatedu-mode-tile:nth-child(2) .solatedu-tile-code {
+      color: var(--cyan);
+    }
+
+    .solatedu-mode-tile:nth-child(2).is-picked {
+      border-color: var(--cyan);
+      background: linear-gradient(145deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.12));
+      box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.25), 0 20px 38px -14px rgba(0, 0, 0, 0.45);
+    }
+
+    .solatedu-tile-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .solatedu-tile-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(219, 255, 0, 0.16);
+      border: 1px solid rgba(219, 255, 0, 0.45);
+      color: var(--lime);
+      display: grid;
+      place-items: center;
+    }
+
+    .solatedu-tile-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--lime);
+    }
+
+    .solatedu-tile-name {
+      margin: 16px 0 4px 0;
+      font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .solatedu-tile-short {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .solatedu-home-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* =========================================================================
+       3. GAME 01 — PADANKAN PERBUATAN SOLAT (BIG FULL-FRAME VISUALS)
+    ========================================================================= */
+    .solatedu-g1-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .solatedu-g1-title {
+      margin: 0;
+      font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .solatedu-g1-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: clamp(14px, 2vw, 22px);
+      align-items: stretch;
+    }
+
+    .solatedu-panel {
+      border-radius: var(--radius-card);
+      padding: clamp(12px, 1.6vw, 18px);
+      background: var(--glass-card);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--glass-line);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .solatedu-visual-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(10px, 1.3vw, 14px);
+    }
+
+    .solatedu-card-slot {
+      position: relative;
+      aspect-ratio: 4 / 4.3;
+      border-radius: 16px;
+      background: rgba(7, 22, 33, 0.35);
+      border: 1px dashed var(--glass-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    /* Visual Posture Card — large full image, zero posture text on card */
+    .solatedu-posture-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      background: #F7FAFC;
+      border: 2px solid rgba(247, 250, 252, 0.92);
+      box-shadow: 0 12px 26px -10px rgba(4, 14, 22, 0.55);
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      transition: transform 140ms var(--ease-out), box-shadow 180ms var(--ease-out), border-color 180ms var(--ease-out);
+    }
+
+    .solatedu-posture-card:hover {
+      border-color: var(--lime);
+      box-shadow: 0 14px 30px -10px rgba(4, 14, 22, 0.65), 0 0 0 2px var(--lime-soft);
+    }
+
+    .solatedu-posture-card:active {
+      cursor: grabbing;
+      transform: scale(0.97);
+    }
+
+    .solatedu-posture-card.is-floating {
+      position: fixed;
+      z-index: 9500;
+      pointer-events: none;
+      transform: scale(1.04) rotate(1.5deg);
+      box-shadow: 0 26px 48px rgba(4, 14, 22, 0.65);
+      border-color: var(--lime);
+      transition: none;
+    }
+
+    .solatedu-posture-card.is-matched {
+      width: 100% !important;
+      height: 100% !important;
+      cursor: default;
+      border-color: var(--lime);
+      box-shadow: 0 0 0 3px var(--lime-soft);
+    }
+
+    .solatedu-posture-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      pointer-events: none;
+      border-radius: 10px;
+    }
+
+    .solatedu-posture-fallback {
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    /* Minimal Hint Bulb Button & Popover */
+    .solatedu-hint-btn {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      z-index: 6;
+      appearance: none;
+      border: 1.5px solid var(--navy);
+      background: rgba(247, 250, 252, 0.94);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(16, 44, 64, 0.25);
+      transition: transform 130ms var(--ease-out), background 160ms var(--ease-out);
+    }
+
+    .solatedu-hint-btn:hover {
+      background: var(--lime);
+    }
+
+    .solatedu-hint-btn:active {
+      transform: scale(0.95);
+    }
+
+    .solatedu-posture-card.is-matched .solatedu-hint-btn {
+      display: none;
+    }
+
+    .solatedu-hint-popover {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px) scale(0.95);
+      z-index: 40;
+      min-width: 165px;
+      max-width: 220px;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: var(--white);
+      border: 1.5px solid var(--lime);
+      box-shadow: 0 16px 32px rgba(4, 14, 22, 0.6);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 270ms var(--ease-out),
+        transform 270ms var(--ease-out),
+        visibility 0s linear 270ms;
+    }
+
+    .solatedu-hint-popover.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0) scale(1);
+      transition:
+        opacity 340ms var(--ease-out),
+        transform 340ms var(--ease-out),
+        visibility 0s linear 0ms;
+    }
+
+    /* Right Column: Six Word Labels Drop Targets */
+    .solatedu-words-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      flex: 1 1 auto;
+    }
+
+    .solatedu-word-drop {
+      min-height: 112px;
+      border-radius: 16px;
+      padding: 10px;
+      background: rgba(7, 22, 33, 0.35);
+      border: 1.5px dashed var(--glass-line-hi);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      transition:
+        transform 150ms var(--ease-out),
+        border-color 180ms var(--ease-out),
+        background 180ms var(--ease-out),
+        box-shadow 180ms var(--ease-out);
+    }
+
+    .solatedu-word-label {
+      font-size: clamp(0.88rem, 1.3vw, 1.02rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.25;
+    }
+
+    .solatedu-word-drop.is-hover {
+      border-style: solid;
+      border-color: var(--lime);
+      background: rgba(219, 255, 0, 0.18);
+      box-shadow: 0 0 0 2px var(--lime-soft);
+      transform: scale(1.02);
+    }
+
+    .solatedu-word-drop.is-done {
+      border-style: solid;
+      border-color: var(--lime);
+      background: rgba(219, 255, 0, 0.14);
+      padding: 6px;
+      gap: 4px;
+    }
+
+    .solatedu-word-drop.is-done .solatedu-word-label {
+      font-size: 0.78rem;
+      color: var(--lime);
+    }
+
+    .solatedu-word-drop.is-done .solatedu-posture-card {
+      height: 82px;
+      padding: 4px;
+    }
+
+    @keyframes seShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .is-shaking {
+      animation: seShake 320ms var(--ease-in-out);
+    }
+
+    @keyframes sePulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 var(--lime-glow); }
+      60% { transform: scale(1.03); box-shadow: 0 0 0 12px rgba(219, 255, 0, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 255, 0, 0); }
+    }
+
+    .is-pulsing {
+      animation: sePulse 480ms var(--ease-out);
+    }
+
+    /* =========================================================================
+       4. SUCCESS SCREEN (AFTER GAME 01)
+    ========================================================================= */
+    .solatedu-center-card {
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+      padding: clamp(24px, 3.5vw, 40px);
+      border-radius: var(--radius-card);
+      background: var(--glass-card-hi);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1.5px solid var(--lime);
+      box-shadow: 0 24px 54px -16px rgba(4, 14, 22, 0.6), 0 0 0 3px var(--lime-soft);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .solatedu-big-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--lime);
+      line-height: 1;
+    }
+
+    /* =========================================================================
+       5. GAME 02 — SPIN WHEEL RAKAAT (ALIGNED WAKTU SOLAT & WHEEL)
+    ========================================================================= */
+    .solatedu-g2-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(12px, 1.8vw, 18px);
+      width: 100%;
+    }
+
+    .solatedu-g2-topbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .solatedu-solat-strip {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+      border-radius: 18px;
+      background: rgba(7, 22, 33, 0.45);
+      border: 1px solid var(--glass-line);
+    }
+
+    .solatedu-solat-pill-item {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(247, 250, 252, 0.06);
+      border: 1px solid rgba(247, 250, 252, 0.14);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      text-align: center;
+      transition: transform 160ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+
+    .solatedu-solat-pill-item small {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: rgba(247, 250, 252, 0.65);
+    }
+
+    .solatedu-solat-pill-item strong {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .solatedu-solat-pill-item.is-current {
+      background: linear-gradient(150deg, rgba(219, 255, 0, 0.22), rgba(34, 211, 238, 0.16));
+      border-color: var(--lime);
+      box-shadow: 0 0 18px rgba(219, 255, 0, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .solatedu-solat-pill-item.is-current strong {
+      color: var(--lime);
+    }
+
+    .solatedu-solat-pill-item.is-solved {
+      border-color: rgba(52, 211, 153, 0.7);
+      background: rgba(52, 211, 153, 0.14);
+    }
+
+    .solatedu-solat-pill-item.is-solved small {
+      color: var(--emerald);
+    }
+
+    .solatedu-g2-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: clamp(18px, 2.4vw, 28px);
+      align-items: center;
+    }
+
+    .solatedu-solat-card {
+      padding: clamp(18px, 2.4vw, 26px);
+      border-radius: var(--radius-card);
+      background:
+        linear-gradient(155deg, rgba(34, 211, 238, 0.14), rgba(167, 139, 250, 0.12) 60%, rgba(247, 250, 252, 0.06));
+      border: 1.5px solid rgba(34, 211, 238, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .solatedu-solat-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(34, 211, 238, 0.18);
+      border: 1px solid rgba(34, 211, 238, 0.5);
+      color: #67E8F9;
+    }
+
+    .solatedu-solat-banner {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .solatedu-solat-name {
+      font-size: clamp(2.1rem, 4.6vw, 3.3rem);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--lime);
+      text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+      line-height: 1.05;
+    }
+
+    .solatedu-solat-sub {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(247, 250, 252, 0.84);
+      line-height: 1.45;
+    }
+
+    .solatedu-wheel-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 12px 6px 4px 6px;
+      width: 100%;
+    }
+
+    /* Pemilih Rakaat Mendatar (3 Nombor Utama + Fade-Out Kiri/Kanan) */
+    .solatedu-wheel-stage {
+      position: relative;
+      width: min(100%, 340px);
+      min-height: 112px;
+      padding: 12px 10px;
+      border-radius: 22px;
+      background:
+        linear-gradient(155deg, rgba(247, 250, 252, 0.1), rgba(7, 22, 33, 0.56));
+      border: 2px solid var(--glass-line-hi);
+      box-shadow:
+        0 20px 42px -14px rgba(0, 0, 0, 0.58),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: pan-y;
+      user-select: none;
+      cursor: grab;
+      overflow: hidden;
+    }
+
+    .solatedu-wheel-stage:active {
+      cursor: grabbing;
+    }
+
+    .solatedu-wheel-needle {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid var(--lime);
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+      z-index: 8;
+    }
+
+    .solatedu-wheel-rotor {
+      position: relative;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+      justify-items: center;
+      gap: 10px;
+      z-index: 4;
+      will-change: transform, opacity;
+      transition: transform 280ms var(--ease-out), opacity 240ms var(--ease-out);
+    }
+
+    .solatedu-wheel-rotor.is-slide-left {
+      transform: translateX(-34px) scale(0.96);
+      opacity: 0.25;
+    }
+
+    .solatedu-wheel-rotor.is-slide-right {
+      transform: translateX(34px) scale(0.96);
+      opacity: 0.25;
+    }
+
+    .solatedu-wheel-digit {
+      appearance: none;
+      width: clamp(54px, 14vw, 66px);
+      height: clamp(64px, 17vw, 78px);
+      border-radius: 16px;
+      background: #FFFFFF;
+      border: 3px solid #071621;
+      color: #071621;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.5rem, 3.4vw, 2rem);
+      font-weight: 800;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      box-shadow: 4px 5px 0px #071621;
+      cursor: pointer;
+      transition:
+        transform 240ms var(--ease-out),
+        opacity 240ms var(--ease-out),
+        background 180ms var(--ease-out),
+        color 180ms var(--ease-out),
+        border-color 180ms var(--ease-out),
+        box-shadow 180ms var(--ease-out);
+    }
+
+    .solatedu-wheel-digit small {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-top: 3px;
+    }
+
+    .solatedu-wheel-digit.is-edge {
+      opacity: 0.34;
+      transform: scale(0.86);
+      background: rgba(247, 250, 252, 0.72);
+      border-color: #071621;
+      box-shadow: 2px 3px 0px #071621;
+    }
+
+    .solatedu-wheel-digit.is-edge:hover {
+      opacity: 0.68;
+    }
+
+    .solatedu-wheel-digit.is-empty-edge {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.8);
+      box-shadow: none;
+    }
+
+    .solatedu-wheel-digit.is-selected {
+      opacity: 1;
+      transform: scale(1.22) translateY(-4px);
+      background: var(--lime);
+      color: #071621;
+      border-color: #071621;
+      box-shadow: 5px 6px 0px #071621, 0 0 22px var(--lime-glow);
+      z-index: 5;
+    }
+
+    .solatedu-wheel-digit small {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-top: 3px;
+    }
+
+    .solatedu-wheel-digit.is-edge {
+      opacity: 0.34;
+      transform: scale(0.86);
+      background: rgba(247, 250, 252, 0.72);
+      border-color: #071621;
+      box-shadow: 2px 3px 0px #071621;
+    }
+
+    .solatedu-wheel-digit.is-edge:hover {
+      opacity: 0.68;
+    }
+
+    .solatedu-wheel-digit.is-empty-edge {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.8);
+      box-shadow: none;
+    }
+
+    .solatedu-wheel-digit.is-selected {
+      opacity: 1;
+      transform: scale(1.08) translateY(-2px);
+      background: var(--lime);
+      color: #071621;
+      border-color: #071621;
+      box-shadow: 5px 6px 0px #071621, 0 0 22px var(--lime-glow);
+    }
+
+    .solatedu-wheel-digit small {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.78;
+      margin-top: 2px;
+    }
+
+    .solatedu-wheel-digit.is-edge {
+      opacity: 0.28;
+      transform: scale(0.86);
+      background: rgba(247, 250, 252, 0.04);
+      border-color: rgba(247, 250, 252, 0.14);
+    }
+
+    .solatedu-wheel-digit.is-edge:hover {
+      opacity: 0.55;
+    }
+
+    .solatedu-wheel-digit.is-empty-edge {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.8);
+    }
+
+    .solatedu-wheel-digit.is-selected {
+      opacity: 1;
+      transform: scale(1.06);
+      background: var(--lime);
+      color: var(--navy);
+      border-color: var(--lime);
+      box-shadow: 0 0 22px var(--lime-glow);
+    }
+
+    .solatedu-wheel-center {
+      display: none;
+    }
+
+    .solatedu-center-num,
+    .solatedu-center-sub {
+      display: none;
+    }
+
+    .solatedu-wheel-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .solatedu-step-key {
+      appearance: none;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      border: 1.5px solid var(--glass-line-hi);
+      background: var(--glass-card);
+      color: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 130ms var(--ease-out), background 170ms var(--ease-out), color 170ms var(--ease-out);
+    }
+
+    .solatedu-step-key:hover {
+      background: var(--glass-card-hi);
+    }
+
+    .solatedu-step-key:active {
+      transform: scale(0.95);
+      background: var(--lime);
+      color: var(--navy);
+    }
+
+    .solatedu-status-pill {
+      min-height: 42px;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      background: var(--glass-card);
+      border: 1px solid var(--glass-line);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .solatedu-status-pill.is-ok {
+      border-color: var(--lime);
+      background: var(--lime-soft);
+      color: var(--lime);
+    }
+
+    /* =========================================================================
+       6. FINAL SCORE SCREEN
+    ========================================================================= */
+    .solatedu-score-cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+    }
+
+    .solatedu-score-box {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(7, 22, 33, 0.38);
+      border: 1px solid var(--glass-line);
+    }
+
+    .solatedu-score-box small {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .solatedu-score-box strong {
+      display: block;
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: 1.35rem;
+      color: var(--lime);
+    }
+
+    /* =========================================================================
+       7. MOBILE RESPONSIVE (< 768px) — NO HORIZONTAL SCROLL
+    ========================================================================= */
+    @media (max-width: 768px) {
+      .solatedu-activity-grid,
+      .solatedu-g1-split,
+      .solatedu-g2-grid,
+      .solatedu-score-cols {
+        grid-template-columns: 1fr;
+      }
+
+      .solatedu-solat-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .solatedu-solat-strip .solatedu-solat-pill-item:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .solatedu-wheel-stage {
+        width: 100%;
+        min-height: 102px;
+        padding: 10px 8px;
+      }
+
+      .solatedu-visual-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .solatedu-card-slot {
+        aspect-ratio: 1 / 1.05;
+      }
+
+      .solatedu-words-stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .solatedu-shell,
+      .solatedu-shell * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="solatedu-shell" id="solatEduShell">
+    <div class="solatedu-stage" role="application" aria-label="SOLAT EDU Visual Interactive Game">
+
+      <!-- TOP BAR -->
+      <header class="solatedu-topbar">
+        <button type="button" class="solatedu-brand" id="btnGoHome">
+          <span class="solatedu-brand-dot" aria-hidden="true"></span>
+          <span>SOLAT EDU</span>
+        </button>
+
+        <div class="solatedu-hud-group">
+          <div class="solatedu-chip">SKOR <span id="hudScoreVal">0</span> / 11</div>
+          <button type="button" class="solatedu-icon-btn is-ambient-on" id="btnAmbientToggle" aria-pressed="true" title="Latar Bunyi Tenang">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+            <span id="ambientBtnLabel">AMBIEN ON</span>
+          </button>
+          <button type="button" class="solatedu-icon-btn" id="btnSoundToggle" aria-pressed="false" title="Bunyi">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <span id="soundBtnLabel">BUNYI ON</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- 1 & 2. HOME / PILIH AKTIVITI -->
+      <main class="solatedu-view is-active" id="viewHome">
+        <div class="solatedu-home-wrap">
+          <div class="solatedu-hero-block">
+            <div>
+              <div class="solatedu-hero-kicker">VISUAL GAME</div>
+              <h1 class="solatedu-hero-h1">SOLAT <em>EDU</em></h1>
+            </div>
+            <button type="button" class="solatedu-btn-primary" id="btnStartSelected">
+              MULA
+            </button>
+          </div>
+
+          <div class="solatedu-activity-grid" role="group" aria-label="Pilih aktiviti">
+            <button type="button" class="solatedu-mode-tile is-picked" id="pickMode01" data-mode="g1">
+              <div class="solatedu-tile-top">
+                <div class="solatedu-tile-icon" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                    <path d="M10 6.5h4v11"></path>
+                  </svg>
+                </div>
+                <span class="solatedu-tile-code">01 · 6M</span>
+              </div>
+              <div>
+                <h2 class="solatedu-tile-name">Padankan Perbuatan Solat</h2>
+                <div class="solatedu-tile-short">Seret gambar ke label</div>
+              </div>
+            </button>
+
+            <button type="button" class="solatedu-mode-tile" id="pickMode02" data-mode="g2">
+              <div class="solatedu-tile-top">
+                <div class="solatedu-tile-icon" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <circle cx="12" cy="12" r="2.5"></circle>
+                    <line x1="12" y1="3" x2="12" y2="7"></line>
+                  </svg>
+                </div>
+                <span class="solatedu-tile-code">02 · 5M</span>
+              </div>
+              <div>
+                <h2 class="solatedu-tile-name">Spin Wheel Rakaat</h2>
+                <div class="solatedu-tile-short">Putar roda 1 – 5</div>
+              </div>
+            </button>
+          </div>
+
+          <div class="solatedu-home-footer">
+            <div class="solatedu-chip">01: <span id="homeG1Mark">0</span>/6 · 02: <span id="homeG2Mark">0</span>/5</div>
+            <button type="button" class="solatedu-btn-ghost" id="btnJumpSummary">SKOR AKHIR</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- 3. GAME 01 — DRAG & DROP PERBUATAN SOLAT -->
+      <section class="solatedu-view" id="viewGame01" aria-label="Game 01 Padankan Perbuatan Solat">
+        <div class="solatedu-g1-header">
+          <h2 class="solatedu-g1-title">Padankan Perbuatan Solat</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="solatedu-chip solatedu-chip--cyan"><span id="g1MatchedCount">0</span> / 6</span>
+            <button type="button" class="solatedu-btn-ghost" id="btnG1Reset" style="padding:9px 14px;">RESET</button>
+            <button type="button" class="solatedu-btn-primary" id="btnG1Next" style="padding:10px 18px;" disabled>SETERUSNYA</button>
+            <button type="button" class="solatedu-close-btn" id="btnCloseGame01" aria-label="Keluar dari soalan" title="Keluar ke menu">×</button>
+          </div>
+        </div>
+
+        <div class="solatedu-status-pill" id="g1StatusPill">Seret gambar ke label yang betul</div>
+
+        <div class="solatedu-g1-split">
+          <!-- Six Full-Frame Posture Cards -->
+          <div class="solatedu-panel">
+            <div class="solatedu-visual-cards" id="g1CardsGrid"></div>
+          </div>
+
+          <!-- Six Word Labels -->
+          <div class="solatedu-panel">
+            <div class="solatedu-words-stack" id="g1WordsGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SUCCESS SCREEN (AFTER GAME 01) -->
+      <section class="solatedu-view" id="viewSuccess01" aria-label="Kejayaan Game 01">
+        <div class="solatedu-center-card">
+          <div class="solatedu-hero-kicker">GAME 01 SELESAI</div>
+          <div class="solatedu-big-num">6 / 6</div>
+          <h2 class="solatedu-g1-title">Hebat!</h2>
+          <button type="button" class="solatedu-btn-primary" id="btnGoWheelFromSuccess">
+            SPIN WHEEL RAKAAT
+          </button>
+        </div>
+      </section>
+
+      <!-- 5. GAME 02 — SPIN WHEEL RAKAAT -->
+      <section class="solatedu-view" id="viewGame02" aria-label="Game 02 Spin Wheel Rakaat">
+        <div class="solatedu-g2-wrap">
+          <div class="solatedu-g2-topbar">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span class="solatedu-chip solatedu-chip--cyan">SOALAN <span id="g2RoundLabel">1</span> / 5</span>
+              <span class="solatedu-chip solatedu-chip--amber">SKOR <span id="g2ScoreVal">0</span>/5</span>
+            </div>
+            <button type="button" class="solatedu-close-btn" id="btnCloseGame02" aria-label="Keluar dari soalan" title="Keluar ke menu">×</button>
+          </div>
+
+          <!-- Susunan Selari 5 Waktu Solat -->
+          <div class="solatedu-solat-strip" id="g2SolatStrip" aria-label="Senarai waktu solat"></div>
+
+          <div class="solatedu-g2-grid">
+            <div class="solatedu-solat-card" id="g2SolatCard">
+              <span class="solatedu-solat-badge" id="g2SolatBadge">WAKTU SOLAT FARDU</span>
+              <div class="solatedu-solat-banner">
+                <div class="solatedu-solat-name" id="g2SolatName">ASAR</div>
+              </div>
+              <p class="solatedu-solat-sub" id="g2SolatDesc">Pilih bilangan rakaat bagi solat ini pada roda di sebelah (mula dari 1).</p>
+            </div>
+
+            <div class="solatedu-wheel-column">
+              <div class="solatedu-wheel-stage" id="wheelStage" role="slider" tabindex="0" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-label="Spin Wheel Rakaat">
+                <div class="solatedu-wheel-needle" aria-hidden="true"></div>
+                <div class="solatedu-wheel-rotor" id="wheelRotor"></div>
+                <div class="solatedu-wheel-center">
+                  <div class="solatedu-center-num" id="wheelCenterNum">1</div>
+                  <div class="solatedu-center-sub">RAKAAT</div>
+                </div>
+              </div>
+
+              <div class="solatedu-wheel-actions">
+                <button type="button" class="solatedu-step-key" id="btnWheelMinus" aria-label="Kurangkan nombor">−</button>
+                <button type="button" class="solatedu-btn-primary" id="btnWheelCheck">SEMAK</button>
+                <button type="button" class="solatedu-step-key" id="btnWheelPlus" aria-label="Tambah nombor">+</button>
+                <button type="button" class="solatedu-btn-ghost" id="btnWheelNext" style="display:none;">LANJUT</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="solatedu-status-pill" id="g2StatusPill">Mula 1 · Putar roda atau tekan + / −</div>
+        </div>
+      </section>
+
+      <!-- 6. FINAL SCORE SCREEN -->
+      <section class="solatedu-view" id="viewFinalScore" aria-label="Markah Akhir">
+        <div class="solatedu-center-card">
+          <div class="solatedu-hero-kicker">MARKAH AKHIR</div>
+          <div class="solatedu-big-num" id="finalTotalNum">0 / 11</div>
+          <h2 class="solatedu-g1-title" id="finalTitleText">Selesai!</h2>
+
+          <div class="solatedu-score-cols">
+            <div class="solatedu-score-box">
+              <small>01 · PERBUATAN</small>
+              <strong id="finalG1Num">0 / 6</strong>
+            </div>
+            <div class="solatedu-score-box">
+              <small>02 · RAKAAT</small>
+              <strong id="finalG2Num">0 / 5</strong>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">
+            <button type="button" class="solatedu-btn-primary" id="btnReplayAll">MAIN LAGI</button>
+            <button type="button" class="solatedu-btn-ghost" id="btnFinalToHome">MENU</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =====================================================================
+         AUDIOFX, VISUAL EFFECTS & CONFETTI HELPERS
+      ===================================================================== */
+      const AudioFX = (function () {
+        let ctx = null;
+        let enabled = true;
+        let ambientEnabled = true;
+        let bgMusic = null;
+
+        const BG_MUSIC_URL = 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/Animal%20Crossing%20City%20Folk%20Music%209am.mp3';
+
+        function ensureBgMusic() {
+          if (!bgMusic) {
+            bgMusic = new Audio(BG_MUSIC_URL);
+            bgMusic.loop = true;
+            bgMusic.preload = 'auto';
+            bgMusic.volume = 0.35;
+          }
+          return bgMusic;
+        }
+
+        function syncBgMusic() {
+          const audio = ensureBgMusic();
+          if (enabled && ambientEnabled) {
+            audio.play().catch(function () {});
+          } else {
+            audio.pause();
+          }
+        }
+
+        function getCtx() {
+          if (!enabled) return null;
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return null;
+          if (!ctx) {
+            ctx = new AudioCtx();
+          }
+          if (ctx.state === 'suspended') {
+            ctx.resume().catch(function () {});
+          }
+          return ctx;
+        }
+
+        function playTone(freq, duration, type, delay, peakGain) {
+          const ac = getCtx();
+          if (!ac) return;
+          const startAt = ac.currentTime + (delay || 0);
+          const osc = ac.createOscillator();
+          const gain = ac.createGain();
+          osc.type = type || 'sine';
+          osc.frequency.setValueAtTime(freq, startAt);
+
+          const vol = peakGain || 0.14;
+          gain.gain.setValueAtTime(0.0008, startAt);
+          gain.gain.linearRampToValueAtTime(vol, startAt + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0008, startAt + duration);
+
+          osc.connect(gain);
+          gain.connect(ac.destination);
+          osc.start(startAt);
+          osc.stop(startAt + duration + 0.03);
+        }
+
+        // Hidupkan semula lagu apabila pengguna pertama kali menyentuh/mengklik skrin
+        window.addEventListener('pointerdown', function unlockSongOnce() {
+          if (enabled && ambientEnabled) {
+            syncBgMusic();
+          }
+          if (enabled && ctx && ctx.state === 'suspended') {
+            ctx.resume().catch(function () {});
+          }
+        }, { passive: true });
+
+        return {
+          tap: function () {
+            playTone(540, 0.06, 'triangle', 0, 0.14);
+          },
+          pick: function () {
+            playTone(460, 0.08, 'sine', 0, 0.14);
+            playTone(620, 0.08, 'sine', 0.04, 0.12);
+          },
+          tick: function () {
+            playTone(720, 0.045, 'triangle', 0, 0.11);
+          },
+          right: function () {
+            playTone(523.25, 0.12, 'triangle', 0, 0.16);
+            playTone(659.25, 0.14, 'triangle', 0.07, 0.16);
+            playTone(783.99, 0.2, 'triangle', 0.14, 0.18);
+          },
+          wrong: function () {
+            playTone(250, 0.14, 'sawtooth', 0, 0.12);
+            playTone(195, 0.18, 'sawtooth', 0.08, 0.12);
+          },
+          close: function () {
+            playTone(390, 0.08, 'triangle', 0, 0.14);
+            playTone(270, 0.12, 'triangle', 0.06, 0.14);
+          },
+          fanfare: function () {
+            playTone(523.25, 0.14, 'triangle', 0, 0.18);
+            playTone(659.25, 0.14, 'triangle', 0.09, 0.18);
+            playTone(783.99, 0.16, 'triangle', 0.18, 0.2);
+            playTone(1046.5, 0.28, 'triangle', 0.28, 0.22);
+          },
+          toggle: function () {
+            enabled = !enabled;
+            if (enabled && ctx && ctx.state === 'suspended') {
+              ctx.resume().catch(function () {});
+            }
+            syncBgMusic();
+            return enabled;
+          },
+          toggleAmbient: function () {
+            ambientEnabled = !ambientEnabled;
+            if (ambientEnabled && enabled && ctx && ctx.state === 'suspended') {
+              ctx.resume().catch(function () {});
+            }
+            syncBgMusic();
+            return ambientEnabled;
+          },
+          isEnabled: function () {
+            return enabled;
+          },
+          isAmbientEnabled: function () {
+            return ambientEnabled;
+          }
+        };
+      })();
+
+      function triggerEmeraldCorrectEffect(targetEl) {
+        const stage = document.querySelector('#solatEduShell .solatedu-stage');
+        if (stage) {
+          stage.classList.remove('is-emerald-win');
+          void stage.offsetWidth;
+          stage.classList.add('is-emerald-win');
+          window.setTimeout(function () {
+            stage.classList.remove('is-emerald-win');
+          }, 600);
+        }
+        if (targetEl) {
+          targetEl.classList.remove('is-emerald-correct');
+          void targetEl.offsetWidth;
+          targetEl.classList.add('is-emerald-correct');
+        }
+      }
+
+      function setWheelNum(nextVal, playTick, slideDir) {
+        const len = WHEEL_NUMBERS.length;
+        const normalized = (((Number(nextVal) - 1) % len) + len) % len + 1;
+
+        if (normalized !== state.wheelValue && playTick) {
+          AudioFX.tick();
+        }
+
+        const prevVal = state.wheelValue;
+        let inferredDir = slideDir;
+        if (!inferredDir && normalized !== prevVal) {
+          const diff = normalized - prevVal;
+          if (diff === 1 || diff === -(len - 1)) {
+            inferredDir = 'right';
+          } else if (diff === -1 || diff === (len - 1)) {
+            inferredDir = 'left';
+          }
+        }
+
+        state.wheelValue = normalized;
+        if (el.wheelCenterNum) {
+          el.wheelCenterNum.textContent = String(normalized);
+        }
+        if (el.wheelStage) {
+          el.wheelStage.setAttribute('aria-valuenow', String(normalized));
+        }
+
+        if (el.wheelRotor && inferredDir && normalized !== prevVal) {
+          const outClass = inferredDir === 'right' ? 'is-slide-left' : 'is-slide-right';
+          const inStartClass = inferredDir === 'right' ? 'is-slide-right' : 'is-slide-left';
+
+          if (wheelSlideTimer) {
+            clearTimeout(wheelSlideTimer);
+            wheelSlideTimer = null;
+          }
+
+          el.wheelRotor.style.transition = 'transform 140ms var(--ease-in-out), opacity 140ms var(--ease-in-out)';
+          el.wheelRotor.classList.remove('is-slide-left', 'is-slide-right');
+          void el.wheelRotor.offsetWidth;
+          el.wheelRotor.classList.add(outClass);
+
+          wheelSlideTimer = window.setTimeout(function () {
+            renderThreeNumberStrip();
+            el.wheelRotor.style.transition = 'none';
+            el.wheelRotor.classList.remove('is-slide-left', 'is-slide-right');
+            el.wheelRotor.classList.add(inStartClass);
+
+            void el.wheelRotor.offsetWidth;
+
+            requestAnimationFrame(function () {
+              el.wheelRotor.style.transition = 'transform 260ms var(--ease-out), opacity 220ms var(--ease-out)';
+              el.wheelRotor.classList.remove('is-slide-left', 'is-slide-right');
+            });
+          }, 135);
+        } else {
+          renderThreeNumberStrip();
+        }
+      }
+
+      function triggerBlackPantherRedEffect(targetEl) {
+        const stage = document.querySelector('#solatEduShell .solatedu-stage');
+        if (stage) {
+          stage.classList.remove('is-panther-alert');
+          void stage.offsetWidth;
+          stage.classList.add('is-panther-alert');
+          window.setTimeout(function () {
+            stage.classList.remove('is-panther-alert');
+          }, 660);
+        }
+        if (targetEl) {
+          targetEl.classList.remove('is-panther-wrong');
+          void targetEl.offsetWidth;
+          targetEl.classList.add('is-panther-wrong');
+        }
+      }
+
+      function launchConfettiBurst() {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.className = 'solatedu-confetti-canvas';
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          document.body.appendChild(canvas);
+
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            canvas.remove();
+            return;
+          }
+
+          const colors = ['#DBFF00', '#22D3EE', '#34D399', '#FBBF24', '#F7FAFC'];
+          const pieces = Array.from({ length: 56 }, function () {
+            return {
+              x: Math.random() * canvas.width,
+              y: -20 - Math.random() * 140,
+              w: 6 + Math.random() * 7,
+              h: 4 + Math.random() * 5,
+              vx: -2 + Math.random() * 4,
+              vy: 2.5 + Math.random() * 4,
+              rot: Math.random() * Math.PI * 2,
+              vr: -0.12 + Math.random() * 0.24,
+              color: colors[Math.floor(Math.random() * colors.length)]
+            };
+          });
+
+          let frame = 0;
+          function tick() {
+            frame += 1;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pieces.forEach(function (p) {
+              p.x += p.vx;
+              p.y += p.vy;
+              p.rot += p.vr;
+              ctx.save();
+              ctx.translate(p.x, p.y);
+              ctx.rotate(p.rot);
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+              ctx.restore();
+            });
+
+            if (frame < 85) {
+              requestAnimationFrame(tick);
+            } else {
+              canvas.remove();
+            }
+          }
+          requestAnimationFrame(tick);
+        } catch (err) {}
+      }
+
+      /* =====================================================================
+         GAME 02 — 3-NUMBER HORIZONTAL STRIP WITH LOOPING (1 -> 5 -> 1)
+      ===================================================================== */
+      function buildWheelDigits() {
+        renderThreeNumberStrip();
+      }
+
+      function getLoopedNumber(index) {
+        const len = WHEEL_NUMBERS.length;
+        return WHEEL_NUMBERS[((index % len) + len) % len];
+      }
+
+      function renderThreeNumberStrip() {
+        if (!el.wheelRotor) return;
+        el.wheelRotor.innerHTML = '';
+        const currentIdx = WHEEL_NUMBERS.indexOf(state.wheelValue);
+        const safeIdx = currentIdx >= 0 ? currentIdx : 0;
+
+        // Kiri (-1), Tengah (0), Kanan (1) — tersusun menaik 1..5 dan berulang (loop)
+        [-1, 0, 1].forEach(function (offset) {
+          const num = getLoopedNumber(safeIdx + offset);
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'solatedu-wheel-digit';
+          btn.setAttribute('data-digit', String(num));
+          btn.innerHTML = `<span>${num}</span><small>RK</small>`;
+
+          if (offset === 0) {
+            btn.classList.add('is-selected');
+          } else {
+            btn.classList.add('is-edge');
+            btn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              if (state.wheelRoundDone) return;
+              const dir = offset > 0 ? 'right' : 'left';
+              setWheelNum(num, true, dir);
+            });
+          }
+
+          el.wheelRotor.appendChild(btn);
+        });
+      }
+
+      /* =====================================================================
+         APP STATE & DOM REFERENCES
+      ===================================================================== */
+      let wheelSlideTimer = null;
+      const state = {
+        view: 'viewHome',
+        chosenMode: 'g1',
+        matched: {},        // { [postureId]: true }
+        openHintId: null,
+        wheelRound: 0,
+        wheelValue: 1,      // Always starts at 1
+        wheelSolved: {},    // { [roundIdx]: true }
+        wheelRoundDone: false
+      };
+
+      const el = {
+        btnGoHome: document.getElementById('btnGoHome'),
+        hudScoreVal: document.getElementById('hudScoreVal'),
+        btnAmbientToggle: document.getElementById('btnAmbientToggle'),
+        ambientBtnLabel: document.getElementById('ambientBtnLabel'),
+        btnSoundToggle: document.getElementById('btnSoundToggle'),
+        soundBtnLabel: document.getElementById('soundBtnLabel'),
+
+        viewHome: document.getElementById('viewHome'),
+        viewGame01: document.getElementById('viewGame01'),
+        viewSuccess01: document.getElementById('viewSuccess01'),
+        viewGame02: document.getElementById('viewGame02'),
+        viewFinalScore: document.getElementById('viewFinalScore'),
+
+        pickMode01: document.getElementById('pickMode01'),
+        pickMode02: document.getElementById('pickMode02'),
+        btnStartSelected: document.getElementById('btnStartSelected'),
+        btnJumpSummary: document.getElementById('btnJumpSummary'),
+        homeG1Mark: document.getElementById('homeG1Mark'),
+        homeG2Mark: document.getElementById('homeG2Mark'),
+
+        g1CardsGrid: document.getElementById('g1CardsGrid'),
+        g1WordsGrid: document.getElementById('g1WordsGrid'),
+        g1MatchedCount: document.getElementById('g1MatchedCount'),
+        g1StatusPill: document.getElementById('g1StatusPill'),
+        btnG1Reset: document.getElementById('btnG1Reset'),
+        btnG1Next: document.getElementById('btnG1Next'),
+        btnCloseGame01: document.getElementById('btnCloseGame01'),
+        btnGoWheelFromSuccess: document.getElementById('btnGoWheelFromSuccess'),
+
+        g2RoundLabel: document.getElementById('g2RoundLabel'),
+        g2SolatStrip: document.getElementById('g2SolatStrip'),
+        g2SolatCard: document.getElementById('g2SolatCard'),
+        g2SolatBadge: document.getElementById('g2SolatBadge'),
+        g2SolatName: document.getElementById('g2SolatName'),
+        g2SolatDesc: document.getElementById('g2SolatDesc'),
+        g2ScoreVal: document.getElementById('g2ScoreVal'),
+        wheelStage: document.getElementById('wheelStage'),
+        wheelRotor: document.getElementById('wheelRotor'),
+        wheelCenterNum: document.getElementById('wheelCenterNum'),
+        btnWheelMinus: document.getElementById('btnWheelMinus'),
+        btnWheelPlus: document.getElementById('btnWheelPlus'),
+        btnWheelCheck: document.getElementById('btnWheelCheck'),
+        btnWheelNext: document.getElementById('btnWheelNext'),
+        btnCloseGame02: document.getElementById('btnCloseGame02'),
+        g2StatusPill: document.getElementById('g2StatusPill'),
+
+        finalTotalNum: document.getElementById('finalTotalNum'),
+        finalTitleText: document.getElementById('finalTitleText'),
+        finalG1Num: document.getElementById('finalG1Num'),
+        finalG2Num: document.getElementById('finalG2Num'),
+        btnReplayAll: document.getElementById('btnReplayAll'),
+        btnFinalToHome: document.getElementById('btnFinalToHome')
+      };
+
+      function getG1Score() {
+        return Object.keys(state.matched).filter(function (k) { return state.matched[k]; }).length;
+      }
+
+      function getG2Score() {
+        return Object.keys(state.wheelSolved).filter(function (k) { return state.wheelSolved[k]; }).length;
+      }
+
+      function syncScores() {
+        const g1 = getG1Score();
+        const g2 = getG2Score();
+        el.hudScoreVal.textContent = String(g1 + g2);
+        el.homeG1Mark.textContent = String(g1);
+        el.homeG2Mark.textContent = String(g2);
+        el.g2ScoreVal.textContent = String(g2);
+      }
+
+      function goToView(viewId) {
+        state.view = viewId;
+        [el.viewHome, el.viewGame01, el.viewSuccess01, el.viewGame02, el.viewFinalScore].forEach(function (v) {
+          v.classList.toggle('is-active', v.id === viewId);
+        });
+        syncScores();
+      }
+
+      function closeAllHints() {
+        document.querySelectorAll('#solatEduShell .solatedu-hint-popover.is-open').forEach(function (p) {
+          p.classList.remove('is-open');
+        });
+        state.openHintId = null;
+      }
+
+      /* =====================================================================
+         DATA — PERBUATAN SOLAT & WAKTU SOLAT (NO POSTURE NAMES ON CARDS)
+      ===================================================================== */
+      const POSTURES = [
+        {
+          id: 'takbir',
+          label: 'Takbiratul Ihram',
+          hint: 'Angkat tangan ke paras bahu/telinga',
+          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/15.png',
+          cardOrder: 3
+        },
+        {
+          id: 'rukuk',
+          label: 'Rukuk',
+          hint: 'Badan bongkok rata & tangan di lutut',
+          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/13.png',
+          cardOrder: 1
+        },
+        {
+          id: 'iktidal',
+          label: 'Iktidal',
+          hint: 'Bangun berdiri tegak selepas rukuk',
+          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/14.png',
+          cardOrder: 5
+        },
+        {
+          id: 'sujud',
+          label: 'Sujud',
+          hint: 'Dahi, tapak tangan, lutut & jari kaki di lantai',
+          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/18.png',
+          cardOrder: 2
+        },
+        {
+          id: 'duduk_sujud',
+          label: 'Duduk Antara Dua Sujud',
+          hint: 'Duduk di antara sujud pertama & kedua',
+          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/17.png',
+          cardOrder: 6
+        },
+        {
+          id: 'salam',
+          label: 'Salam',
+          hint: 'Menoleh ke kanan & kiri mengakhiri solat',
+          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/16.png',
+          cardOrder: 4
+        }
+      ];
+
+      const RAKAAT_ROUNDS = [
+        { solat: 'ASAR', rakaat: 4 },
+        { solat: 'SUBUH', rakaat: 2 },
+        { solat: 'ZOHOR', rakaat: 4 },
+        { solat: 'MAGHRIB', rakaat: 3 },
+        { solat: 'ISYAK', rakaat: 4 }
+      ];
+
+      // Susunan menaik dari kiri ke kanan: 1 hingga 5 sahaja (dan berulang / loop)
+      const WHEEL_NUMBERS = [1, 2, 3, 4, 5];
+
+      /* =====================================================================
+         GAME 01 — DRAG & DROP PERBUATAN SOLAT
+      ===================================================================== */
+      let dragSession = null;
+
+      function updateGame01Progress() {
+        const count = getG1Score();
+        el.g1MatchedCount.textContent = String(count);
+        el.btnG1Next.disabled = count < POSTURES.length;
+        if (count === POSTURES.length) {
+          el.g1StatusPill.className = 'solatedu-status-pill is-emerald-correct';
+          el.g1StatusPill.textContent = 'Tahniah! Lengkap 6 / 6 · Menuju ke skrin tahniah...';
+          AudioFX.fanfare();
+          launchConfettiBurst();
+          setTimeout(function () {
+            if (state.view === 'viewGame01' && getG1Score() === POSTURES.length) {
+              goToView('viewSuccess01');
+            }
+          }, 1150);
+        }
+        syncScores();
+      }
+
+      window.addEventListener('pointerup', function (e) {
+        if (!dragSession) return;
+        const active = dragSession;
+        dragSession = null;
+        clearDropHover();
+
+        const targetDrop = getDropAt(e.clientX, e.clientY);
+        const originSlot = el.g1CardsGrid.querySelector('[data-origin="' + active.item.id + '"]');
+
+        active.card.classList.remove('is-floating');
+        active.card.style.position = '';
+        active.card.style.left = '';
+        active.card.style.top = '';
+        active.card.style.width = '';
+        active.card.style.height = '';
+
+        if (targetDrop) {
+            const dropId = targetDrop.getAttribute('data-target');
+            if (dropId === active.item.id && !state.matched[dropId]) {
+              state.matched[dropId] = true;
+              active.card.classList.add('is-matched');
+              targetDrop.classList.add('is-done', 'is-pulsing');
+              targetDrop.appendChild(active.card);
+
+              setTimeout(function () {
+                targetDrop.classList.remove('is-pulsing');
+              }, 480);
+
+              AudioFX.right();
+              triggerEmeraldCorrectEffect(el.g1StatusPill);
+              el.g1StatusPill.className = 'solatedu-status-pill is-emerald-correct';
+              el.g1StatusPill.textContent = 'Tepat · ' + active.item.label;
+              updateGame01Progress();
+              return;
+            }
+
+            if (originSlot) originSlot.appendChild(active.card);
+            active.card.classList.add('is-shaking');
+            setTimeout(function () {
+              active.card.classList.remove('is-shaking');
+            }, 320);
+
+            AudioFX.wrong();
+            triggerBlackPantherRedEffect(el.g1StatusPill);
+            el.g1StatusPill.className = 'solatedu-status-pill is-panther-wrong';
+            el.g1StatusPill.textContent = 'Salah! Cuba lagi';
+            return;
+          }
+
+        if (originSlot) originSlot.appendChild(active.card);
+      });
+
+      function renderGame01Board() {
+        el.g1CardsGrid.innerHTML = '';
+        el.g1WordsGrid.innerHTML = '';
+
+        const orderedCards = POSTURES.slice().sort(function (a, b) {
+          return a.cardOrder - b.cardOrder;
+        });
+
+        orderedCards.forEach(function (item) {
+          const slot = document.createElement('div');
+          slot.className = 'solatedu-card-slot';
+          slot.setAttribute('data-origin', item.id);
+
+          const card = document.createElement('div');
+          card.className = 'solatedu-posture-card';
+          card.setAttribute('data-posture', item.id);
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('role', 'button');
+          card.setAttribute('aria-label', item.label);
+
+          const hintBtn = document.createElement('button');
+          hintBtn.type = 'button';
+          hintBtn.className = 'solatedu-hint-btn';
+          hintBtn.setAttribute('aria-label', 'Hint');
+          hintBtn.innerHTML = `
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 18h6"></path>
+              <path d="M10 22h4"></path>
+              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+            </svg>
+            <span>HINT</span>
+          `;
+
+          const popover = document.createElement('div');
+          popover.className = 'solatedu-hint-popover';
+          popover.setAttribute('role', 'tooltip');
+          popover.textContent = item.hint;
+
+          hintBtn.addEventListener('pointerdown', function (e) {
+            e.stopPropagation();
+          });
+
+          hintBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            AudioFX.tap();
+            const alreadyOpen = popover.classList.contains('is-open');
+            closeAllHints();
+            if (!alreadyOpen) {
+              popover.classList.add('is-open');
+              state.openHintId = item.id;
+            } else {
+              state.openHintId = null;
+            }
+          });
+
+          const img = document.createElement('img');
+          img.className = 'solatedu-posture-img';
+          img.src = item.img;
+          img.alt = item.label;
+          img.loading = 'lazy';
+          img.draggable = false;
+
+          const fallback = document.createElement('div');
+          fallback.className = 'solatedu-posture-fallback';
+          fallback.textContent = item.label.split(' ')[0];
+
+          img.addEventListener('error', function () {
+            img.style.display = 'none';
+            fallback.style.display = 'flex';
+          });
+
+          card.appendChild(hintBtn);
+          card.appendChild(popover);
+          card.appendChild(img);
+          card.appendChild(fallback);
+
+          bindCardDrag(card, item);
+          slot.appendChild(card);
+          el.g1CardsGrid.appendChild(slot);
+        });
+
+        POSTURES.forEach(function (item) {
+          const drop = document.createElement('div');
+          drop.className = 'solatedu-word-drop';
+          drop.setAttribute('data-target', item.id);
+
+          const lbl = document.createElement('span');
+          lbl.className = 'solatedu-word-label';
+          lbl.textContent = item.label;
+
+          drop.appendChild(lbl);
+          el.g1WordsGrid.appendChild(drop);
+        });
+
+        updateGame01Progress();
+      }
+
+      function getDropAt(x, y) {
+        const drops = Array.from(el.g1WordsGrid.querySelectorAll('.solatedu-word-drop'));
+        for (let i = 0; i < drops.length; i += 1) {
+          const r = drops[i].getBoundingClientRect();
+          if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+            return drops[i];
+          }
+        }
+        return null;
+      }
+
+      function clearDropHover() {
+        el.g1WordsGrid.querySelectorAll('.solatedu-word-drop.is-hover').forEach(function (d) {
+          d.classList.remove('is-hover');
+        });
+      }
+
+      function bindCardDrag(card, item) {
+        card.addEventListener('pointerdown', function (e) {
+          if (state.matched[item.id]) return;
+          if (e.target.closest('.solatedu-hint-btn')) return;
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+          e.preventDefault();
+          closeAllHints();
+
+          const rect = card.getBoundingClientRect();
+          card.style.width = rect.width + 'px';
+          card.style.height = rect.height + 'px';
+          card.style.left = rect.left + 'px';
+          card.style.top = rect.top + 'px';
+          card.classList.add('is-floating');
+          document.body.appendChild(card);
+
+          AudioFX.pick();
+
+          dragSession = {
+            item: item,
+            card: card,
+            dx: e.clientX - rect.left,
+            dy: e.clientY - rect.top
+          };
+        });
+      }
+
+      window.addEventListener('pointermove', function (e) {
+        if (!dragSession) return;
+        dragSession.card.style.left = (e.clientX - dragSession.dx) + 'px';
+        dragSession.card.style.top = (e.clientY - dragSession.dy) + 'px';
+
+        clearDropHover();
+        const hoverDrop = getDropAt(e.clientX, e.clientY);
+        if (hoverDrop) {
+          const targetId = hoverDrop.getAttribute('data-target');
+          if (targetId === dragSession.item.id && !state.matched[targetId]) {
+            hoverDrop.classList.add('is-hover');
+          }
+        }
+      }, { passive: false });
+
+      function renderSolatStrip() {
+        if (!el.g2SolatStrip) return;
+        el.g2SolatStrip.innerHTML = '';
+        RAKAAT_ROUNDS.forEach(function (item, idx) {
+          const pill = document.createElement('div');
+          pill.className = 'solatedu-solat-pill-item';
+          if (idx === state.wheelRound) pill.classList.add('is-current');
+          if (state.wheelSolved[idx]) pill.classList.add('is-solved');
+
+          const numTag = document.createElement('small');
+          numTag.textContent = '0' + (idx + 1) + (state.wheelSolved[idx] ? ' · ✓' : '');
+
+          const titleTag = document.createElement('strong');
+          titleTag.textContent = item.solat;
+
+          pill.appendChild(numTag);
+          pill.appendChild(titleTag);
+          el.g2SolatStrip.appendChild(pill);
+        });
+      }
+
+      function loadWheelRound(idx) {
+        state.wheelRound = Math.max(0, Math.min(RAKAAT_ROUNDS.length - 1, idx));
+        state.wheelRoundDone = false;
+        const item = RAKAAT_ROUNDS[state.wheelRound];
+
+        // Starting value is ALWAYS 1
+        setWheelNum(1, false);
+
+        renderSolatStrip();
+        el.g2RoundLabel.textContent = String(state.wheelRound + 1);
+        el.g2SolatBadge.textContent = 'WAKTU SOLAT ' + (state.wheelRound + 1) + ' / 5';
+        el.g2SolatName.textContent = item.solat;
+        el.g2SolatDesc.textContent = 'Putar roda atau tekan + / − ke bilangan rakaat solat ' + item.solat + ' (mula dari 1).';
+        el.btnWheelCheck.disabled = false;
+        el.btnWheelNext.style.display = 'none';
+        el.g2StatusPill.className = 'solatedu-status-pill';
+        el.g2StatusPill.textContent = 'Mula 1 · Putar roda atau tekan + / −';
+        syncScores();
+      }
+
+      function checkWheelChoice() {
+        const item = RAKAAT_ROUNDS[state.wheelRound];
+        if (!item) return;
+
+        AudioFX.tap();
+        if (state.wheelValue === item.rakaat) {
+          state.wheelSolved[state.wheelRound] = true;
+          state.wheelRoundDone = true;
+          renderSolatStrip();
+          el.wheelStage.classList.add('is-pulsing');
+          setTimeout(function () {
+            el.wheelStage.classList.remove('is-pulsing');
+          }, 480);
+
+          AudioFX.right();
+          triggerEmeraldCorrectEffect(el.g2StatusPill);
+          el.g2StatusPill.className = 'solatedu-status-pill is-emerald-correct';
+          el.g2StatusPill.textContent = 'Betul · ' + item.solat + ' (' + item.rakaat + ' Rakaat)';
+          el.btnWheelCheck.disabled = true;
+          el.btnWheelNext.style.display = 'inline-flex';
+          syncScores();
+
+          if (getG2Score() === RAKAAT_ROUNDS.length) {
+            AudioFX.fanfare();
+            launchConfettiBurst();
+            el.g2StatusPill.textContent = 'Tahniah! Semua 5/5 waktu solat selesai · Membuka markah akhir...';
+            setTimeout(function () {
+              if (state.view === 'viewGame02' && getG2Score() === RAKAAT_ROUNDS.length) {
+                showFinalScreen();
+              }
+            }, 1300);
+          }
+        } else {
+          AudioFX.wrong();
+          triggerBlackPantherRedEffect(el.g2StatusPill);
+          el.g2StatusPill.className = 'solatedu-status-pill is-panther-wrong';
+          el.g2StatusPill.textContent = 'Salah! Pilihan ' + state.wheelValue + ' rakaat';
+        }
+      }
+
+      /* =====================================================================
+         FINAL SCORE & EVENT BINDINGS
+      ===================================================================== */
+      function showFinalScreen() {
+        const s1 = getG1Score();
+        const s2 = getG2Score();
+        const total = s1 + s2;
+        el.finalTotalNum.textContent = total + ' / 11';
+        el.finalG1Num.textContent = s1 + ' / 6';
+        el.finalG2Num.textContent = s2 + ' / 5';
+        el.finalTitleText.textContent = total >= 8 ? 'Tahniah! Cemerlang!' : 'Tahniah! Selesai!';
+        AudioFX.fanfare();
+        launchConfettiBurst();
+        goToView('viewFinalScore');
+      }
+
+      function resetAll() {
+        state.matched = {};
+        state.wheelSolved = {};
+        state.wheelRound = 0;
+        state.wheelRoundDone = false;
+        renderGame01Board();
+        loadWheelRound(0);
+        el.g1StatusPill.className = 'solatedu-status-pill';
+        el.g1StatusPill.textContent = 'Seret gambar ke label yang betul';
+        syncScores();
+      }
+
+      function bindEvents() {
+        document.addEventListener('click', function (e) {
+          if (!e.target.closest('.solatedu-hint-btn') && !e.target.closest('.solatedu-hint-popover')) {
+            closeAllHints();
+          }
+        });
+
+        el.btnGoHome.addEventListener('click', function () {
+          AudioFX.tap();
+          goToView('viewHome');
+        });
+
+        el.btnAmbientToggle.addEventListener('click', function () {
+          const ambOn = AudioFX.toggleAmbient();
+          el.ambientBtnLabel.textContent = ambOn ? 'AMBIEN ON' : 'AMBIEN OFF';
+          el.btnAmbientToggle.classList.toggle('is-ambient-on', ambOn);
+          el.btnAmbientToggle.classList.toggle('is-off', !ambOn);
+          el.btnAmbientToggle.setAttribute('aria-pressed', String(ambOn));
+        });
+
+        el.btnSoundToggle.addEventListener('click', function () {
+          const on = AudioFX.toggle();
+          el.soundBtnLabel.textContent = on ? 'BUNYI ON' : 'BUNYI OFF';
+          el.btnSoundToggle.classList.toggle('is-off', !on);
+          el.btnSoundToggle.setAttribute('aria-pressed', String(!on));
+        });
+
+        function selectMode(m) {
+          AudioFX.tap();
+          state.chosenMode = m;
+          el.pickMode01.classList.toggle('is-picked', m === 'g1');
+          el.pickMode02.classList.toggle('is-picked', m === 'g2');
+        }
+
+        el.pickMode01.addEventListener('click', function () { selectMode('g1'); });
+        el.pickMode02.addEventListener('click', function () { selectMode('g2'); });
+
+        el.btnStartSelected.addEventListener('click', function () {
+          AudioFX.tap();
+          if (state.chosenMode === 'g2') {
+            loadWheelRound(0);
+            goToView('viewGame02');
+          } else {
+            goToView('viewGame01');
+          }
+        });
+
+        el.btnJumpSummary.addEventListener('click', function () {
+          AudioFX.tap();
+          showFinalScreen();
+        });
+
+        el.btnG1Reset.addEventListener('click', function () {
+          AudioFX.tap();
+          state.matched = {};
+          renderGame01Board();
+          el.g1StatusPill.className = 'solatedu-status-pill';
+          el.g1StatusPill.textContent = 'Seret gambar ke label yang betul';
+        });
+
+        el.btnG1Next.addEventListener('click', function () {
+          AudioFX.tap();
+          goToView('viewSuccess01');
+        });
+
+        el.btnCloseGame01.addEventListener('click', function () {
+          AudioFX.close();
+          goToView('viewHome');
+        });
+
+        el.btnCloseGame02.addEventListener('click', function () {
+          AudioFX.close();
+          goToView('viewHome');
+        });
+
+        el.btnGoWheelFromSuccess.addEventListener('click', function () {
+          AudioFX.tap();
+          loadWheelRound(0);
+          goToView('viewGame02');
+        });
+
+        el.btnWheelMinus.addEventListener('click', function () {
+          setWheelNum(state.wheelValue - 1, true, 'left');
+        });
+
+        el.btnWheelPlus.addEventListener('click', function () {
+          setWheelNum(state.wheelValue + 1, true, 'right');
+        });
+
+        // Swipe / drag wheel control
+        let wheelDrag = null;
+        el.wheelStage.addEventListener('pointerdown', function (e) {
+          if (state.wheelRoundDone) return;
+          if (e.target.closest('.solatedu-wheel-digit.is-edge')) return;
+          wheelDrag = {
+            x: e.clientX,
+            y: e.clientY,
+            startVal: state.wheelValue
+          };
+          el.wheelStage.setPointerCapture(e.pointerId);
+        });
+
+        el.wheelStage.addEventListener('pointermove', function (e) {
+          if (!wheelDrag) return;
+          const deltaX = e.clientX - wheelDrag.x;
+          const steps = Math.round(deltaX / 34);
+          if (steps !== 0) {
+            const dir = deltaX < 0 ? 'right' : 'left';
+            setWheelNum(wheelDrag.startVal + steps, true, dir);
+          }
+        });
+
+        el.wheelStage.addEventListener('pointerup', function () {
+          wheelDrag = null;
+        });
+
+        el.wheelStage.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            setWheelNum(state.wheelValue + 1, true, 'right');
+          } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            setWheelNum(state.wheelValue - 1, true, 'left');
+          }
+        });
+
+        el.btnWheelCheck.addEventListener('click', checkWheelChoice);
+
+        el.btnWheelNext.addEventListener('click', function () {
+          AudioFX.tap();
+          if (state.wheelRound + 1 < RAKAAT_ROUNDS.length) {
+            loadWheelRound(state.wheelRound + 1);
+          } else {
+            showFinalScreen();
+          }
+        });
+
+        el.btnReplayAll.addEventListener('click', function () {
+          AudioFX.tap();
+          resetAll();
+          goToView('viewGame01');
+        });
+
+        el.btnFinalToHome.addEventListener('click', function () {
+          AudioFX.tap();
+          goToView('viewHome');
+        });
+      }
+
+      renderGame01Board();
+      loadWheelRound(0);
+      bindEvents();
+      syncScores();
+    })();
+  </script>
+</body>
+</html>
