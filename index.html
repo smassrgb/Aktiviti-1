@@ -862,13 +862,25 @@
         emerald_gold: { label: 'Set 3 · Emerald Gold', cost: 80 }
       };
 
-      var bgmAudio = new Audio(MUSIC_URL);
-      bgmAudio.loop = true;
-      bgmAudio.volume = 0.35;
-      bgmAudio.autoplay = false;
-      bgmAudio.preload = 'none';
+      /* =====================================================================
+         LAGU LATAR: TIDAK AUTO PLAY — HANYA AKTIF SELEPAS MASUK MAIN HOME
+         LEPAS ISI NAMA, DAN BOLEH DIKAWAL MELALUI BUTANG LAGU
+      ===================================================================== */
+      var bgmAudio = null;
       var musicEnabled = false;
+      var enteredMainHome = false;
       var btnToggleMusic = document.getElementById('btnToggleMusic');
+
+      function ensureBgmElement() {
+        if (!bgmAudio) {
+          bgmAudio = new Audio();
+          bgmAudio.autoplay = false;
+          bgmAudio.preload = 'none';
+          bgmAudio.loop = true;
+          bgmAudio.volume = 0.35;
+        }
+        return bgmAudio;
+      }
 
       function syncMusicButton() {
         if (!btnToggleMusic) return;
@@ -876,19 +888,35 @@
         btnToggleMusic.classList.toggle('is-active-mode', musicEnabled);
       }
 
-      function tryPlayBgm() {
-        if (!musicEnabled || !bgmAudio) return;
-        bgmAudio.play().catch(function () {});
+      function playBgmNow() {
+        if (!enteredMainHome || !musicEnabled) return;
+        var audio = ensureBgmElement();
+        if (!audio.src) {
+          audio.src = MUSIC_URL;
+        }
+        audio.play().catch(function () {});
+      }
+
+      function stopBgmNow() {
+        if (bgmAudio) {
+          bgmAudio.pause();
+        }
       }
 
       if (btnToggleMusic) {
         btnToggleMusic.addEventListener('click', function () {
+          if (!enteredMainHome) {
+            musicEnabled = false;
+            stopBgmNow();
+            syncMusicButton();
+            return;
+          }
           musicEnabled = !musicEnabled;
           syncMusicButton();
           if (musicEnabled) {
-            tryPlayBgm();
+            playBgmNow();
           } else {
-            bgmAudio.pause();
+            stopBgmNow();
           }
         });
       }
@@ -1311,7 +1339,7 @@
         renderCanvas();
       }
 
-      function openMainHomePage() {
+      function openMainHomePage(fromNameSubmit) {
         if (state.autoAdvanceTimer) {
           clearTimeout(state.autoAdvanceTimer);
           state.autoAdvanceTimer = null;
@@ -1334,6 +1362,13 @@
         gameStage.classList.remove('is-anim-in');
         void gameStage.offsetWidth;
         gameStage.classList.add('is-anim-in');
+
+        if (fromNameSubmit) {
+          enteredMainHome = true;
+          musicEnabled = true;
+          syncMusicButton();
+          playBgmNow();
+        }
       }
 
       function startSelectedGame(modeKey) {
@@ -1665,7 +1700,7 @@
 
       function exitGameToMainMenu() {
         SoundFX.exit();
-        openMainHomePage();
+        openMainHomePage(false);
       }
 
       function addRegion(x, y, w, h, fn) {
@@ -2264,7 +2299,7 @@
         }
 
         saveCurrentStudentScore();
-        openMainHomePage();
+        openMainHomePage(true);
       });
 
       studentNameInput.addEventListener('keydown', function (e) {
@@ -2284,6 +2319,7 @@
       function resetToNameGate() {
         saveCurrentStudentScore();
         SoundFX.exit();
+        stopBgmNow();
         mainHomeView.classList.remove('is-visible');
         workspaceView.classList.remove('is-visible');
         topActionBar.style.display = 'none';
