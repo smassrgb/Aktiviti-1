@@ -3,352 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SOLAT EDU — Visual Interactive Game</title>
+  <title>SOLAT EDU — Kanvas Interaktif</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
     rel="stylesheet"
   />
-
   <style>
     /* =========================================================================
-       SOLAT EDU — DARK NAVY GLASSMORPHISM DESIGN SYSTEM (.solatedu-)
-       Palette: Navy #102C40 | White #F7FAFC | Lime #DBFF00
-       All rules scoped cleanly under .solatedu-shell for Jotform HTML Embed.
+       TEMA GLASSMORPHISM + KESAN ANIMASI RUJUKAN (.se-root)
     ========================================================================= */
-    .solatedu-shell,
-    .solatedu-shell * {
+    .se-root,
+    .se-root * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .solatedu-shell {
-      --navy: #102C40;
-      --navy-deep: #071621;
-      --navy-glass: rgba(16, 44, 64, 0.72);
-      --glass-card: rgba(247, 250, 252, 0.08);
-      --glass-card-hi: rgba(247, 250, 252, 0.14);
-      --glass-line: rgba(247, 250, 252, 0.18);
-      --glass-line-hi: rgba(247, 250, 252, 0.42);
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(219, 255, 0, 0.16), transparent 36%),
+        radial-gradient(circle at 86% 18%, rgba(255, 30, 66, 0.18), transparent 40%),
+        radial-gradient(circle at 50% 88%, rgba(52, 211, 153, 0.15), transparent 44%),
+        linear-gradient(155deg, #133652 0%, #0A2032 52%, #05111A 100%);
+      color: #F7FAFC;
+      transition: background 260ms ease;
+    }
+
+    .se-root {
+      --navy-deep: #06141F;
+      --glass-bg: rgba(247, 250, 252, 0.08);
+      --glass-bg-hi: rgba(247, 250, 252, 0.14);
+      --glass-line: rgba(247, 250, 252, 0.22);
+      --glass-line-hi: rgba(247, 250, 252, 0.45);
       --white: #F7FAFC;
-      --muted: rgba(247, 250, 252, 0.72);
+      --muted: rgba(247, 250, 252, 0.74);
       --lime: #DBFF00;
-      --lime-soft: rgba(219, 255, 0, 0.22);
-      --lime-glow: rgba(219, 255, 0, 0.45);
+      --lime-glow: rgba(219, 255, 0, 0.48);
       --cyan: #22D3EE;
-      --amber: #FBBF24;
-      --violet: #A78BFA;
       --emerald: #34D399;
       --emerald-glow: rgba(52, 211, 153, 0.65);
       --panther-red: #FF1E42;
       --panther-crimson: #99001E;
-      --panther-glow: rgba(255, 30, 66, 0.65);
-      --radius-stage: clamp(22px, 3vw, 34px);
-      --radius-card: clamp(16px, 2vw, 22px);
-      --radius-pill: 14px;
+      --panther-glow: rgba(255, 30, 66, 0.68);
+      --stage-grad-1: rgba(24, 68, 102, 0.76);
+      --stage-grad-2: rgba(12, 37, 56, 0.84);
+      --stage-grad-3: rgba(6, 20, 31, 0.9);
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
       width: 100%;
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: clamp(8px, 1.5vw, 18px);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--white);
+      padding: clamp(10px, 1.8vw, 22px);
       overflow-x: clip;
     }
 
-    .solatedu-stage {
+    /* 3 Set Tema Warna Harmoni (1 Tema = 3 Warna Utama) */
+    .se-root[data-ui-theme="aurora"] {
+      --lime: #38BDF8;
+      --lime-glow: rgba(56, 189, 248, 0.48);
+      --emerald: #2DD4BF;
+      --emerald-glow: rgba(45, 212, 191, 0.62);
+      --cyan: #818CF8;
+      --stage-grad-1: rgba(23, 55, 94, 0.8);
+      --stage-grad-2: rgba(15, 33, 62, 0.86);
+      --stage-grad-3: rgba(7, 16, 33, 0.92);
+    }
+
+    .se-root[data-ui-theme="amber_rose"] {
+      --lime: #FBBF24;
+      --lime-glow: rgba(251, 191, 36, 0.48);
+      --emerald: #FB7185;
+      --emerald-glow: rgba(251, 113, 133, 0.62);
+      --cyan: #C084FC;
+      --stage-grad-1: rgba(78, 34, 66, 0.8);
+      --stage-grad-2: rgba(45, 20, 48, 0.86);
+      --stage-grad-3: rgba(18, 9, 26, 0.92);
+    }
+
+    .se-root[data-ui-theme="emerald_gold"] {
+      --lime: #A3E635;
+      --lime-glow: rgba(163, 230, 53, 0.48);
+      --emerald: #34D399;
+      --emerald-glow: rgba(52, 211, 153, 0.62);
+      --cyan: #FACC15;
+      --stage-grad-1: rgba(20, 74, 58, 0.8);
+      --stage-grad-2: rgba(11, 43, 36, 0.86);
+      --stage-grad-3: rgba(5, 20, 18, 0.92);
+    }
+
+    .se-stage {
       position: relative;
-      min-height: min(740px, 90dvh);
-      border-radius: var(--radius-stage);
-      padding: clamp(16px, 2.4vw, 28px);
+      border-radius: 28px;
+      padding: clamp(14px, 2vw, 24px);
       background:
-        radial-gradient(circle at 12% 10%, rgba(219, 255, 0, 0.22), transparent 36%),
-        radial-gradient(circle at 86% 16%, rgba(34, 211, 238, 0.25), transparent 42%),
-        radial-gradient(circle at 50% 85%, rgba(167, 139, 250, 0.18), transparent 44%),
-        radial-gradient(circle at 82% 88%, rgba(52, 211, 153, 0.16), transparent 38%),
-        linear-gradient(155deg, #163E5C 0%, #0E2A40 48%, #06141F 100%);
-      border: 1.5px solid var(--glass-line-hi);
+        radial-gradient(circle at 12% 10%, var(--lime-glow), transparent 38%),
+        radial-gradient(circle at 86% 16%, rgba(34, 211, 238, 0.22), transparent 42%),
+        radial-gradient(circle at 82% 88%, var(--emerald-glow), transparent 44%),
+        linear-gradient(155deg, var(--stage-grad-1) 0%, var(--stage-grad-2) 55%, var(--stage-grad-3) 100%);
+      backdrop-filter: blur(26px) saturate(180%);
+      -webkit-backdrop-filter: blur(26px) saturate(180%);
+      border: 1.5px solid rgba(247, 250, 252, 0.5);
       box-shadow:
-        0 30px 70px -24px rgba(4, 14, 22, 0.78),
-        inset 0 1px 0 rgba(255, 255, 255, 0.32);
+        0 30px 72px -22px rgba(3, 10, 16, 0.85),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.42),
+        inset 0 0 32px rgba(247, 250, 252, 0.06);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: clamp(16px, 2vw, 24px);
+      gap: 14px;
       overflow: clip;
     }
 
-    /* Black Panther Kinetic Suit Red Overload Effect on Wrong Answer */
-    .solatedu-stage.is-panther-alert {
-      animation: sePantherSuitSurge 640ms var(--ease-out);
-    }
-
-    .solatedu-stage.is-panther-alert::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      pointer-events: none;
-      z-index: 50;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(255, 30, 66, 0.08) 28%, rgba(255, 30, 66, 0.44) 100%);
-      box-shadow:
-        inset 0 0 56px rgba(255, 30, 66, 0.85),
-        0 0 36px var(--panther-glow);
-      animation: sePantherOverlayFlash 640ms var(--ease-out) forwards;
-    }
-
-    @keyframes sePantherSuitSurge {
-      0% { transform: translateX(0); border-color: var(--panther-red); }
-      18% { transform: translateX(-8px); border-color: var(--panther-red); }
-      36% { transform: translateX(8px); border-color: #FF5C77; }
-      54% { transform: translateX(-5px); border-color: var(--panther-red); }
-      72% { transform: translateX(4px); border-color: var(--panther-crimson); }
-      100% { transform: translateX(0); border-color: var(--glass-line-hi); }
-    }
-
-    @keyframes sePantherOverlayFlash {
-      0% { opacity: 0; }
-      20% { opacity: 1; }
-      65% { opacity: 0.85; }
-      100% { opacity: 0; }
-    }
-
-    .is-panther-wrong {
-      border-color: var(--panther-red) !important;
-      background: rgba(255, 30, 66, 0.24) !important;
-      color: #FFD6DD !important;
-      box-shadow: 0 0 24px var(--panther-glow), inset 0 0 12px rgba(255, 30, 66, 0.45) !important;
-      animation: sePantherCardPulse 560ms var(--ease-out);
-    }
-
-    @keyframes sePantherCardPulse {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.03); }
-      55% { transform: scale(0.97); }
-      100% { transform: scale(1); }
-    }
-
-    /* Efek Hijau Khas Apabila Jawapan Betul */
-    .solatedu-stage.is-emerald-win {
-      animation: seEmeraldSuitSurge 580ms var(--ease-out);
-    }
-
-    .solatedu-stage.is-emerald-win::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      pointer-events: none;
-      z-index: 48;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 30%, rgba(52, 211, 153, 0.38) 100%);
-      box-shadow:
-        inset 0 0 52px rgba(52, 211, 153, 0.8),
-        0 0 34px var(--emerald-glow);
-      animation: seEmeraldOverlayFlash 580ms var(--ease-out) forwards;
-    }
-
-    @keyframes seEmeraldSuitSurge {
-      0% { transform: translateX(0); border-color: var(--emerald); }
-      20% { transform: translateX(-6px); border-color: var(--emerald); }
-      40% { transform: translateX(6px); border-color: #6EE7B7; }
-      65% { transform: translateX(-3px); border-color: var(--emerald); }
-      100% { transform: translateX(0); border-color: var(--glass-line-hi); }
-    }
-
-    @keyframes seEmeraldOverlayFlash {
-      0% { opacity: 0; }
-      22% { opacity: 1; }
-      70% { opacity: 0.82; }
-      100% { opacity: 0; }
-    }
-
-    .is-emerald-correct {
-      border-color: var(--emerald) !important;
-      background: rgba(52, 211, 153, 0.24) !important;
-      color: #D1FAE5 !important;
-      box-shadow: 0 0 24px var(--emerald-glow), inset 0 0 12px rgba(52, 211, 153, 0.45) !important;
-      animation: sePantherCardPulse 520ms var(--ease-out);
-    }
-
-    /* Kanvas Confetti Tahniah */
-    .solatedu-confetti-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 9900;
-    }
-
-    /* Close / Pangkah Button while Answering */
-    .solatedu-close-btn {
-      appearance: none;
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      border: 1.5px solid rgba(255, 92, 119, 0.65);
-      background: rgba(255, 30, 66, 0.18);
-      color: #FF8FA3;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
-      font-weight: 800;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 130ms var(--ease-out), background 160ms var(--ease-out), color 160ms var(--ease-out), border-color 160ms var(--ease-out);
-    }
-
-    .solatedu-close-btn:hover {
-      background: var(--panther-red);
-      border-color: #FF8FA3;
-      color: #FFFFFF;
-      box-shadow: 0 0 18px var(--panther-glow);
-    }
-
-    .solatedu-close-btn:active {
-      transform: scale(0.94);
-    }
-
-    /* Minimal Top Bar */
-    .solatedu-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .solatedu-brand {
-      appearance: none;
-      border: 1px solid var(--glass-line);
-      background: var(--glass-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      color: var(--white);
-      border-radius: var(--radius-pill);
-      padding: 8px 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.9rem;
-      letter-spacing: 0.04em;
-      transition: transform 140ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
-    }
-
-    .solatedu-brand:hover {
-      background: var(--glass-card-hi);
-      border-color: var(--glass-line-hi);
-    }
-
-    .solatedu-brand:active {
-      transform: scale(0.97);
-    }
-
-    .solatedu-brand-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--lime);
-      box-shadow: 0 0 12px var(--lime);
-    }
-
-    .solatedu-hud-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .solatedu-chip {
-      font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-      font-size: 0.78rem;
-      font-weight: 800;
-      padding: 8px 12px;
-      border-radius: var(--radius-pill);
-      background: var(--glass-card);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--glass-line);
-      color: var(--white);
-    }
-
-    .solatedu-chip span {
-      color: var(--lime);
-    }
-
-    .solatedu-chip--cyan span {
-      color: var(--cyan);
-    }
-
-    .solatedu-chip--amber span {
-      color: var(--amber);
-    }
-
-    .solatedu-icon-btn {
-      appearance: none;
-      border: 1px solid var(--glass-line);
-      background: var(--glass-card);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      color: var(--white);
-      border-radius: var(--radius-pill);
-      padding: 8px 12px;
-      font-family: inherit;
-      font-size: 0.78rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: transform 140ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
-    }
-
-    .solatedu-icon-btn:hover {
-      background: var(--glass-card-hi);
-      border-color: var(--glass-line-hi);
-    }
-
-    .solatedu-icon-btn:active {
-      transform: scale(0.97);
-    }
-
-    .solatedu-icon-btn.is-off {
-      color: var(--muted);
-      border-style: dashed;
-    }
-
-    .solatedu-icon-btn.is-ambient-on {
-      border-color: rgba(34, 211, 238, 0.65);
-      background: rgba(34, 211, 238, 0.14);
-      color: #A5F3FC;
-    }
-
-    /* Screens & Smooth Transitions */
-    .solatedu-view {
-      display: none;
-      flex: 1 1 auto;
-      flex-direction: column;
-      justify-content: center;
-      gap: clamp(16px, 2vw, 24px);
-    }
-
-    .solatedu-view.is-active {
-      display: flex;
-      animation: seViewIn 340ms var(--ease-out) forwards;
-    }
-
-    @keyframes seViewIn {
+    /* Animasi masuk skrin (seViewIn) */
+    @keyframes seRefViewIn {
       from {
         opacity: 0;
         transform: translateY(12px) scale(0.985);
@@ -359,1210 +129,720 @@
       }
     }
 
-    /* Lime Primary & Glass Buttons */
-    .solatedu-btn-primary {
-      appearance: none;
-      border: 2px solid var(--lime);
-      background: var(--lime);
-      color: var(--navy);
-      font-family: inherit;
-      font-weight: 800;
-      font-size: clamp(0.9rem, 1.3vw, 1.02rem);
-      letter-spacing: 0.02em;
-      padding: 13px 24px;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 12px 28px -8px var(--lime-glow);
-      transition: transform 140ms var(--ease-out), box-shadow 180ms var(--ease-out), background 180ms var(--ease-out);
+    .se-stage.is-anim-in {
+      animation: seRefViewIn 340ms var(--ease-out) forwards;
     }
 
-    .solatedu-btn-primary:hover:not(:disabled) {
-      background: #E8FF52;
-      box-shadow: 0 16px 34px -8px var(--lime-glow);
+    /* Kuasa Black Panther MERAH (Salah) */
+    @keyframes seRefPantherSurge {
+      0% { transform: translateX(0); border-color: var(--panther-red); }
+      18% { transform: translateX(-8px); border-color: var(--panther-red); }
+      36% { transform: translateX(8px); border-color: #FF5C77; }
+      54% { transform: translateX(-5px); border-color: var(--panther-red); }
+      72% { transform: translateX(4px); border-color: var(--panther-crimson); }
+      100% { transform: translateX(0); border-color: var(--glass-line-hi); }
     }
 
-    .solatedu-btn-primary:active:not(:disabled) {
-      transform: scale(0.97);
+    @keyframes seRefPantherOverlayFlash {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      65% { opacity: 0.85; }
+      100% { opacity: 0; }
     }
 
-    .solatedu-btn-primary:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      box-shadow: none;
+    .se-stage.is-panther-alert {
+      animation: seRefPantherSurge 640ms var(--ease-out);
     }
 
-    .solatedu-btn-ghost {
-      appearance: none;
-      border: 1px solid var(--glass-line-hi);
-      background: var(--glass-card);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      color: var(--white);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.88rem;
-      padding: 12px 18px;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 140ms var(--ease-out), background 180ms var(--ease-out);
+    .se-stage.is-panther-alert::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 40;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 30, 66, 0.08) 28%, rgba(255, 30, 66, 0.44) 100%);
+      box-shadow: inset 0 0 56px rgba(255, 30, 66, 0.85), 0 0 36px var(--panther-glow);
+      animation: seRefPantherOverlayFlash 640ms var(--ease-out) forwards;
     }
 
-    .solatedu-btn-ghost:hover {
-      background: var(--glass-card-hi);
+    /* Kuasa Black Panther HIJAU (Betul) */
+    @keyframes seRefEmeraldSurge {
+      0% { transform: translateX(0); border-color: var(--emerald); }
+      20% { transform: translateX(-6px); border-color: var(--emerald); }
+      40% { transform: translateX(6px); border-color: #6EE7B7; }
+      65% { transform: translateX(-3px); border-color: var(--emerald); }
+      100% { transform: translateX(0); border-color: var(--glass-line-hi); }
     }
 
-    .solatedu-btn-ghost:active {
-      transform: scale(0.97);
+    @keyframes seRefEmeraldOverlayFlash {
+      0% { opacity: 0; }
+      22% { opacity: 1; }
+      70% { opacity: 0.82; }
+      100% { opacity: 0; }
     }
 
-    /* =========================================================================
-       1. HOME & 2. PILIH AKTIVITI (VISUAL GAME MENU)
-    ========================================================================= */
-    .solatedu-home-wrap {
+    .se-stage.is-emerald-win {
+      animation: seRefEmeraldSurge 580ms var(--ease-out);
+    }
+
+    .se-stage.is-emerald-win::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 39;
+      background: radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 30%, rgba(52, 211, 153, 0.38) 100%);
+      box-shadow: inset 0 0 52px rgba(52, 211, 153, 0.8), 0 0 34px var(--emerald-glow);
+      animation: seRefEmeraldOverlayFlash 580ms var(--ease-out) forwards;
+    }
+
+    /* Bar Atas Glassmorphism */
+    .se-topbar {
       display: flex;
-      flex-direction: column;
-      gap: clamp(18px, 2.5vw, 28px);
-    }
-
-    .solatedu-hero-block {
-      display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 10px;
     }
 
-    .solatedu-hero-kicker {
+    .se-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .se-chip {
       font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
       font-size: 0.78rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      padding: 8px 13px;
+      border-radius: 14px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-line);
+      color: var(--white);
+    }
+
+    .se-chip span {
       color: var(--lime);
-      text-transform: uppercase;
     }
 
-    .solatedu-hero-h1 {
-      margin: 6px 0 0 0;
-      font-size: clamp(2.1rem, 5vw, 3.6rem);
+    .se-chip--emerald span {
+      color: var(--emerald);
+    }
+
+    .se-chip--red span {
+      color: #FF758F;
+    }
+
+    .se-btn {
+      appearance: none;
+      border: 1.5px solid var(--glass-line-hi);
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      color: var(--white);
+      font-family: inherit;
       font-weight: 800;
-      line-height: 1.04;
-      letter-spacing: -0.03em;
+      font-size: 0.82rem;
+      padding: 9px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 140ms var(--ease-out), background 160ms var(--ease-out), border-color 160ms var(--ease-out);
     }
 
-    .solatedu-hero-h1 em {
+    .se-btn:hover {
+      background: var(--glass-bg-hi);
+      border-color: var(--lime);
+    }
+
+    .se-btn:active {
+      transform: scale(0.97);
+    }
+
+    .se-btn--lime {
+      background: var(--lime);
+      border-color: var(--lime);
+      color: var(--navy-deep);
+      box-shadow: 0 10px 26px -8px var(--lime-glow);
+    }
+
+    .se-btn--lime:hover {
+      filter: brightness(1.06);
+      color: var(--navy-deep);
+    }
+
+    .se-btn--red {
+      background: rgba(255, 30, 66, 0.2);
+      border-color: rgba(255, 92, 119, 0.72);
+      color: #FFD6DD;
+    }
+
+    .se-btn--red:hover {
+      background: var(--panther-red);
+      border-color: #FF8FA3;
+      color: #FFFFFF;
+    }
+
+    .se-btn.is-active-mode {
+      background: var(--lime);
+      border-color: var(--lime);
+      color: var(--navy-deep);
+    }
+
+    /* Borang Nama Pelajar Sebelum Mula */
+    .se-name-gate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: clamp(22px, 4vw, 44px) 16px;
+      text-align: center;
+      animation: seRefViewIn 340ms var(--ease-out) forwards;
+    }
+
+    .se-gate-card {
+      width: 100%;
+      max-width: 480px;
+      padding: clamp(20px, 3vw, 30px);
+      border-radius: 22px;
+      background: linear-gradient(155deg, rgba(247, 250, 252, 0.13), rgba(255, 30, 66, 0.08) 55%, rgba(52, 211, 153, 0.08));
+      backdrop-filter: blur(20px);
+      border: 1.5px solid var(--glass-line-hi);
+      box-shadow: 0 22px 48px -16px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .se-gate-title {
+      margin: 0;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      font-weight: 800;
+    }
+
+    .se-gate-title em {
       font-style: normal;
       color: var(--lime);
     }
 
-    .solatedu-activity-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(14px, 2vw, 22px);
-    }
-
-    .solatedu-mode-tile {
-      appearance: none;
-      position: relative;
-      border: 1.5px solid var(--glass-line);
-      background: var(--glass-card);
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
-      border-radius: var(--radius-card);
-      padding: clamp(18px, 2.4vw, 26px);
+    .se-input {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 14px;
+      border: 1.5px solid var(--glass-line-hi);
+      background: rgba(6, 20, 31, 0.65);
       color: var(--white);
-      text-align: left;
-      cursor: pointer;
-      transition: transform 140ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+      font-family: inherit;
+      font-size: 0.96rem;
+      font-weight: 700;
+      outline: none;
     }
 
-    .solatedu-mode-tile:hover {
-      background: var(--glass-card-hi);
-      border-color: var(--glass-line-hi);
-    }
-
-    .solatedu-mode-tile:active {
-      transform: scale(0.97);
-    }
-
-    .solatedu-mode-tile:nth-child(1) .solatedu-tile-icon {
-      background: rgba(219, 255, 0, 0.16);
-      border-color: rgba(219, 255, 0, 0.5);
-      color: var(--lime);
-    }
-
-    .solatedu-mode-tile:nth-child(1).is-picked {
+    .se-input:focus {
       border-color: var(--lime);
-      background: linear-gradient(145deg, rgba(219, 255, 0, 0.16), rgba(34, 211, 238, 0.08));
-      box-shadow: 0 0 0 2px var(--lime-soft), 0 20px 38px -14px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 0 0 3px var(--lime-glow);
     }
 
-    .solatedu-mode-tile:nth-child(2) .solatedu-tile-icon {
-      background: rgba(34, 211, 238, 0.16);
-      border-color: rgba(34, 211, 238, 0.52);
-      color: var(--cyan);
+    .se-error-msg {
+      min-height: 20px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #FF8FA3;
     }
 
-    .solatedu-mode-tile:nth-child(2) .solatedu-tile-code {
-      color: var(--cyan);
+    /* Main Home Page (Selepas Isi Nama: Leaderboard + Pilih Game + Kedai Tema Point) */
+    .se-home-view {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: seRefViewIn 340ms var(--ease-out) forwards;
     }
 
-    .solatedu-mode-tile:nth-child(2).is-picked {
-      border-color: var(--cyan);
-      background: linear-gradient(145deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.12));
-      box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.25), 0 20px 38px -14px rgba(0, 0, 0, 0.45);
+    .se-home-view.is-visible {
+      display: flex;
     }
 
-    .solatedu-tile-top {
+    @keyframes seHomeIconFloat {
+      0%, 100% {
+        transform: translateY(0px) rotate(-2deg) scale(1);
+      }
+      50% {
+        transform: translateY(-6px) rotate(4deg) scale(1.08);
+      }
+    }
+
+    @keyframes seHomeWheelSpinIcon {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+      50% {
+        transform: rotate(180deg) scale(1.1);
+      }
+      100% {
+        transform: rotate(360deg) scale(1);
+      }
+    }
+
+    .se-home-banner {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 12px;
+      padding: 14px 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(247, 250, 252, 0.14), rgba(247, 250, 252, 0.04));
+      border: 1.5px solid var(--glass-line-hi);
+      box-shadow: 0 14px 32px -14px rgba(0, 0, 0, 0.55);
     }
 
-    .solatedu-tile-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      background: rgba(219, 255, 0, 0.16);
-      border: 1px solid rgba(219, 255, 0, 0.45);
-      color: var(--lime);
-      display: grid;
-      place-items: center;
-    }
-
-    .solatedu-tile-code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
+    .se-home-banner h2 {
+      margin: 0;
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
       font-weight: 800;
+    }
+
+    .se-home-banner h2 span {
       color: var(--lime);
     }
 
-    .solatedu-tile-name {
-      margin: 16px 0 4px 0;
-      font-size: clamp(1.25rem, 2.2vw, 1.65rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .solatedu-tile-short {
-      font-size: 0.9rem;
-      font-weight: 600;
+    .se-home-banner p {
+      margin: 3px 0 0;
+      font-size: 0.82rem;
       color: var(--muted);
     }
 
-    .solatedu-home-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    /* =========================================================================
-       3. GAME 01 — PADANKAN PERBUATAN SOLAT (BIG FULL-FRAME VISUALS)
-    ========================================================================= */
-    .solatedu-g1-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .solatedu-g1-title {
-      margin: 0;
-      font-size: clamp(1.3rem, 2.4vw, 1.85rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .solatedu-g1-split {
-      display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-      gap: clamp(14px, 2vw, 22px);
-      align-items: stretch;
-    }
-
-    .solatedu-panel {
-      border-radius: var(--radius-card);
-      padding: clamp(12px, 1.6vw, 18px);
-      background: var(--glass-card);
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
-      border: 1px solid var(--glass-line);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .solatedu-visual-cards {
+    .se-home-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(10px, 1.3vw, 14px);
+      gap: 14px;
+      align-items: start;
     }
 
-    .solatedu-card-slot {
-      position: relative;
-      aspect-ratio: 4 / 4.3;
-      border-radius: 16px;
-      background: rgba(7, 22, 33, 0.35);
-      border: 1px dashed var(--glass-line);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: visible;
-    }
-
-    /* Visual Posture Card — large full image, zero posture text on card */
-    .solatedu-posture-card {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 16px;
-      background: #F7FAFC;
-      border: 2px solid rgba(247, 250, 252, 0.92);
-      box-shadow: 0 12px 26px -10px rgba(4, 14, 22, 0.55);
-      padding: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: grab;
-      user-select: none;
-      touch-action: none;
-      transition: transform 140ms var(--ease-out), box-shadow 180ms var(--ease-out), border-color 180ms var(--ease-out);
-    }
-
-    .solatedu-posture-card:hover {
-      border-color: var(--lime);
-      box-shadow: 0 14px 30px -10px rgba(4, 14, 22, 0.65), 0 0 0 2px var(--lime-soft);
-    }
-
-    .solatedu-posture-card:active {
-      cursor: grabbing;
-      transform: scale(0.97);
-    }
-
-    .solatedu-posture-card.is-floating {
-      position: fixed;
-      z-index: 9500;
-      pointer-events: none;
-      transform: scale(1.04) rotate(1.5deg);
-      box-shadow: 0 26px 48px rgba(4, 14, 22, 0.65);
-      border-color: var(--lime);
-      transition: none;
-    }
-
-    .solatedu-posture-card.is-matched {
-      width: 100% !important;
-      height: 100% !important;
-      cursor: default;
-      border-color: var(--lime);
-      box-shadow: 0 0 0 3px var(--lime-soft);
-    }
-
-    .solatedu-posture-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      pointer-events: none;
-      border-radius: 10px;
-    }
-
-    .solatedu-posture-fallback {
-      width: 100%;
-      height: 100%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      color: var(--navy);
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 800;
-      font-size: 0.85rem;
-    }
-
-    /* Minimal Hint Bulb Button & Popover */
-    .solatedu-hint-btn {
-      position: absolute;
-      top: 7px;
-      right: 7px;
-      z-index: 6;
-      appearance: none;
-      border: 1.5px solid var(--navy);
-      background: rgba(247, 250, 252, 0.94);
-      color: var(--navy);
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.66rem;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(16, 44, 64, 0.25);
-      transition: transform 130ms var(--ease-out), background 160ms var(--ease-out);
-    }
-
-    .solatedu-hint-btn:hover {
-      background: var(--lime);
-    }
-
-    .solatedu-hint-btn:active {
-      transform: scale(0.95);
-    }
-
-    .solatedu-posture-card.is-matched .solatedu-hint-btn {
-      display: none;
-    }
-
-    .solatedu-hint-popover {
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%) translateY(6px) scale(0.95);
-      z-index: 40;
-      min-width: 165px;
-      max-width: 220px;
-      padding: 9px 12px;
-      border-radius: 12px;
-      background: var(--navy);
-      color: var(--white);
-      border: 1.5px solid var(--lime);
-      box-shadow: 0 16px 32px rgba(4, 14, 22, 0.6);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-align: center;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition:
-        opacity 270ms var(--ease-out),
-        transform 270ms var(--ease-out),
-        visibility 0s linear 270ms;
-    }
-
-    .solatedu-hint-popover.is-open {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0) scale(1);
-      transition:
-        opacity 340ms var(--ease-out),
-        transform 340ms var(--ease-out),
-        visibility 0s linear 0ms;
-    }
-
-    /* Right Column: Six Word Labels Drop Targets */
-    .solatedu-words-stack {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      flex: 1 1 auto;
-    }
-
-    .solatedu-word-drop {
-      min-height: 112px;
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(7, 22, 33, 0.35);
-      border: 1.5px dashed var(--glass-line-hi);
+    .se-panel-box {
+      border-radius: 20px;
+      padding: 16px;
+      background: linear-gradient(160deg, rgba(247, 250, 252, 0.12), rgba(247, 250, 252, 0.04));
+      backdrop-filter: blur(18px);
+      border: 1.5px solid var(--glass-line);
+      box-shadow: 0 16px 34px -16px rgba(0, 0, 0, 0.6);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-align: center;
-      transition:
-        transform 150ms var(--ease-out),
-        border-color 180ms var(--ease-out),
-        background 180ms var(--ease-out),
-        box-shadow 180ms var(--ease-out);
+      gap: 12px;
     }
 
-    .solatedu-word-label {
-      font-size: clamp(0.88rem, 1.3vw, 1.02rem);
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.25;
-    }
-
-    .solatedu-word-drop.is-hover {
-      border-style: solid;
-      border-color: var(--lime);
-      background: rgba(219, 255, 0, 0.18);
-      box-shadow: 0 0 0 2px var(--lime-soft);
-      transform: scale(1.02);
-    }
-
-    .solatedu-word-drop.is-done {
-      border-style: solid;
-      border-color: var(--lime);
-      background: rgba(219, 255, 0, 0.14);
-      padding: 6px;
-      gap: 4px;
-    }
-
-    .solatedu-word-drop.is-done .solatedu-word-label {
-      font-size: 0.78rem;
-      color: var(--lime);
-    }
-
-    .solatedu-word-drop.is-done .solatedu-posture-card {
-      height: 82px;
-      padding: 4px;
-    }
-
-    @keyframes seShake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-7px); }
-      75% { transform: translateX(7px); }
-    }
-
-    .is-shaking {
-      animation: seShake 320ms var(--ease-in-out);
-    }
-
-    @keyframes sePulse {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 var(--lime-glow); }
-      60% { transform: scale(1.03); box-shadow: 0 0 0 12px rgba(219, 255, 0, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 255, 0, 0); }
-    }
-
-    .is-pulsing {
-      animation: sePulse 480ms var(--ease-out);
-    }
-
-    /* =========================================================================
-       4. SUCCESS SCREEN (AFTER GAME 01)
-    ========================================================================= */
-    .solatedu-center-card {
-      max-width: 620px;
-      width: 100%;
-      margin: 0 auto;
-      padding: clamp(24px, 3.5vw, 40px);
-      border-radius: var(--radius-card);
-      background: var(--glass-card-hi);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border: 1.5px solid var(--lime);
-      box-shadow: 0 24px 54px -16px rgba(4, 14, 22, 0.6), 0 0 0 3px var(--lime-soft);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .solatedu-big-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
+    .se-panel-title {
+      margin: 0;
+      font-size: 0.98rem;
       font-weight: 800;
       color: var(--lime);
-      line-height: 1;
-    }
-
-    /* =========================================================================
-       5. GAME 02 — SPIN WHEEL RAKAAT (ALIGNED WAKTU SOLAT & WHEEL)
-    ========================================================================= */
-    .solatedu-g2-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: clamp(12px, 1.8vw, 18px);
-      width: 100%;
-    }
-
-    .solatedu-g2-topbar {
-      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .solatedu-solat-strip {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 8px;
-      padding: 8px;
-      border-radius: 18px;
-      background: rgba(7, 22, 33, 0.45);
-      border: 1px solid var(--glass-line);
     }
 
-    .solatedu-solat-pill-item {
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(247, 250, 252, 0.06);
-      border: 1px solid rgba(247, 250, 252, 0.14);
+    .se-game-choice-card {
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(150deg, rgba(6, 20, 31, 0.66), rgba(6, 20, 31, 0.42));
+      border: 1.5px solid rgba(247, 250, 252, 0.24);
       display: flex;
       flex-direction: column;
+      gap: 10px;
+      transition: transform 180ms var(--ease-out), border-color 180ms var(--ease-out);
+    }
+
+    .se-game-choice-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--lime);
+    }
+
+    .se-game-choice-top {
+      display: flex;
       align-items: center;
-      gap: 2px;
-      text-align: center;
-      transition: transform 160ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+      gap: 12px;
     }
 
-    .solatedu-solat-pill-item small {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.66rem;
-      font-weight: 700;
-      color: rgba(247, 250, 252, 0.65);
+    .se-moving-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(247, 250, 252, 0.12);
+      border: 1.5px solid var(--lime);
+      box-shadow: 0 8px 20px -8px var(--lime-glow);
     }
 
-    .solatedu-solat-pill-item strong {
-      font-size: 0.84rem;
+    .se-moving-icon--g1 {
+      animation: seHomeIconFloat 2.4s ease-in-out infinite;
+    }
+
+    .se-moving-icon--g2 {
+      animation: seHomeWheelSpinIcon 4.2s linear infinite;
+    }
+
+    .se-game-choice-card h4 {
+      margin: 0;
+      font-size: 0.95rem;
       font-weight: 800;
       color: var(--white);
     }
 
-    .solatedu-solat-pill-item.is-current {
-      background: linear-gradient(150deg, rgba(219, 255, 0, 0.22), rgba(34, 211, 238, 0.16));
-      border-color: var(--lime);
-      box-shadow: 0 0 18px rgba(219, 255, 0, 0.25);
-      transform: translateY(-2px);
-    }
-
-    .solatedu-solat-pill-item.is-current strong {
-      color: var(--lime);
-    }
-
-    .solatedu-solat-pill-item.is-solved {
-      border-color: rgba(52, 211, 153, 0.7);
-      background: rgba(52, 211, 153, 0.14);
-    }
-
-    .solatedu-solat-pill-item.is-solved small {
-      color: var(--emerald);
-    }
-
-    .solatedu-g2-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-      gap: clamp(18px, 2.4vw, 28px);
-      align-items: center;
-    }
-
-    .solatedu-solat-card {
-      padding: clamp(18px, 2.4vw, 26px);
-      border-radius: var(--radius-card);
-      background:
-        linear-gradient(155deg, rgba(34, 211, 238, 0.14), rgba(167, 139, 250, 0.12) 60%, rgba(247, 250, 252, 0.06));
-      border: 1.5px solid rgba(34, 211, 238, 0.45);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-      text-align: left;
-    }
-
-    .solatedu-solat-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: rgba(34, 211, 238, 0.18);
-      border: 1px solid rgba(34, 211, 238, 0.5);
-      color: #67E8F9;
-    }
-
-    .solatedu-solat-banner {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .solatedu-solat-name {
-      font-size: clamp(2.1rem, 4.6vw, 3.3rem);
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      color: var(--lime);
-      text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
-      line-height: 1.05;
-    }
-
-    .solatedu-solat-sub {
+    .se-game-choice-card p {
       margin: 0;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: rgba(247, 250, 252, 0.84);
+      font-size: 0.8rem;
+      color: var(--muted);
       line-height: 1.45;
     }
 
-    .solatedu-wheel-column {
+    .se-theme-card {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(6, 20, 31, 0.56);
+      border: 1.5px solid rgba(247, 250, 252, 0.2);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      padding: 12px 6px 4px 6px;
-      width: 100%;
+      gap: 8px;
     }
 
-    /* Pemilih Rakaat Mendatar (3 Nombor Utama + Fade-Out Kiri/Kanan) */
-    .solatedu-wheel-stage {
+    .se-theme-card.is-active-theme {
+      border-color: var(--lime);
+      box-shadow: 0 0 0 2px var(--lime-glow);
+    }
+
+    .se-theme-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .se-swatches {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .se-swatch-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 2px solid rgba(247, 250, 252, 0.72);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .se-theme-status {
+      min-height: 18px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--emerald);
+    }
+
+    /* Kawasan Kanvas + Panel Rekod Pelajar */
+    .se-workspace {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      animation: seRefViewIn 340ms var(--ease-out) forwards;
+    }
+
+    .se-workspace.is-visible {
+      display: flex;
+    }
+
+    .se-canvas-wrap {
       position: relative;
-      width: min(100%, 340px);
-      min-height: 112px;
-      padding: 12px 10px;
+      width: 100%;
       border-radius: 22px;
+      border: 1.5px solid rgba(247, 250, 252, 0.46);
+      overflow: hidden;
       background:
-        linear-gradient(155deg, rgba(247, 250, 252, 0.1), rgba(7, 22, 33, 0.56));
-      border: 2px solid var(--glass-line-hi);
+        radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.14), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(219, 255, 0, 0.12), transparent 45%),
+        rgba(7, 26, 40, 0.78);
+      backdrop-filter: blur(22px) saturate(170%);
+      -webkit-backdrop-filter: blur(22px) saturate(170%);
       box-shadow:
-        0 20px 42px -14px rgba(0, 0, 0, 0.58),
-        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+        0 20px 46px -16px rgba(0, 0, 0, 0.68),
+        inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: 560px;
+      touch-action: none;
+      cursor: pointer;
+    }
+
+    .se-records-panel {
+      display: none;
+      border-radius: 20px;
+      padding: 15px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      border: 1.5px solid var(--glass-line);
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .se-records-panel.is-menu-visible {
+      display: flex;
+    }
+
+    .se-records-head {
       display: flex;
       align-items: center;
-      justify-content: center;
-      touch-action: pan-y;
-      user-select: none;
-      cursor: grab;
-      overflow: hidden;
+      justify-content: space-between;
+      gap: 8px;
     }
 
-    .solatedu-wheel-stage:active {
-      cursor: grabbing;
-    }
-
-    .solatedu-wheel-needle {
-      position: absolute;
-      top: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 10px solid var(--lime);
-      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
-      z-index: 8;
-    }
-
-    .solatedu-wheel-rotor {
-      position: relative;
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: center;
-      justify-items: center;
-      gap: 10px;
-      z-index: 4;
-      will-change: transform, opacity;
-      transition: transform 280ms var(--ease-out), opacity 240ms var(--ease-out);
-    }
-
-    .solatedu-wheel-rotor.is-slide-left {
-      transform: translateX(-34px) scale(0.96);
-      opacity: 0.25;
-    }
-
-    .solatedu-wheel-rotor.is-slide-right {
-      transform: translateX(34px) scale(0.96);
-      opacity: 0.25;
-    }
-
-    .solatedu-wheel-digit {
-      appearance: none;
-      width: clamp(54px, 14vw, 66px);
-      height: clamp(64px, 17vw, 78px);
-      border-radius: 16px;
-      background: #FFFFFF;
-      border: 3px solid #071621;
-      color: #071621;
-      font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-      font-size: clamp(1.5rem, 3.4vw, 2rem);
+    .se-records-head h3 {
+      margin: 0;
+      font-size: 0.96rem;
       font-weight: 800;
+      color: var(--lime);
+    }
+
+    .se-records-list {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      box-shadow: 4px 5px 0px #071621;
-      cursor: pointer;
-      transition:
-        transform 240ms var(--ease-out),
-        opacity 240ms var(--ease-out),
-        background 180ms var(--ease-out),
-        color 180ms var(--ease-out),
-        border-color 180ms var(--ease-out),
-        box-shadow 180ms var(--ease-out);
+      gap: 8px;
+      max-height: 455px;
+      overflow-y: auto;
     }
 
-    .solatedu-wheel-digit small {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      margin-top: 3px;
-    }
-
-    .solatedu-wheel-digit.is-edge {
-      opacity: 0.34;
-      transform: scale(0.86);
-      background: rgba(247, 250, 252, 0.72);
-      border-color: #071621;
-      box-shadow: 2px 3px 0px #071621;
-    }
-
-    .solatedu-wheel-digit.is-edge:hover {
-      opacity: 0.68;
-    }
-
-    .solatedu-wheel-digit.is-empty-edge {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.8);
-      box-shadow: none;
-    }
-
-    .solatedu-wheel-digit.is-selected {
-      opacity: 1;
-      transform: scale(1.22) translateY(-4px);
-      background: var(--lime);
-      color: #071621;
-      border-color: #071621;
-      box-shadow: 5px 6px 0px #071621, 0 0 22px var(--lime-glow);
-      z-index: 5;
-    }
-
-    .solatedu-wheel-digit small {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      margin-top: 3px;
-    }
-
-    .solatedu-wheel-digit.is-edge {
-      opacity: 0.34;
-      transform: scale(0.86);
-      background: rgba(247, 250, 252, 0.72);
-      border-color: #071621;
-      box-shadow: 2px 3px 0px #071621;
-    }
-
-    .solatedu-wheel-digit.is-edge:hover {
-      opacity: 0.68;
-    }
-
-    .solatedu-wheel-digit.is-empty-edge {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.8);
-      box-shadow: none;
-    }
-
-    .solatedu-wheel-digit.is-selected {
-      opacity: 1;
-      transform: scale(1.08) translateY(-2px);
-      background: var(--lime);
-      color: #071621;
-      border-color: #071621;
-      box-shadow: 5px 6px 0px #071621, 0 0 22px var(--lime-glow);
-    }
-
-    .solatedu-wheel-digit small {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      opacity: 0.78;
-      margin-top: 2px;
-    }
-
-    .solatedu-wheel-digit.is-edge {
-      opacity: 0.28;
-      transform: scale(0.86);
-      background: rgba(247, 250, 252, 0.04);
-      border-color: rgba(247, 250, 252, 0.14);
-    }
-
-    .solatedu-wheel-digit.is-edge:hover {
-      opacity: 0.55;
-    }
-
-    .solatedu-wheel-digit.is-empty-edge {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.8);
-    }
-
-    .solatedu-wheel-digit.is-selected {
-      opacity: 1;
-      transform: scale(1.06);
-      background: var(--lime);
-      color: var(--navy);
-      border-color: var(--lime);
-      box-shadow: 0 0 22px var(--lime-glow);
-    }
-
-    .solatedu-wheel-center {
-      display: none;
-    }
-
-    .solatedu-center-num,
-    .solatedu-center-sub {
-      display: none;
-    }
-
-    .solatedu-wheel-actions {
+    .se-record-item {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(6, 20, 31, 0.52);
+      border: 1px solid rgba(247, 250, 252, 0.16);
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.84rem;
     }
 
-    .solatedu-step-key {
-      appearance: none;
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      border: 1.5px solid var(--glass-line-hi);
-      background: var(--glass-card);
-      color: var(--white);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.5rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: transform 130ms var(--ease-out), background 170ms var(--ease-out), color 170ms var(--ease-out);
-    }
-
-    .solatedu-step-key:hover {
-      background: var(--glass-card-hi);
-    }
-
-    .solatedu-step-key:active {
-      transform: scale(0.95);
-      background: var(--lime);
-      color: var(--navy);
-    }
-
-    .solatedu-status-pill {
-      min-height: 42px;
-      padding: 10px 18px;
-      border-radius: var(--radius-pill);
-      background: var(--glass-card);
-      border: 1px solid var(--glass-line);
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--white);
-      text-align: center;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .solatedu-status-pill.is-ok {
-      border-color: var(--lime);
-      background: var(--lime-soft);
-      color: var(--lime);
-    }
-
-    /* =========================================================================
-       6. FINAL SCORE SCREEN
-    ========================================================================= */
-    .solatedu-score-cols {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      width: 100%;
-    }
-
-    .solatedu-score-box {
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(7, 22, 33, 0.38);
-      border: 1px solid var(--glass-line);
-    }
-
-    .solatedu-score-box small {
+    .se-record-item strong {
       display: block;
-      font-size: 0.75rem;
+      color: var(--white);
+    }
+
+    .se-record-item small {
       color: var(--muted);
-      font-weight: 700;
+      font-size: 0.74rem;
     }
 
-    .solatedu-score-box strong {
-      display: block;
-      margin-top: 4px;
+    .se-record-mark {
       font-family: 'JetBrains Mono', monospace;
-      font-variant-numeric: tabular-nums;
-      font-size: 1.35rem;
-      color: var(--lime);
+      font-weight: 800;
+      color: var(--emerald);
+      background: rgba(52, 211, 153, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      padding: 4px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
     }
 
-    /* =========================================================================
-       7. MOBILE RESPONSIVE (< 768px) — NO HORIZONTAL SCROLL
-    ========================================================================= */
-    @media (max-width: 768px) {
-      .solatedu-activity-grid,
-      .solatedu-g1-split,
-      .solatedu-g2-grid,
-      .solatedu-score-cols {
+    @media (max-width: 960px) {
+      .se-home-grid {
         grid-template-columns: 1fr;
       }
-
-      .solatedu-solat-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .solatedu-solat-strip .solatedu-solat-pill-item:last-child {
-        grid-column: 1 / -1;
-      }
-
-      .solatedu-wheel-stage {
-        width: 100%;
-        min-height: 102px;
-        padding: 10px 8px;
-      }
-
-      .solatedu-visual-cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .solatedu-card-slot {
-        aspect-ratio: 1 / 1.05;
-      }
-
-      .solatedu-words-stack {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .solatedu-shell,
-      .solatedu-shell * {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+    @media (max-width: 600px) {
+      #gameCanvas {
+        height: 590px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="solatedu-shell" id="solatEduShell">
-    <div class="solatedu-stage" role="application" aria-label="SOLAT EDU Visual Interactive Game">
+  <div class="se-root" id="solatEduRoot" data-ui-theme="default">
+    <div class="se-stage is-anim-in" id="gameStage">
+      <header class="se-topbar">
+        <div class="se-brand-group">
+          <div class="se-chip">PELAJAR: <span id="hudStudentName">-</span></div>
+          <div class="se-chip se-chip--emerald">SKOR: <span id="hudScoreVal">0</span> / 11</div>
+          <div class="se-chip">POINT: <span id="hudPointVal">0</span> PT</div>
+          <div class="se-chip se-chip--red">SOALAN: <span id="hudQuestionVal">-</span></div>
+        </div>
 
-      <!-- TOP BAR -->
-      <header class="solatedu-topbar">
-        <button type="button" class="solatedu-brand" id="btnGoHome">
-          <span class="solatedu-brand-dot" aria-hidden="true"></span>
-          <span>SOLAT EDU</span>
-        </button>
+        <div class="se-brand-group">
+          <button type="button" class="se-btn" id="btnToggleMusic" title="Main / Jeda Lagu Latar">♪ LAGU: ON</button>
+        </div>
 
-        <div class="solatedu-hud-group">
-          <div class="solatedu-chip">SKOR <span id="hudScoreVal">0</span> / 11</div>
-          <button type="button" class="solatedu-icon-btn is-ambient-on" id="btnAmbientToggle" aria-pressed="true" title="Latar Bunyi Tenang">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 18V5l12-2v13"></path>
-              <circle cx="6" cy="18" r="3"></circle>
-              <circle cx="18" cy="16" r="3"></circle>
-            </svg>
-            <span id="ambientBtnLabel">AMBIEN ON</span>
-          </button>
-          <button type="button" class="solatedu-icon-btn" id="btnSoundToggle" aria-pressed="false" title="Bunyi">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-            <span id="soundBtnLabel">BUNYI ON</span>
-          </button>
+        <div class="se-brand-group" id="topActionBar" style="display:none;">
+          <button type="button" class="se-btn is-active-mode" id="btnMode01">01 · PERBUATAN</button>
+          <button type="button" class="se-btn" id="btnMode02">02 · RAKAAT</button>
+          <button type="button" class="se-btn se-btn--red" id="btnExitGame" title="Keluar ke skrin utama">✕ KELUAR</button>
+          <button type="button" class="se-btn se-btn--lime" id="btnChangeStudent">TUKAR PELAJAR</button>
         </div>
       </header>
 
-      <!-- 1 & 2. HOME / PILIH AKTIVITI -->
-      <main class="solatedu-view is-active" id="viewHome">
-        <div class="solatedu-home-wrap">
-          <div class="solatedu-hero-block">
-            <div>
-              <div class="solatedu-hero-kicker">VISUAL GAME</div>
-              <h1 class="solatedu-hero-h1">SOLAT <em>EDU</em></h1>
-            </div>
-            <button type="button" class="solatedu-btn-primary" id="btnStartSelected">
-              MULA
-            </button>
-          </div>
-
-          <div class="solatedu-activity-grid" role="group" aria-label="Pilih aktiviti">
-            <button type="button" class="solatedu-mode-tile is-picked" id="pickMode01" data-mode="g1">
-              <div class="solatedu-tile-top">
-                <div class="solatedu-tile-icon" aria-hidden="true">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
-                    <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
-                    <path d="M10 6.5h4v11"></path>
-                  </svg>
-                </div>
-                <span class="solatedu-tile-code">01 · 6M</span>
-              </div>
-              <div>
-                <h2 class="solatedu-tile-name">Padankan Perbuatan Solat</h2>
-                <div class="solatedu-tile-short">Seret gambar ke label</div>
-              </div>
-            </button>
-
-            <button type="button" class="solatedu-mode-tile" id="pickMode02" data-mode="g2">
-              <div class="solatedu-tile-top">
-                <div class="solatedu-tile-icon" aria-hidden="true">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <circle cx="12" cy="12" r="2.5"></circle>
-                    <line x1="12" y1="3" x2="12" y2="7"></line>
-                  </svg>
-                </div>
-                <span class="solatedu-tile-code">02 · 5M</span>
-              </div>
-              <div>
-                <h2 class="solatedu-tile-name">Spin Wheel Rakaat</h2>
-                <div class="solatedu-tile-short">Putar roda 1 – 5</div>
-              </div>
-            </button>
-          </div>
-
-          <div class="solatedu-home-footer">
-            <div class="solatedu-chip">01: <span id="homeG1Mark">0</span>/6 · 02: <span id="homeG2Mark">0</span>/5</div>
-            <button type="button" class="solatedu-btn-ghost" id="btnJumpSummary">SKOR AKHIR</button>
-          </div>
-        </div>
-      </main>
-
-      <!-- 3. GAME 01 — DRAG & DROP PERBUATAN SOLAT -->
-      <section class="solatedu-view" id="viewGame01" aria-label="Game 01 Padankan Perbuatan Solat">
-        <div class="solatedu-g1-header">
-          <h2 class="solatedu-g1-title">Padankan Perbuatan Solat</h2>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <span class="solatedu-chip solatedu-chip--cyan"><span id="g1MatchedCount">0</span> / 6</span>
-            <button type="button" class="solatedu-btn-ghost" id="btnG1Reset" style="padding:9px 14px;">RESET</button>
-            <button type="button" class="solatedu-btn-primary" id="btnG1Next" style="padding:10px 18px;" disabled>SETERUSNYA</button>
-            <button type="button" class="solatedu-close-btn" id="btnCloseGame01" aria-label="Keluar dari soalan" title="Keluar ke menu">×</button>
-          </div>
-        </div>
-
-        <div class="solatedu-status-pill" id="g1StatusPill">Seret gambar ke label yang betul</div>
-
-        <div class="solatedu-g1-split">
-          <!-- Six Full-Frame Posture Cards -->
-          <div class="solatedu-panel">
-            <div class="solatedu-visual-cards" id="g1CardsGrid"></div>
-          </div>
-
-          <!-- Six Word Labels -->
-          <div class="solatedu-panel">
-            <div class="solatedu-words-stack" id="g1WordsGrid"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. SUCCESS SCREEN (AFTER GAME 01) -->
-      <section class="solatedu-view" id="viewSuccess01" aria-label="Kejayaan Game 01">
-        <div class="solatedu-center-card">
-          <div class="solatedu-hero-kicker">GAME 01 SELESAI</div>
-          <div class="solatedu-big-num">6 / 6</div>
-          <h2 class="solatedu-g1-title">Hebat!</h2>
-          <button type="button" class="solatedu-btn-primary" id="btnGoWheelFromSuccess">
-            SPIN WHEEL RAKAAT
+      <!-- 1. BORANG ISI NAMA PELAJAR SEBELUM MULA -->
+      <section class="se-name-gate" id="nameGateView">
+        <div class="se-gate-card">
+          <div class="se-chip" style="align-self:center;">REKOD MARKAH AUTOMATIK</div>
+          <h1 class="se-gate-title">SOLAT <em>EDU</em></h1>
+          <p style="margin:0;font-size:0.9rem;color:var(--muted);">
+            Sila isi nama penuh anda untuk ke Main Home Page, lihat Leaderboard, pilih permainan, dan tukar warna UI menggunakan point.
+          </p>
+          <input
+            type="text"
+            id="studentNameInput"
+            class="se-input"
+            placeholder="Contoh: Ahmad Faris bin Ali"
+            maxlength="60"
+            autocomplete="name"
+          />
+          <div class="se-error-msg" id="nameGateError"></div>
+          <button type="button" class="se-btn se-btn--lime" id="btnStartWithName">
+            SIMPAN NAMA &amp; KE MAIN HOME ▶
           </button>
         </div>
       </section>
 
-      <!-- 5. GAME 02 — SPIN WHEEL RAKAAT -->
-      <section class="solatedu-view" id="viewGame02" aria-label="Game 02 Spin Wheel Rakaat">
-        <div class="solatedu-g2-wrap">
-          <div class="solatedu-g2-topbar">
-            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <span class="solatedu-chip solatedu-chip--cyan">SOALAN <span id="g2RoundLabel">1</span> / 5</span>
-              <span class="solatedu-chip solatedu-chip--amber">SKOR <span id="g2ScoreVal">0</span>/5</span>
-            </div>
-            <button type="button" class="solatedu-close-btn" id="btnCloseGame02" aria-label="Keluar dari soalan" title="Keluar ke menu">×</button>
+      <!-- 1B. MAIN HOME PAGE (LEADERBOARD + PILIH GAME + TUKAR WARNA UI GUNA POINT) -->
+      <section class="se-home-view" id="mainHomeView">
+        <div class="se-home-banner">
+          <div>
+            <h2>Selamat Datang ke Main Home, <span id="homeWelcomeName">Pelajar</span></h2>
+            <p>Semak kedudukan Leaderboard, pilih permainan untuk kumpul point, atau tukar 3 set warna tema UI.</p>
           </div>
+          <div class="se-chip">TEMA AKTIF: <span id="homeActiveThemeName">Asal</span></div>
+        </div>
 
-          <!-- Susunan Selari 5 Waktu Solat -->
-          <div class="solatedu-solat-strip" id="g2SolatStrip" aria-label="Senarai waktu solat"></div>
-
-          <div class="solatedu-g2-grid">
-            <div class="solatedu-solat-card" id="g2SolatCard">
-              <span class="solatedu-solat-badge" id="g2SolatBadge">WAKTU SOLAT FARDU</span>
-              <div class="solatedu-solat-banner">
-                <div class="solatedu-solat-name" id="g2SolatName">ASAR</div>
-              </div>
-              <p class="solatedu-solat-sub" id="g2SolatDesc">Pilih bilangan rakaat bagi solat ini pada roda di sebelah (mula dari 1).</p>
+        <div class="se-home-grid">
+          <!-- Kolum 1: Leaderboard -->
+          <aside class="se-records-panel is-menu-visible" id="menuRecordsPanel">
+            <div class="se-records-head">
+              <h3>Leaderboard Pelajar</h3>
+              <span class="se-chip" id="recordsCountBadge">0 Rekod</span>
             </div>
+            <div class="se-records-list" id="recordsList"></div>
+          </aside>
 
-            <div class="solatedu-wheel-column">
-              <div class="solatedu-wheel-stage" id="wheelStage" role="slider" tabindex="0" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-label="Spin Wheel Rakaat">
-                <div class="solatedu-wheel-needle" aria-hidden="true"></div>
-                <div class="solatedu-wheel-rotor" id="wheelRotor"></div>
-                <div class="solatedu-wheel-center">
-                  <div class="solatedu-center-num" id="wheelCenterNum">1</div>
-                  <div class="solatedu-center-sub">RAKAAT</div>
+          <!-- Kolum 2: Pilih Game Mana Yang Nak Main -->
+          <div class="se-panel-box">
+            <h3 class="se-panel-title">Pilih Permainan</h3>
+
+            <div class="se-game-choice-card">
+              <div class="se-game-choice-top">
+                <div class="se-moving-icon se-moving-icon--g1" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="4" width="10" height="10" rx="2.5" stroke="currentColor" stroke-width="2" style="color:var(--lime);" />
+                    <path d="M16 8H21M18.5 5.5V10.5M4 19H20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="color:var(--emerald);" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>01 · Padankan Perbuatan Solat</h4>
+                  <p>Seret gambar atau klik label (6 soalan · +20 PT).</p>
                 </div>
               </div>
+              <button type="button" class="se-btn se-btn--lime" id="btnHomePlay01">
+                MAIN GAME 01 ▶
+              </button>
+            </div>
 
-              <div class="solatedu-wheel-actions">
-                <button type="button" class="solatedu-step-key" id="btnWheelMinus" aria-label="Kurangkan nombor">−</button>
-                <button type="button" class="solatedu-btn-primary" id="btnWheelCheck">SEMAK</button>
-                <button type="button" class="solatedu-step-key" id="btnWheelPlus" aria-label="Tambah nombor">+</button>
-                <button type="button" class="solatedu-btn-ghost" id="btnWheelNext" style="display:none;">LANJUT</button>
+            <div class="se-game-choice-card">
+              <div class="se-game-choice-top">
+                <div class="se-moving-icon se-moving-icon--g2" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2.2" stroke-dasharray="5 3" style="color:var(--lime);" />
+                    <circle cx="12" cy="12" r="3.2" fill="currentColor" style="color:var(--emerald);" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>02 · Spin Wheel Rakaat</h4>
+                  <p>Pilih bilangan rakaat 1–5 &amp; semak (5 soalan · +20 PT).</p>
+                </div>
               </div>
+              <button type="button" class="se-btn se-btn--lime" id="btnHomePlay02">
+                MAIN GAME 02 ▶
+              </button>
             </div>
+
+            <button type="button" class="se-btn" id="btnHomeChangeStudent">
+              TUKAR NAMA PELAJAR
+            </button>
           </div>
 
-          <div class="solatedu-status-pill" id="g2StatusPill">Mula 1 · Putar roda atau tekan + / −</div>
+          <!-- Kolum 3: Tukar Warna UI Guna Point (3 Set Tema Harmoni, 1 Tema = 3 Warna) -->
+          <div class="se-panel-box">
+            <h3 class="se-panel-title">
+              <span>Tukar Warna UI</span>
+              <span class="se-chip"><span id="homePointVal">0</span> PT</span>
+            </h3>
+            <div class="se-theme-status" id="themeShopStatus">Pilih 1 daripada 3 set tema warna harmoni.</div>
+
+            <!-- Tema 1: Aurora Cobalt (3 Warna: Biru Kobalt, Teal Laut, Indigo) -->
+            <div class="se-theme-card" id="themeCard_aurora">
+              <div class="se-theme-head">
+                <span>Set 1 · Aurora Cobalt</span>
+                <span class="se-chip">30 PT</span>
+              </div>
+              <div class="se-swatches">
+                <span class="se-swatch-dot" style="background:#38BDF8;" title="Biru Kobalt"></span>
+                <span class="se-swatch-dot" style="background:#2DD4BF;" title="Teal Laut"></span>
+                <span class="se-swatch-dot" style="background:#818CF8;" title="Indigo Malam"></span>
+              </div>
+              <button type="button" class="se-btn" id="btnTheme_aurora">Buka &amp; Pakai (30 PT)</button>
+            </div>
+
+            <!-- Tema 2: Amber Rose (3 Warna: Emas Ambar, Mawar Koral, Ungu Lembayung) -->
+            <div class="se-theme-card" id="themeCard_amber_rose">
+              <div class="se-theme-head">
+                <span>Set 2 · Amber Rose</span>
+                <span class="se-chip">50 PT</span>
+              </div>
+              <div class="se-swatches">
+                <span class="se-swatch-dot" style="background:#FBBF24;" title="Emas Ambar"></span>
+                <span class="se-swatch-dot" style="background:#FB7185;" title="Mawar Koral"></span>
+                <span class="se-swatch-dot" style="background:#C084FC;" title="Ungu Lembayung"></span>
+              </div>
+              <button type="button" class="se-btn" id="btnTheme_amber_rose">Buka &amp; Pakai (50 PT)</button>
+            </div>
+
+            <!-- Tema 3: Emerald Gold (3 Warna: Zamrud Hijau, Limau Cerah, Kuning Emas) -->
+            <div class="se-theme-card" id="themeCard_emerald_gold">
+              <div class="se-theme-head">
+                <span>Set 3 · Emerald Gold</span>
+                <span class="se-chip">80 PT</span>
+              </div>
+              <div class="se-swatches">
+                <span class="se-swatch-dot" style="background:#34D399;" title="Zamrud Hijau"></span>
+                <span class="se-swatch-dot" style="background:#A3E635;" title="Limau Cerah"></span>
+                <span class="se-swatch-dot" style="background:#FACC15;" title="Kuning Emas"></span>
+              </div>
+              <button type="button" class="se-btn" id="btnTheme_emerald_gold">Buka &amp; Pakai (80 PT)</button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- 6. FINAL SCORE SCREEN -->
-      <section class="solatedu-view" id="viewFinalScore" aria-label="Markah Akhir">
-        <div class="solatedu-center-card">
-          <div class="solatedu-hero-kicker">MARKAH AKHIR</div>
-          <div class="solatedu-big-num" id="finalTotalNum">0 / 11</div>
-          <h2 class="solatedu-g1-title" id="finalTitleText">Selesai!</h2>
-
-          <div class="solatedu-score-cols">
-            <div class="solatedu-score-box">
-              <small>01 · PERBUATAN</small>
-              <strong id="finalG1Num">0 / 6</strong>
-            </div>
-            <div class="solatedu-score-box">
-              <small>02 · RAKAAT</small>
-              <strong id="finalG2Num">0 / 5</strong>
-            </div>
-          </div>
-
-          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px;">
-            <button type="button" class="solatedu-btn-primary" id="btnReplayAll">MAIN LAGI</button>
-            <button type="button" class="solatedu-btn-ghost" id="btnFinalToHome">MENU</button>
-          </div>
+      <!-- 2. RUANG KANVAS PERMAINAN (REKOD DISEMBUNYIKAN SEMASA MAIN) -->
+      <section class="se-workspace" id="workspaceView">
+        <div class="se-canvas-wrap">
+          <canvas id="gameCanvas"></canvas>
         </div>
       </section>
-
     </div>
   </div>
 
@@ -1570,980 +850,1503 @@
     (function () {
       'use strict';
 
-      /* =====================================================================
-         AUDIOFX, VISUAL EFFECTS & CONFETTI HELPERS
-      ===================================================================== */
-      const AudioFX = (function () {
-        let ctx = null;
-        let enabled = true;
-        let ambientEnabled = true;
-        let bgMusic = null;
+      var STORAGE_KEY = 'solatedu_canvas_student_records_v1';
+      var THEME_STORAGE_KEY = 'solatedu_canvas_ui_theme_v1';
+      var MUSIC_URL = 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/Animal%20Crossing%20City%20Folk%20Music%209am.mp3';
+      var POINT_PER_CORRECT = 20;
 
-        const BG_MUSIC_URL = 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/Animal%20Crossing%20City%20Folk%20Music%209am.mp3';
+      var THEME_PACKS = {
+        default: { label: 'Asal', cost: 0 },
+        aurora: { label: 'Set 1 · Aurora Cobalt', cost: 30 },
+        amber_rose: { label: 'Set 2 · Amber Rose', cost: 50 },
+        emerald_gold: { label: 'Set 3 · Emerald Gold', cost: 80 }
+      };
 
-        function ensureBgMusic() {
-          if (!bgMusic) {
-            bgMusic = new Audio(BG_MUSIC_URL);
-            bgMusic.loop = true;
-            bgMusic.preload = 'auto';
-            bgMusic.volume = 0.35;
-          }
-          return bgMusic;
-        }
+      var bgmAudio = new Audio(MUSIC_URL);
+      bgmAudio.loop = true;
+      bgmAudio.volume = 0.35;
+      var musicEnabled = true;
+      var btnToggleMusic = document.getElementById('btnToggleMusic');
 
-        function syncBgMusic() {
-          const audio = ensureBgMusic();
-          if (enabled && ambientEnabled) {
-            audio.play().catch(function () {});
+      function syncMusicButton() {
+        if (!btnToggleMusic) return;
+        btnToggleMusic.textContent = musicEnabled ? '♪ LAGU: ON' : '♪ LAGU: OFF';
+        btnToggleMusic.classList.toggle('is-active-mode', musicEnabled);
+      }
+
+      function tryPlayBgm() {
+        if (!musicEnabled || !bgmAudio) return;
+        bgmAudio.play().catch(function () {});
+      }
+
+      if (btnToggleMusic) {
+        btnToggleMusic.addEventListener('click', function () {
+          musicEnabled = !musicEnabled;
+          syncMusicButton();
+          if (musicEnabled) {
+            tryPlayBgm();
           } else {
-            audio.pause();
+            bgmAudio.pause();
           }
-        }
+        });
+      }
+
+      document.addEventListener('pointerdown', function onFirstGesture() {
+        tryPlayBgm();
+        document.removeEventListener('pointerdown', onFirstGesture);
+      });
+
+      syncMusicButton();
+
+      /* =====================================================================
+         SISTEM SOUND EFEK (WEB AUDIO API)
+      ===================================================================== */
+      var SoundFX = (function () {
+        var audioCtx = null;
 
         function getCtx() {
-          if (!enabled) return null;
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (!AudioCtx) return null;
-          if (!ctx) {
-            ctx = new AudioCtx();
+          var AudioCtor = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtor) return null;
+          if (!audioCtx) {
+            audioCtx = new AudioCtor();
           }
-          if (ctx.state === 'suspended') {
-            ctx.resume().catch(function () {});
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume().catch(function () {});
           }
-          return ctx;
+          return audioCtx;
         }
 
-        function playTone(freq, duration, type, delay, peakGain) {
-          const ac = getCtx();
-          if (!ac) return;
-          const startAt = ac.currentTime + (delay || 0);
-          const osc = ac.createOscillator();
-          const gain = ac.createGain();
-          osc.type = type || 'sine';
-          osc.frequency.setValueAtTime(freq, startAt);
-
-          const vol = peakGain || 0.14;
-          gain.gain.setValueAtTime(0.0008, startAt);
-          gain.gain.linearRampToValueAtTime(vol, startAt + 0.02);
-          gain.gain.exponentialRampToValueAtTime(0.0008, startAt + duration);
-
-          osc.connect(gain);
-          gain.connect(ac.destination);
-          osc.start(startAt);
-          osc.stop(startAt + duration + 0.03);
+        function tone(freq, duration, wave, delay, peak) {
+          try {
+            var ac = getCtx();
+            if (!ac) return;
+            var t0 = ac.currentTime + (delay || 0);
+            var osc = ac.createOscillator();
+            var gain = ac.createGain();
+            osc.type = wave || 'triangle';
+            osc.frequency.setValueAtTime(freq, t0);
+            gain.gain.setValueAtTime(0.001, t0);
+            gain.gain.linearRampToValueAtTime(peak || 0.14, t0 + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t0 + duration);
+            osc.connect(gain);
+            gain.connect(ac.destination);
+            osc.start(t0);
+            osc.stop(t0 + duration + 0.02);
+          } catch (e) {}
         }
-
-        // Hidupkan semula lagu apabila pengguna pertama kali menyentuh/mengklik skrin
-        window.addEventListener('pointerdown', function unlockSongOnce() {
-          if (enabled && ambientEnabled) {
-            syncBgMusic();
-          }
-          if (enabled && ctx && ctx.state === 'suspended') {
-            ctx.resume().catch(function () {});
-          }
-        }, { passive: true });
 
         return {
-          tap: function () {
-            playTone(540, 0.06, 'triangle', 0, 0.14);
-          },
-          pick: function () {
-            playTone(460, 0.08, 'sine', 0, 0.14);
-            playTone(620, 0.08, 'sine', 0.04, 0.12);
+          click: function () {
+            tone(560, 0.06, 'triangle', 0, 0.12);
           },
           tick: function () {
-            playTone(720, 0.045, 'triangle', 0, 0.11);
+            tone(740, 0.045, 'sine', 0, 0.1);
           },
-          right: function () {
-            playTone(523.25, 0.12, 'triangle', 0, 0.16);
-            playTone(659.25, 0.14, 'triangle', 0.07, 0.16);
-            playTone(783.99, 0.2, 'triangle', 0.14, 0.18);
+          correct: function () {
+            tone(523.25, 0.12, 'triangle', 0, 0.16);
+            tone(659.25, 0.12, 'triangle', 0.07, 0.16);
+            tone(783.99, 0.18, 'triangle', 0.14, 0.18);
           },
           wrong: function () {
-            playTone(250, 0.14, 'sawtooth', 0, 0.12);
-            playTone(195, 0.18, 'sawtooth', 0.08, 0.12);
+            tone(240, 0.15, 'sawtooth', 0, 0.12);
+            tone(175, 0.2, 'sawtooth', 0.09, 0.12);
           },
-          close: function () {
-            playTone(390, 0.08, 'triangle', 0, 0.14);
-            playTone(270, 0.12, 'triangle', 0.06, 0.14);
+          exit: function () {
+            tone(420, 0.08, 'triangle', 0, 0.13);
+            tone(280, 0.14, 'triangle', 0.07, 0.13);
           },
-          fanfare: function () {
-            playTone(523.25, 0.14, 'triangle', 0, 0.18);
-            playTone(659.25, 0.14, 'triangle', 0.09, 0.18);
-            playTone(783.99, 0.16, 'triangle', 0.18, 0.2);
-            playTone(1046.5, 0.28, 'triangle', 0.28, 0.22);
-          },
-          toggle: function () {
-            enabled = !enabled;
-            if (enabled && ctx && ctx.state === 'suspended') {
-              ctx.resume().catch(function () {});
-            }
-            syncBgMusic();
-            return enabled;
-          },
-          toggleAmbient: function () {
-            ambientEnabled = !ambientEnabled;
-            if (ambientEnabled && enabled && ctx && ctx.state === 'suspended') {
-              ctx.resume().catch(function () {});
-            }
-            syncBgMusic();
-            return ambientEnabled;
-          },
-          isEnabled: function () {
-            return enabled;
-          },
-          isAmbientEnabled: function () {
-            return ambientEnabled;
+          finish: function () {
+            tone(523.25, 0.13, 'triangle', 0, 0.17);
+            tone(659.25, 0.13, 'triangle', 0.08, 0.17);
+            tone(783.99, 0.15, 'triangle', 0.16, 0.19);
+            tone(1046.5, 0.26, 'triangle', 0.24, 0.2);
           }
         };
       })();
 
-      function triggerEmeraldCorrectEffect(targetEl) {
-        const stage = document.querySelector('#solatEduShell .solatedu-stage');
-        if (stage) {
-          stage.classList.remove('is-emerald-win');
-          void stage.offsetWidth;
-          stage.classList.add('is-emerald-win');
-          window.setTimeout(function () {
-            stage.classList.remove('is-emerald-win');
-          }, 600);
-        }
-        if (targetEl) {
-          targetEl.classList.remove('is-emerald-correct');
-          void targetEl.offsetWidth;
-          targetEl.classList.add('is-emerald-correct');
-        }
-      }
-
-      function setWheelNum(nextVal, playTick, slideDir) {
-        const len = WHEEL_NUMBERS.length;
-        const normalized = (((Number(nextVal) - 1) % len) + len) % len + 1;
-
-        if (normalized !== state.wheelValue && playTick) {
-          AudioFX.tick();
-        }
-
-        const prevVal = state.wheelValue;
-        let inferredDir = slideDir;
-        if (!inferredDir && normalized !== prevVal) {
-          const diff = normalized - prevVal;
-          if (diff === 1 || diff === -(len - 1)) {
-            inferredDir = 'right';
-          } else if (diff === -1 || diff === (len - 1)) {
-            inferredDir = 'left';
-          }
-        }
-
-        state.wheelValue = normalized;
-        if (el.wheelCenterNum) {
-          el.wheelCenterNum.textContent = String(normalized);
-        }
-        if (el.wheelStage) {
-          el.wheelStage.setAttribute('aria-valuenow', String(normalized));
-        }
-
-        if (el.wheelRotor && inferredDir && normalized !== prevVal) {
-          const outClass = inferredDir === 'right' ? 'is-slide-left' : 'is-slide-right';
-          const inStartClass = inferredDir === 'right' ? 'is-slide-right' : 'is-slide-left';
-
-          if (wheelSlideTimer) {
-            clearTimeout(wheelSlideTimer);
-            wheelSlideTimer = null;
-          }
-
-          el.wheelRotor.style.transition = 'transform 140ms var(--ease-in-out), opacity 140ms var(--ease-in-out)';
-          el.wheelRotor.classList.remove('is-slide-left', 'is-slide-right');
-          void el.wheelRotor.offsetWidth;
-          el.wheelRotor.classList.add(outClass);
-
-          wheelSlideTimer = window.setTimeout(function () {
-            renderThreeNumberStrip();
-            el.wheelRotor.style.transition = 'none';
-            el.wheelRotor.classList.remove('is-slide-left', 'is-slide-right');
-            el.wheelRotor.classList.add(inStartClass);
-
-            void el.wheelRotor.offsetWidth;
-
-            requestAnimationFrame(function () {
-              el.wheelRotor.style.transition = 'transform 260ms var(--ease-out), opacity 220ms var(--ease-out)';
-              el.wheelRotor.classList.remove('is-slide-left', 'is-slide-right');
-            });
-          }, 135);
-        } else {
-          renderThreeNumberStrip();
-        }
-      }
-
-      function triggerBlackPantherRedEffect(targetEl) {
-        const stage = document.querySelector('#solatEduShell .solatedu-stage');
-        if (stage) {
-          stage.classList.remove('is-panther-alert');
-          void stage.offsetWidth;
-          stage.classList.add('is-panther-alert');
-          window.setTimeout(function () {
-            stage.classList.remove('is-panther-alert');
-          }, 660);
-        }
-        if (targetEl) {
-          targetEl.classList.remove('is-panther-wrong');
-          void targetEl.offsetWidth;
-          targetEl.classList.add('is-panther-wrong');
-        }
-      }
-
-      function launchConfettiBurst() {
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.className = 'solatedu-confetti-canvas';
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          document.body.appendChild(canvas);
-
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            canvas.remove();
-            return;
-          }
-
-          const colors = ['#DBFF00', '#22D3EE', '#34D399', '#FBBF24', '#F7FAFC'];
-          const pieces = Array.from({ length: 56 }, function () {
-            return {
-              x: Math.random() * canvas.width,
-              y: -20 - Math.random() * 140,
-              w: 6 + Math.random() * 7,
-              h: 4 + Math.random() * 5,
-              vx: -2 + Math.random() * 4,
-              vy: 2.5 + Math.random() * 4,
-              rot: Math.random() * Math.PI * 2,
-              vr: -0.12 + Math.random() * 0.24,
-              color: colors[Math.floor(Math.random() * colors.length)]
-            };
-          });
-
-          let frame = 0;
-          function tick() {
-            frame += 1;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            pieces.forEach(function (p) {
-              p.x += p.vx;
-              p.y += p.vy;
-              p.rot += p.vr;
-              ctx.save();
-              ctx.translate(p.x, p.y);
-              ctx.rotate(p.rot);
-              ctx.fillStyle = p.color;
-              ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-              ctx.restore();
-            });
-
-            if (frame < 85) {
-              requestAnimationFrame(tick);
-            } else {
-              canvas.remove();
-            }
-          }
-          requestAnimationFrame(tick);
-        } catch (err) {}
-      }
-
-      /* =====================================================================
-         GAME 02 — 3-NUMBER HORIZONTAL STRIP WITH LOOPING (1 -> 5 -> 1)
-      ===================================================================== */
-      function buildWheelDigits() {
-        renderThreeNumberStrip();
-      }
-
-      function getLoopedNumber(index) {
-        const len = WHEEL_NUMBERS.length;
-        return WHEEL_NUMBERS[((index % len) + len) % len];
-      }
-
-      function renderThreeNumberStrip() {
-        if (!el.wheelRotor) return;
-        el.wheelRotor.innerHTML = '';
-        const currentIdx = WHEEL_NUMBERS.indexOf(state.wheelValue);
-        const safeIdx = currentIdx >= 0 ? currentIdx : 0;
-
-        // Kiri (-1), Tengah (0), Kanan (1) — tersusun menaik 1..5 dan berulang (loop)
-        [-1, 0, 1].forEach(function (offset) {
-          const num = getLoopedNumber(safeIdx + offset);
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'solatedu-wheel-digit';
-          btn.setAttribute('data-digit', String(num));
-          btn.innerHTML = `<span>${num}</span><small>RK</small>`;
-
-          if (offset === 0) {
-            btn.classList.add('is-selected');
-          } else {
-            btn.classList.add('is-edge');
-            btn.addEventListener('click', function (e) {
-              e.stopPropagation();
-              if (state.wheelRoundDone) return;
-              const dir = offset > 0 ? 'right' : 'left';
-              setWheelNum(num, true, dir);
-            });
-          }
-
-          el.wheelRotor.appendChild(btn);
-        });
-      }
-
-      /* =====================================================================
-         APP STATE & DOM REFERENCES
-      ===================================================================== */
-      let wheelSlideTimer = null;
-      const state = {
-        view: 'viewHome',
-        chosenMode: 'g1',
-        matched: {},        // { [postureId]: true }
-        openHintId: null,
-        wheelRound: 0,
-        wheelValue: 1,      // Always starts at 1
-        wheelSolved: {},    // { [roundIdx]: true }
-        wheelRoundDone: false
-      };
-
-      const el = {
-        btnGoHome: document.getElementById('btnGoHome'),
-        hudScoreVal: document.getElementById('hudScoreVal'),
-        btnAmbientToggle: document.getElementById('btnAmbientToggle'),
-        ambientBtnLabel: document.getElementById('ambientBtnLabel'),
-        btnSoundToggle: document.getElementById('btnSoundToggle'),
-        soundBtnLabel: document.getElementById('soundBtnLabel'),
-
-        viewHome: document.getElementById('viewHome'),
-        viewGame01: document.getElementById('viewGame01'),
-        viewSuccess01: document.getElementById('viewSuccess01'),
-        viewGame02: document.getElementById('viewGame02'),
-        viewFinalScore: document.getElementById('viewFinalScore'),
-
-        pickMode01: document.getElementById('pickMode01'),
-        pickMode02: document.getElementById('pickMode02'),
-        btnStartSelected: document.getElementById('btnStartSelected'),
-        btnJumpSummary: document.getElementById('btnJumpSummary'),
-        homeG1Mark: document.getElementById('homeG1Mark'),
-        homeG2Mark: document.getElementById('homeG2Mark'),
-
-        g1CardsGrid: document.getElementById('g1CardsGrid'),
-        g1WordsGrid: document.getElementById('g1WordsGrid'),
-        g1MatchedCount: document.getElementById('g1MatchedCount'),
-        g1StatusPill: document.getElementById('g1StatusPill'),
-        btnG1Reset: document.getElementById('btnG1Reset'),
-        btnG1Next: document.getElementById('btnG1Next'),
-        btnCloseGame01: document.getElementById('btnCloseGame01'),
-        btnGoWheelFromSuccess: document.getElementById('btnGoWheelFromSuccess'),
-
-        g2RoundLabel: document.getElementById('g2RoundLabel'),
-        g2SolatStrip: document.getElementById('g2SolatStrip'),
-        g2SolatCard: document.getElementById('g2SolatCard'),
-        g2SolatBadge: document.getElementById('g2SolatBadge'),
-        g2SolatName: document.getElementById('g2SolatName'),
-        g2SolatDesc: document.getElementById('g2SolatDesc'),
-        g2ScoreVal: document.getElementById('g2ScoreVal'),
-        wheelStage: document.getElementById('wheelStage'),
-        wheelRotor: document.getElementById('wheelRotor'),
-        wheelCenterNum: document.getElementById('wheelCenterNum'),
-        btnWheelMinus: document.getElementById('btnWheelMinus'),
-        btnWheelPlus: document.getElementById('btnWheelPlus'),
-        btnWheelCheck: document.getElementById('btnWheelCheck'),
-        btnWheelNext: document.getElementById('btnWheelNext'),
-        btnCloseGame02: document.getElementById('btnCloseGame02'),
-        g2StatusPill: document.getElementById('g2StatusPill'),
-
-        finalTotalNum: document.getElementById('finalTotalNum'),
-        finalTitleText: document.getElementById('finalTitleText'),
-        finalG1Num: document.getElementById('finalG1Num'),
-        finalG2Num: document.getElementById('finalG2Num'),
-        btnReplayAll: document.getElementById('btnReplayAll'),
-        btnFinalToHome: document.getElementById('btnFinalToHome')
-      };
-
-      function getG1Score() {
-        return Object.keys(state.matched).filter(function (k) { return state.matched[k]; }).length;
-      }
-
-      function getG2Score() {
-        return Object.keys(state.wheelSolved).filter(function (k) { return state.wheelSolved[k]; }).length;
-      }
-
-      function syncScores() {
-        const g1 = getG1Score();
-        const g2 = getG2Score();
-        el.hudScoreVal.textContent = String(g1 + g2);
-        el.homeG1Mark.textContent = String(g1);
-        el.homeG2Mark.textContent = String(g2);
-        el.g2ScoreVal.textContent = String(g2);
-      }
-
-      function goToView(viewId) {
-        state.view = viewId;
-        [el.viewHome, el.viewGame01, el.viewSuccess01, el.viewGame02, el.viewFinalScore].forEach(function (v) {
-          v.classList.toggle('is-active', v.id === viewId);
-        });
-        syncScores();
-      }
-
-      function closeAllHints() {
-        document.querySelectorAll('#solatEduShell .solatedu-hint-popover.is-open').forEach(function (p) {
-          p.classList.remove('is-open');
-        });
-        state.openHintId = null;
-      }
-
-      /* =====================================================================
-         DATA — PERBUATAN SOLAT & WAKTU SOLAT (NO POSTURE NAMES ON CARDS)
-      ===================================================================== */
-      const POSTURES = [
+      var POSTURES = [
         {
           id: 'takbir',
           label: 'Takbiratul Ihram',
-          hint: 'Angkat tangan ke paras bahu/telinga',
-          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/15.png',
-          cardOrder: 3
+          imgUrl: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/15.png',
+          img: null
         },
         {
           id: 'rukuk',
           label: 'Rukuk',
-          hint: 'Badan bongkok rata & tangan di lutut',
-          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/13.png',
-          cardOrder: 1
+          imgUrl: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/13.png',
+          img: null
         },
         {
           id: 'iktidal',
           label: 'Iktidal',
-          hint: 'Bangun berdiri tegak selepas rukuk',
-          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/14.png',
-          cardOrder: 5
+          imgUrl: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/14.png',
+          img: null
         },
         {
           id: 'sujud',
           label: 'Sujud',
-          hint: 'Dahi, tapak tangan, lutut & jari kaki di lantai',
-          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/18.png',
-          cardOrder: 2
+          imgUrl: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/18.png',
+          img: null
         },
         {
           id: 'duduk_sujud',
-          label: 'Duduk Antara Dua Sujud',
-          hint: 'Duduk di antara sujud pertama & kedua',
-          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/17.png',
-          cardOrder: 6
+          label: 'Duduk Antara Sujud',
+          imgUrl: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/17.png',
+          img: null
         },
         {
           id: 'salam',
           label: 'Salam',
-          hint: 'Menoleh ke kanan & kiri mengakhiri solat',
-          img: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/16.png',
-          cardOrder: 4
+          imgUrl: 'https://raw.githubusercontent.com/smassrgb/Maklum-balas-SolatEdu/main/16.png',
+          img: null
         }
       ];
 
-      const RAKAAT_ROUNDS = [
-        { solat: 'ASAR', rakaat: 4 },
-        { solat: 'SUBUH', rakaat: 2 },
-        { solat: 'ZOHOR', rakaat: 4 },
-        { solat: 'MAGHRIB', rakaat: 3 },
-        { solat: 'ISYAK', rakaat: 4 }
+      var RAKAAT_QUESTIONS = [
+        { solat: 'SUBUH', rakaat: 2, note: 'Solat fardu waktu Subuh' },
+        { solat: 'ZOHOR', rakaat: 4, note: 'Solat fardu waktu Zohor' },
+        { solat: 'ASAR', rakaat: 4, note: 'Solat fardu waktu Asar' },
+        { solat: 'MAGHRIB', rakaat: 3, note: 'Solat fardu waktu Maghrib' },
+        { solat: 'ISYAK', rakaat: 4, note: 'Solat fardu waktu Isyak' }
       ];
 
-      // Susunan menaik dari kiri ke kanan: 1 hingga 5 sahaja (dan berulang / loop)
-      const WHEEL_NUMBERS = [1, 2, 3, 4, 5];
-
-      /* =====================================================================
-         GAME 01 — DRAG & DROP PERBUATAN SOLAT
-      ===================================================================== */
-      let dragSession = null;
-
-      function updateGame01Progress() {
-        const count = getG1Score();
-        el.g1MatchedCount.textContent = String(count);
-        el.btnG1Next.disabled = count < POSTURES.length;
-        if (count === POSTURES.length) {
-          el.g1StatusPill.className = 'solatedu-status-pill is-emerald-correct';
-          el.g1StatusPill.textContent = 'Tahniah! Lengkap 6 / 6 · Menuju ke skrin tahniah...';
-          AudioFX.fanfare();
-          launchConfettiBurst();
-          setTimeout(function () {
-            if (state.view === 'viewGame01' && getG1Score() === POSTURES.length) {
-              goToView('viewSuccess01');
-            }
-          }, 1150);
-        }
-        syncScores();
+      for (var pIdx = 0; pIdx < POSTURES.length; pIdx++) {
+        (function (item) {
+          var im = new Image();
+          im.crossOrigin = 'anonymous';
+          im.onload = function () {
+            item.img = im;
+            renderCanvas();
+          };
+          im.onerror = function () {
+            item.img = null;
+          };
+          im.src = item.imgUrl;
+        })(POSTURES[pIdx]);
       }
 
-      window.addEventListener('pointerup', function (e) {
-        if (!dragSession) return;
-        const active = dragSession;
-        dragSession = null;
-        clearDropHover();
+      var state = {
+        studentName: '',
+        points: 0,
+        unlockedThemes: {},
+        activeTheme: 'default',
+        mode: 'g1', // 'g1' | 'g2' | 'done'
+        width: 780,
+        height: 560,
 
-        const targetDrop = getDropAt(e.clientX, e.clientY);
-        const originSlot = el.g1CardsGrid.querySelector('[data-origin="' + active.item.id + '"]');
+        // Soalan aktif Game 01 (tukar automatik apabila jawapan betul)
+        g1Queue: [],
+        g1CurrentIdx: 0,
+        g1SolvedMap: {},
+        g1CrossedLabels: {},
+        g1Banner: 'Seret gambar atau klik label yang betul untuk soalan ini.',
+        g1BannerTone: 'neutral', // 'neutral' | 'ok' | 'err'
+        draggingId: null,
+        pointerX: 0,
+        pointerY: 0,
+        cardBox: null,
 
-        active.card.classList.remove('is-floating');
-        active.card.style.position = '';
-        active.card.style.left = '';
-        active.card.style.top = '';
-        active.card.style.width = '';
-        active.card.style.height = '';
+        // Soalan aktif Game 02 (tukar automatik apabila jawapan betul)
+        g2Index: 0,
+        wheelNum: 1,
+        g2SolvedMap: {},
+        g2CrossedDigits: {},
+        g2Banner: 'Pilih bilangan rakaat (1 – 5) lalu tekan SEMAK.',
+        g2BannerTone: 'neutral', // 'neutral' | 'ok' | 'err'
 
-        if (targetDrop) {
-            const dropId = targetDrop.getAttribute('data-target');
-            if (dropId === active.item.id && !state.matched[dropId]) {
-              state.matched[dropId] = true;
-              active.card.classList.add('is-matched');
-              targetDrop.classList.add('is-done', 'is-pulsing');
-              targetDrop.appendChild(active.card);
+        // Kesan kuasa Black Panther + konfeti + animasi roda rujukan
+        powerPulse: null, // { mode: 'ok' | 'err', x, y, startMs, durationMs }
+        confettiList: [],
+        wheelAnim: { dir: null, fromNum: null, toNum: null, startMs: 0, durationMs: 280 },
+        animFrameId: null,
 
-              setTimeout(function () {
-                targetDrop.classList.remove('is-pulsing');
-              }, 480);
+        hitRegions: [],
+        autoAdvanceTimer: null,
+        records: []
+      };
 
-              AudioFX.right();
-              triggerEmeraldCorrectEffect(el.g1StatusPill);
-              el.g1StatusPill.className = 'solatedu-status-pill is-emerald-correct';
-              el.g1StatusPill.textContent = 'Tepat · ' + active.item.label;
-              updateGame01Progress();
-              return;
-            }
+      var solatEduRoot = document.getElementById('solatEduRoot');
+      var nameGateView = document.getElementById('nameGateView');
+      var mainHomeView = document.getElementById('mainHomeView');
+      var workspaceView = document.getElementById('workspaceView');
+      var topActionBar = document.getElementById('topActionBar');
+      var studentNameInput = document.getElementById('studentNameInput');
+      var nameGateError = document.getElementById('nameGateError');
+      var btnStartWithName = document.getElementById('btnStartWithName');
+      var btnChangeStudent = document.getElementById('btnChangeStudent');
+      var btnHomeChangeStudent = document.getElementById('btnHomeChangeStudent');
+      var btnHomePlay01 = document.getElementById('btnHomePlay01');
+      var btnHomePlay02 = document.getElementById('btnHomePlay02');
+      var btnMode01 = document.getElementById('btnMode01');
+      var btnMode02 = document.getElementById('btnMode02');
+      var btnExitGame = document.getElementById('btnExitGame');
+      var hudStudentName = document.getElementById('hudStudentName');
+      var homeWelcomeName = document.getElementById('homeWelcomeName');
+      var homeActiveThemeName = document.getElementById('homeActiveThemeName');
+      var hudScoreVal = document.getElementById('hudScoreVal');
+      var hudPointVal = document.getElementById('hudPointVal');
+      var homePointVal = document.getElementById('homePointVal');
+      var hudQuestionVal = document.getElementById('hudQuestionVal');
+      var recordsList = document.getElementById('recordsList');
+      var recordsCountBadge = document.getElementById('recordsCountBadge');
+      var menuRecordsPanel = document.getElementById('menuRecordsPanel');
+      var themeShopStatus = document.getElementById('themeShopStatus');
+      var gameStage = document.getElementById('gameStage');
+      var canvas = document.getElementById('gameCanvas');
+      var ctx = canvas.getContext('2d');
 
-            if (originSlot) originSlot.appendChild(active.card);
-            active.card.classList.add('is-shaking');
-            setTimeout(function () {
-              active.card.classList.remove('is-shaking');
-            }, 320);
+      function getThemePalette() {
+        if (state.activeTheme === 'aurora') {
+          return { primary: '#38BDF8', secondary: '#2DD4BF', accent: '#818CF8', dark: '#071021' };
+        }
+        if (state.activeTheme === 'amber_rose') {
+          return { primary: '#FBBF24', secondary: '#FB7185', accent: '#C084FC', dark: '#12091A' };
+        }
+        if (state.activeTheme === 'emerald_gold') {
+          return { primary: '#A3E635', secondary: '#34D399', accent: '#FACC15', dark: '#051412' };
+        }
+        return { primary: '#DBFF00', secondary: '#34D399', accent: '#22D3EE', dark: '#071621' };
+      }
 
-            AudioFX.wrong();
-            triggerBlackPantherRedEffect(el.g1StatusPill);
-            el.g1StatusPill.className = 'solatedu-status-pill is-panther-wrong';
-            el.g1StatusPill.textContent = 'Salah! Cuba lagi';
-            return;
+      function applyUiTheme(themeId) {
+        var validId = THEME_PACKS[themeId] ? themeId : 'default';
+        state.activeTheme = validId;
+        solatEduRoot.setAttribute('data-ui-theme', validId);
+        try {
+          window.localStorage.setItem(THEME_STORAGE_KEY, validId);
+        } catch (err) {}
+        renderThemeShopUI();
+        renderCanvas();
+      }
+
+      function loadThemePref() {
+        try {
+          var saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+          if (saved && THEME_PACKS[saved]) {
+            state.activeTheme = saved;
+            state.unlockedThemes[saved] = true;
+            solatEduRoot.setAttribute('data-ui-theme', saved);
           }
-
-        if (originSlot) originSlot.appendChild(active.card);
-      });
-
-      function renderGame01Board() {
-        el.g1CardsGrid.innerHTML = '';
-        el.g1WordsGrid.innerHTML = '';
-
-        const orderedCards = POSTURES.slice().sort(function (a, b) {
-          return a.cardOrder - b.cardOrder;
-        });
-
-        orderedCards.forEach(function (item) {
-          const slot = document.createElement('div');
-          slot.className = 'solatedu-card-slot';
-          slot.setAttribute('data-origin', item.id);
-
-          const card = document.createElement('div');
-          card.className = 'solatedu-posture-card';
-          card.setAttribute('data-posture', item.id);
-          card.setAttribute('tabindex', '0');
-          card.setAttribute('role', 'button');
-          card.setAttribute('aria-label', item.label);
-
-          const hintBtn = document.createElement('button');
-          hintBtn.type = 'button';
-          hintBtn.className = 'solatedu-hint-btn';
-          hintBtn.setAttribute('aria-label', 'Hint');
-          hintBtn.innerHTML = `
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 18h6"></path>
-              <path d="M10 22h4"></path>
-              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
-            </svg>
-            <span>HINT</span>
-          `;
-
-          const popover = document.createElement('div');
-          popover.className = 'solatedu-hint-popover';
-          popover.setAttribute('role', 'tooltip');
-          popover.textContent = item.hint;
-
-          hintBtn.addEventListener('pointerdown', function (e) {
-            e.stopPropagation();
-          });
-
-          hintBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            AudioFX.tap();
-            const alreadyOpen = popover.classList.contains('is-open');
-            closeAllHints();
-            if (!alreadyOpen) {
-              popover.classList.add('is-open');
-              state.openHintId = item.id;
-            } else {
-              state.openHintId = null;
-            }
-          });
-
-          const img = document.createElement('img');
-          img.className = 'solatedu-posture-img';
-          img.src = item.img;
-          img.alt = item.label;
-          img.loading = 'lazy';
-          img.draggable = false;
-
-          const fallback = document.createElement('div');
-          fallback.className = 'solatedu-posture-fallback';
-          fallback.textContent = item.label.split(' ')[0];
-
-          img.addEventListener('error', function () {
-            img.style.display = 'none';
-            fallback.style.display = 'flex';
-          });
-
-          card.appendChild(hintBtn);
-          card.appendChild(popover);
-          card.appendChild(img);
-          card.appendChild(fallback);
-
-          bindCardDrag(card, item);
-          slot.appendChild(card);
-          el.g1CardsGrid.appendChild(slot);
-        });
-
-        POSTURES.forEach(function (item) {
-          const drop = document.createElement('div');
-          drop.className = 'solatedu-word-drop';
-          drop.setAttribute('data-target', item.id);
-
-          const lbl = document.createElement('span');
-          lbl.className = 'solatedu-word-label';
-          lbl.textContent = item.label;
-
-          drop.appendChild(lbl);
-          el.g1WordsGrid.appendChild(drop);
-        });
-
-        updateGame01Progress();
+        } catch (err) {}
+        renderThemeShopUI();
       }
 
-      function getDropAt(x, y) {
-        const drops = Array.from(el.g1WordsGrid.querySelectorAll('.solatedu-word-drop'));
-        for (let i = 0; i < drops.length; i += 1) {
-          const r = drops[i].getBoundingClientRect();
-          if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
-            return drops[i];
+      function renderThemeShopUI() {
+        if (homeActiveThemeName) {
+          homeActiveThemeName.textContent = THEME_PACKS[state.activeTheme]
+            ? THEME_PACKS[state.activeTheme].label
+            : 'Asal';
+        }
+        var ids = ['aurora', 'amber_rose', 'emerald_gold'];
+        for (var i = 0; i < ids.length; i++) {
+          var tid = ids[i];
+          var pack = THEME_PACKS[tid];
+          var btn = document.getElementById('btnTheme_' + tid);
+          var card = document.getElementById('themeCard_' + tid);
+          if (!btn || !card) continue;
+
+          var isUnlocked = !!state.unlockedThemes[tid];
+          var isActive = state.activeTheme === tid;
+          card.classList.toggle('is-active-theme', isActive);
+
+          if (isActive) {
+            btn.textContent = 'SEDANG DIGUNAKAN ✓';
+            btn.className = 'se-btn se-btn--lime';
+          } else if (isUnlocked) {
+            btn.textContent = 'PAKAI TEMA INI';
+            btn.className = 'se-btn';
+          } else {
+            btn.textContent = 'Buka & Pakai (' + pack.cost + ' PT)';
+            btn.className = 'se-btn';
+          }
+        }
+      }
+
+      function handleThemePurchaseOrEquip(tid) {
+        var pack = THEME_PACKS[tid];
+        if (!pack) return;
+
+        if (state.activeTheme === tid) {
+          SoundFX.click();
+          themeShopStatus.textContent = pack.label + ' sedang aktif digunakan.';
+          return;
+        }
+
+        if (state.unlockedThemes[tid]) {
+          SoundFX.click();
+          applyUiTheme(tid);
+          themeShopStatus.textContent = 'Tema ditukar ke ' + pack.label + '!';
+          return;
+        }
+
+        if (state.points < pack.cost) {
+          SoundFX.wrong();
+          themeShopStatus.textContent = 'Point tidak cukup! Perlu ' + pack.cost + ' PT (ada ' + state.points + ' PT).';
+          return;
+        }
+
+        state.points -= pack.cost;
+        state.unlockedThemes[tid] = true;
+        SoundFX.correct();
+        syncHud();
+        saveCurrentStudentScore();
+        applyUiTheme(tid);
+        themeShopStatus.textContent = 'Berjaya buka & pakai ' + pack.label + ' (-' + pack.cost + ' PT)!';
+      }
+
+      function loadRecords() {
+        try {
+          var raw = window.localStorage.getItem(STORAGE_KEY);
+          var parsed = raw ? JSON.parse(raw) : [];
+          state.records = Array.isArray(parsed) ? parsed : [];
+        } catch (err) {
+          state.records = [];
+        }
+        renderRecordsList();
+      }
+
+      function saveCurrentStudentScore() {
+        if (!state.studentName) return;
+        var g1Score = countSolved(state.g1SolvedMap);
+        var g2Score = countSolved(state.g2SolvedMap);
+        var totalScore = g1Score + g2Score;
+        var nowLabel = new Date().toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' });
+
+        var existingIdx = -1;
+        for (var i = 0; i < state.records.length; i++) {
+          if (state.records[i].name.toLowerCase() === state.studentName.toLowerCase()) {
+            existingIdx = i;
+            break;
+          }
+        }
+
+        var entry = {
+          name: state.studentName,
+          g1: g1Score,
+          g2: g2Score,
+          total: totalScore,
+          points: state.points,
+          updatedAt: nowLabel
+        };
+
+        if (existingIdx >= 0) {
+          state.records[existingIdx] = entry;
+        } else {
+          state.records.unshift(entry);
+        }
+
+        try {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.records));
+        } catch (err) {}
+
+        renderRecordsList();
+      }
+
+      function renderRecordsList() {
+        recordsCountBadge.textContent = state.records.length + ' Rekod';
+        recordsList.innerHTML = '';
+
+        if (!state.records.length) {
+          var empty = document.createElement('div');
+          empty.className = 'se-record-item';
+          empty.innerHTML = '<small>Belum ada rekod markah pelajar tersimpan.</small>';
+          recordsList.appendChild(empty);
+          return;
+        }
+
+        var sorted = state.records.slice().sort(function (a, b) {
+          if ((b.points || 0) !== (a.points || 0)) return (b.points || 0) - (a.points || 0);
+          return (b.total || 0) - (a.total || 0);
+        });
+
+        for (var i = 0; i < sorted.length; i++) {
+          var r = sorted[i];
+          var ptVal = typeof r.points === 'number' ? r.points : ((r.total || 0) * POINT_PER_CORRECT);
+          var row = document.createElement('div');
+          row.className = 'se-record-item';
+          row.innerHTML =
+            '<div><strong>#' + (i + 1) + ' · ' + escapeHtml(r.name) + '</strong><small>01: ' + r.g1 + '/6 · 02: ' + r.g2 + '/5 · ' + ptVal + ' PT · ' + escapeHtml(r.updatedAt) + '</small></div>' +
+            '<span class="se-record-mark">' + r.total + '/11</span>';
+          recordsList.appendChild(row);
+        }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function countSolved(mapObj) {
+        var c = 0;
+        for (var k in mapObj) {
+          if (mapObj[k]) c++;
+        }
+        return c;
+      }
+
+      function initGameSession(targetMode) {
+        if (state.autoAdvanceTimer) {
+          clearTimeout(state.autoAdvanceTimer);
+          state.autoAdvanceTimer = null;
+        }
+        state.g1Queue = POSTURES.map(function (p) { return p.id; });
+        state.g1CurrentIdx = 0;
+        state.g1SolvedMap = {};
+        state.g1CrossedLabels = {};
+        state.g1Banner = 'Seret kad ke label yang betul atau klik label jawapan.';
+        state.g1BannerTone = 'neutral';
+        state.draggingId = null;
+
+        state.g2Index = 0;
+        state.wheelNum = 1;
+        state.g2SolvedMap = {};
+        state.g2CrossedDigits = {};
+        state.g2Banner = 'Putar/pilih bilangan rakaat (1 – 5) lalu tekan SEMAK.';
+        state.g2BannerTone = 'neutral';
+
+        state.mode = targetMode === 'g2' ? 'g2' : 'g1';
+        syncHud();
+        saveCurrentStudentScore();
+        renderCanvas();
+      }
+
+      function openMainHomePage() {
+        if (state.autoAdvanceTimer) {
+          clearTimeout(state.autoAdvanceTimer);
+          state.autoAdvanceTimer = null;
+        }
+        state.draggingId = null;
+        if (homeWelcomeName) {
+          homeWelcomeName.textContent = state.studentName || 'Pelajar';
+        }
+        saveCurrentStudentScore();
+        nameGateView.style.display = 'none';
+        workspaceView.classList.remove('is-visible');
+        topActionBar.style.display = 'none';
+        mainHomeView.classList.add('is-visible');
+        if (menuRecordsPanel) {
+          menuRecordsPanel.classList.add('is-menu-visible');
+        }
+        syncHud();
+        renderThemeShopUI();
+        renderRecordsList();
+        gameStage.classList.remove('is-anim-in');
+        void gameStage.offsetWidth;
+        gameStage.classList.add('is-anim-in');
+      }
+
+      function startSelectedGame(modeKey) {
+        SoundFX.click();
+        mainHomeView.classList.remove('is-visible');
+        nameGateView.style.display = 'none';
+        workspaceView.classList.add('is-visible');
+        topActionBar.style.display = 'flex';
+        resizeCanvas();
+        initGameSession(modeKey);
+      }
+
+      function getActiveG1Posture() {
+        for (var step = 0; step < state.g1Queue.length; step++) {
+          var idx = (state.g1CurrentIdx + step) % state.g1Queue.length;
+          var pid = state.g1Queue[idx];
+          if (!state.g1SolvedMap[pid]) {
+            state.g1CurrentIdx = idx;
+            for (var i = 0; i < POSTURES.length; i++) {
+              if (POSTURES[i].id === pid) return POSTURES[i];
+            }
           }
         }
         return null;
       }
 
-      function clearDropHover() {
-        el.g1WordsGrid.querySelectorAll('.solatedu-word-drop.is-hover').forEach(function (d) {
-          d.classList.remove('is-hover');
-        });
-      }
-
-      function bindCardDrag(card, item) {
-        card.addEventListener('pointerdown', function (e) {
-          if (state.matched[item.id]) return;
-          if (e.target.closest('.solatedu-hint-btn')) return;
-          if (e.pointerType === 'mouse' && e.button !== 0) return;
-
-          e.preventDefault();
-          closeAllHints();
-
-          const rect = card.getBoundingClientRect();
-          card.style.width = rect.width + 'px';
-          card.style.height = rect.height + 'px';
-          card.style.left = rect.left + 'px';
-          card.style.top = rect.top + 'px';
-          card.classList.add('is-floating');
-          document.body.appendChild(card);
-
-          AudioFX.pick();
-
-          dragSession = {
-            item: item,
-            card: card,
-            dx: e.clientX - rect.left,
-            dy: e.clientY - rect.top
-          };
-        });
-      }
-
-      window.addEventListener('pointermove', function (e) {
-        if (!dragSession) return;
-        dragSession.card.style.left = (e.clientX - dragSession.dx) + 'px';
-        dragSession.card.style.top = (e.clientY - dragSession.dy) + 'px';
-
-        clearDropHover();
-        const hoverDrop = getDropAt(e.clientX, e.clientY);
-        if (hoverDrop) {
-          const targetId = hoverDrop.getAttribute('data-target');
-          if (targetId === dragSession.item.id && !state.matched[targetId]) {
-            hoverDrop.classList.add('is-hover');
+      function getActiveG2Question() {
+        for (var step = 0; step < RAKAAT_QUESTIONS.length; step++) {
+          var idx = (state.g2Index + step) % RAKAAT_QUESTIONS.length;
+          if (!state.g2SolvedMap[idx]) {
+            state.g2Index = idx;
+            return { index: idx, data: RAKAAT_QUESTIONS[idx] };
           }
         }
-      }, { passive: false });
-
-      function renderSolatStrip() {
-        if (!el.g2SolatStrip) return;
-        el.g2SolatStrip.innerHTML = '';
-        RAKAAT_ROUNDS.forEach(function (item, idx) {
-          const pill = document.createElement('div');
-          pill.className = 'solatedu-solat-pill-item';
-          if (idx === state.wheelRound) pill.classList.add('is-current');
-          if (state.wheelSolved[idx]) pill.classList.add('is-solved');
-
-          const numTag = document.createElement('small');
-          numTag.textContent = '0' + (idx + 1) + (state.wheelSolved[idx] ? ' · ✓' : '');
-
-          const titleTag = document.createElement('strong');
-          titleTag.textContent = item.solat;
-
-          pill.appendChild(numTag);
-          pill.appendChild(titleTag);
-          el.g2SolatStrip.appendChild(pill);
-        });
+        return null;
       }
 
-      function loadWheelRound(idx) {
-        state.wheelRound = Math.max(0, Math.min(RAKAAT_ROUNDS.length - 1, idx));
-        state.wheelRoundDone = false;
-        const item = RAKAAT_ROUNDS[state.wheelRound];
-
-        // Starting value is ALWAYS 1
-        setWheelNum(1, false);
-
-        renderSolatStrip();
-        el.g2RoundLabel.textContent = String(state.wheelRound + 1);
-        el.g2SolatBadge.textContent = 'WAKTU SOLAT ' + (state.wheelRound + 1) + ' / 5';
-        el.g2SolatName.textContent = item.solat;
-        el.g2SolatDesc.textContent = 'Putar roda atau tekan + / − ke bilangan rakaat solat ' + item.solat + ' (mula dari 1).';
-        el.btnWheelCheck.disabled = false;
-        el.btnWheelNext.style.display = 'none';
-        el.g2StatusPill.className = 'solatedu-status-pill';
-        el.g2StatusPill.textContent = 'Mula 1 · Putar roda atau tekan + / −';
-        syncScores();
+      function getLoopedWheelNum(baseNum, offset) {
+        var idx = (((Number(baseNum) - 1 + Number(offset)) % 5) + 5) % 5;
+        return idx + 1;
       }
 
-      function checkWheelChoice() {
-        const item = RAKAAT_ROUNDS[state.wheelRound];
-        if (!item) return;
+      function setWheelSelection(nextNum, dir) {
+        var normalized = (((Number(nextNum) - 1) % 5) + 5) % 5 + 1;
+        if (normalized !== state.wheelNum) {
+          SoundFX.tick();
+          state.wheelAnim = {
+            dir: dir || (normalized > state.wheelNum ? 'right' : 'left'),
+            fromNum: state.wheelNum,
+            toNum: normalized,
+            startMs: Date.now(),
+            durationMs: 280
+          };
+          state.wheelNum = normalized;
+          state.g2Banner = 'Pilihan semasa: ' + state.wheelNum + ' rakaat · Tekan SEMAK.';
+          state.g2BannerTone = 'neutral';
+          startEffectLoop();
+        }
+        renderCanvas();
+      }
 
-        AudioFX.tap();
-        if (state.wheelValue === item.rakaat) {
-          state.wheelSolved[state.wheelRound] = true;
-          state.wheelRoundDone = true;
-          renderSolatStrip();
-          el.wheelStage.classList.add('is-pulsing');
-          setTimeout(function () {
-            el.wheelStage.classList.remove('is-pulsing');
-          }, 480);
+      function syncHud() {
+        var total = countSolved(state.g1SolvedMap) + countSolved(state.g2SolvedMap);
+        hudStudentName.textContent = state.studentName || '-';
+        hudScoreVal.textContent = String(total);
+        hudPointVal.textContent = String(state.points);
+        homePointVal.textContent = String(state.points);
 
-          AudioFX.right();
-          triggerEmeraldCorrectEffect(el.g2StatusPill);
-          el.g2StatusPill.className = 'solatedu-status-pill is-emerald-correct';
-          el.g2StatusPill.textContent = 'Betul · ' + item.solat + ' (' + item.rakaat + ' Rakaat)';
-          el.btnWheelCheck.disabled = true;
-          el.btnWheelNext.style.display = 'inline-flex';
-          syncScores();
-
-          if (getG2Score() === RAKAAT_ROUNDS.length) {
-            AudioFX.fanfare();
-            launchConfettiBurst();
-            el.g2StatusPill.textContent = 'Tahniah! Semua 5/5 waktu solat selesai · Membuka markah akhir...';
-            setTimeout(function () {
-              if (state.view === 'viewGame02' && getG2Score() === RAKAAT_ROUNDS.length) {
-                showFinalScreen();
-              }
-            }, 1300);
-          }
+        if (state.mode === 'g1') {
+          var solved1 = countSolved(state.g1SolvedMap);
+          hudQuestionVal.textContent = '01 · ' + Math.min(solved1 + 1, 6) + '/6';
+        } else if (state.mode === 'g2') {
+          var solved2 = countSolved(state.g2SolvedMap);
+          hudQuestionVal.textContent = '02 · ' + Math.min(solved2 + 1, 5) + '/5';
         } else {
-          AudioFX.wrong();
-          triggerBlackPantherRedEffect(el.g2StatusPill);
-          el.g2StatusPill.className = 'solatedu-status-pill is-panther-wrong';
-          el.g2StatusPill.textContent = 'Salah! Pilihan ' + state.wheelValue + ' rakaat';
+          hudQuestionVal.textContent = 'TAMAT';
+        }
+
+        btnMode01.classList.toggle('is-active-mode', state.mode === 'g1');
+        btnMode02.classList.toggle('is-active-mode', state.mode === 'g2');
+      }
+
+      /* =====================================================================
+         KESAN KUASA BLACK PANTHER (HIJAU BETUL / MERAH SALAH) & KONFETI
+      ===================================================================== */
+      function triggerBlackPantherPower(mode, cx, cy) {
+        var isOk = mode === 'ok';
+        state.powerPulse = {
+          mode: mode,
+          x: typeof cx === 'number' ? cx : state.width / 2,
+          y: typeof cy === 'number' ? cy : state.height / 2,
+          startMs: Date.now(),
+          durationMs: isOk ? 640 : 680
+        };
+
+        gameStage.classList.remove('is-panther-alert', 'is-emerald-win');
+        void gameStage.offsetWidth;
+        gameStage.classList.add(isOk ? 'is-emerald-win' : 'is-panther-alert');
+
+        if (isOk) {
+          spawnConfetti(state.powerPulse.x, state.powerPulse.y);
+        }
+
+        startEffectLoop();
+      }
+
+      function spawnConfetti(ox, oy) {
+        var pal = getThemePalette();
+        var palette = [pal.secondary, pal.primary, pal.accent, '#FF1E42', '#F7FAFC'];
+        for (var i = 0; i < 42; i++) {
+          var ang = -Math.PI * 0.9 + Math.random() * Math.PI * 0.8;
+          var spd = 2.4 + Math.random() * 5.0;
+          state.confettiList.push({
+            x: ox + (Math.random() - 0.5) * 34,
+            y: oy + (Math.random() - 0.5) * 18,
+            vx: Math.cos(ang) * spd,
+            vy: Math.sin(ang) * spd - 1.5,
+            w: 6 + Math.random() * 6,
+            h: 4 + Math.random() * 4,
+            rot: Math.random() * Math.PI * 2,
+            vr: -0.14 + Math.random() * 0.28,
+            color: palette[i % palette.length],
+            alpha: 1
+          });
+        }
+      }
+
+      function startEffectLoop() {
+        if (state.animFrameId) return;
+        function tick() {
+          renderCanvas();
+          var pulseAlive = !!(state.powerPulse && (Date.now() - state.powerPulse.startMs < state.powerPulse.durationMs));
+          if (!pulseAlive && state.powerPulse) {
+            state.powerPulse = null;
+          }
+          var wheelAlive = !!(state.wheelAnim && state.wheelAnim.dir && (Date.now() - state.wheelAnim.startMs < state.wheelAnim.durationMs));
+          if (!wheelAlive && state.wheelAnim && state.wheelAnim.dir) {
+            state.wheelAnim.dir = null;
+            state.wheelAnim.fromNum = null;
+            state.wheelAnim.toNum = null;
+          }
+          var confettiAlive = state.confettiList.length > 0;
+
+          if (!pulseAlive && !wheelAlive && !confettiAlive) {
+            state.animFrameId = null;
+            renderCanvas();
+            return;
+          }
+          state.animFrameId = window.requestAnimationFrame(tick);
+        }
+        state.animFrameId = window.requestAnimationFrame(tick);
+      }
+
+      function drawBlackPantherCanvasOverlay() {
+        var p = state.powerPulse;
+        if (p) {
+          var t = Math.min(1, Math.max(0, (Date.now() - p.startMs) / p.durationMs));
+          var alpha = 1 - t;
+          var isOk = p.mode === 'ok';
+          var rgb = isOk ? '52, 211, 153' : '255, 30, 66';
+
+          ctx.save();
+
+          var edgeGrad = ctx.createRadialGradient(
+            state.width / 2,
+            state.height / 2,
+            Math.min(state.width, state.height) * 0.25,
+            state.width / 2,
+            state.height / 2,
+            Math.max(state.width, state.height) * 0.68
+          );
+          edgeGrad.addColorStop(0, 'rgba(' + rgb + ', 0.04)');
+          edgeGrad.addColorStop(1, 'rgba(' + rgb + ', ' + (0.44 * alpha) + ')');
+          ctx.fillStyle = edgeGrad;
+          ctx.fillRect(0, 0, state.width, state.height);
+
+          var curR = 22 + Math.max(state.width, state.height) * 0.4 * t;
+          var waveGrad = ctx.createRadialGradient(p.x, p.y, 4, p.x, p.y, curR);
+          waveGrad.addColorStop(0, 'rgba(' + rgb + ', ' + (0.45 * alpha) + ')');
+          waveGrad.addColorStop(0.6, 'rgba(' + rgb + ', ' + (0.18 * alpha) + ')');
+          waveGrad.addColorStop(1, 'rgba(' + rgb + ', 0)');
+          ctx.fillStyle = waveGrad;
+          ctx.fillRect(0, 0, state.width, state.height);
+
+          for (var rIdx = 0; rIdx < 3; rIdx++) {
+            var rt = Math.max(0, Math.min(1, t * 1.25 - rIdx * 0.16));
+            if (rt > 0 && rt < 1) {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, 18 + rt * 125, 0, Math.PI * 2);
+              ctx.lineWidth = (1 - rt) * 5;
+              ctx.strokeStyle = 'rgba(' + rgb + ', ' + ((1 - rt) * 0.85) + ')';
+              ctx.stroke();
+            }
+          }
+
+          ctx.restore();
+        }
+
+        if (state.confettiList.length > 0) {
+          ctx.save();
+          for (var i = state.confettiList.length - 1; i >= 0; i--) {
+            var cp = state.confettiList[i];
+            cp.x += cp.vx;
+            cp.y += cp.vy;
+            cp.vy += 0.14;
+            cp.rot += cp.vr;
+            cp.alpha -= 0.016;
+
+            if (cp.alpha <= 0 || cp.y > state.height + 20) {
+              state.confettiList.splice(i, 1);
+              continue;
+            }
+
+            ctx.save();
+            ctx.globalAlpha = Math.max(0, cp.alpha);
+            ctx.translate(cp.x, cp.y);
+            ctx.rotate(cp.rot);
+            ctx.fillStyle = cp.color;
+            ctx.fillRect(-cp.w / 2, -cp.h / 2, cp.w, cp.h);
+            ctx.restore();
+          }
+          ctx.restore();
         }
       }
 
       /* =====================================================================
-         FINAL SCORE & EVENT BINDINGS
+         LOGIK JAWAPAN & TUKAR SOALAN AUTOMATIK
       ===================================================================== */
-      function showFinalScreen() {
-        const s1 = getG1Score();
-        const s2 = getG2Score();
-        const total = s1 + s2;
-        el.finalTotalNum.textContent = total + ' / 11';
-        el.finalG1Num.textContent = s1 + ' / 6';
-        el.finalG2Num.textContent = s2 + ' / 5';
-        el.finalTitleText.textContent = total >= 8 ? 'Tahniah! Cemerlang!' : 'Tahniah! Selesai!';
-        AudioFX.fanfare();
-        launchConfettiBurst();
-        goToView('viewFinalScore');
-      }
+      function advanceAfterCorrectAnswer(modeNow, hitX, hitY) {
+        state.points += POINT_PER_CORRECT;
+        saveCurrentStudentScore();
+        syncHud();
+        triggerBlackPantherPower('ok', hitX, hitY);
 
-      function resetAll() {
-        state.matched = {};
-        state.wheelSolved = {};
-        state.wheelRound = 0;
-        state.wheelRoundDone = false;
-        renderGame01Board();
-        loadWheelRound(0);
-        el.g1StatusPill.className = 'solatedu-status-pill';
-        el.g1StatusPill.textContent = 'Seret gambar ke label yang betul';
-        syncScores();
-      }
-
-      function bindEvents() {
-        document.addEventListener('click', function (e) {
-          if (!e.target.closest('.solatedu-hint-btn') && !e.target.closest('.solatedu-hint-popover')) {
-            closeAllHints();
-          }
-        });
-
-        el.btnGoHome.addEventListener('click', function () {
-          AudioFX.tap();
-          goToView('viewHome');
-        });
-
-        el.btnAmbientToggle.addEventListener('click', function () {
-          const ambOn = AudioFX.toggleAmbient();
-          el.ambientBtnLabel.textContent = ambOn ? 'AMBIEN ON' : 'AMBIEN OFF';
-          el.btnAmbientToggle.classList.toggle('is-ambient-on', ambOn);
-          el.btnAmbientToggle.classList.toggle('is-off', !ambOn);
-          el.btnAmbientToggle.setAttribute('aria-pressed', String(ambOn));
-        });
-
-        el.btnSoundToggle.addEventListener('click', function () {
-          const on = AudioFX.toggle();
-          el.soundBtnLabel.textContent = on ? 'BUNYI ON' : 'BUNYI OFF';
-          el.btnSoundToggle.classList.toggle('is-off', !on);
-          el.btnSoundToggle.setAttribute('aria-pressed', String(!on));
-        });
-
-        function selectMode(m) {
-          AudioFX.tap();
-          state.chosenMode = m;
-          el.pickMode01.classList.toggle('is-picked', m === 'g1');
-          el.pickMode02.classList.toggle('is-picked', m === 'g2');
+        if (state.autoAdvanceTimer) {
+          clearTimeout(state.autoAdvanceTimer);
         }
 
-        el.pickMode01.addEventListener('click', function () { selectMode('g1'); });
-        el.pickMode02.addEventListener('click', function () { selectMode('g2'); });
-
-        el.btnStartSelected.addEventListener('click', function () {
-          AudioFX.tap();
-          if (state.chosenMode === 'g2') {
-            loadWheelRound(0);
-            goToView('viewGame02');
-          } else {
-            goToView('viewGame01');
+        state.autoAdvanceTimer = window.setTimeout(function () {
+          if (modeNow === 'g1') {
+            if (countSolved(state.g1SolvedMap) >= POSTURES.length) {
+              if (countSolved(state.g2SolvedMap) >= RAKAAT_QUESTIONS.length) {
+                state.mode = 'done';
+              } else {
+                state.mode = 'g2';
+                getActiveG2Question();
+                state.wheelNum = 1;
+                state.g2Banner = 'Semua 6 soalan perbuatan selesai! Jawab soalan rakaat pula.';
+                state.g2BannerTone = 'neutral';
+              }
+            } else {
+              getActiveG1Posture();
+              state.g1CrossedLabels = {};
+              state.g1Banner = 'Soalan baharu! Padankan gambar ini dengan label yang betul.';
+              state.g1BannerTone = 'neutral';
+            }
+          } else if (modeNow === 'g2') {
+            if (countSolved(state.g2SolvedMap) >= RAKAAT_QUESTIONS.length) {
+              if (countSolved(state.g1SolvedMap) >= POSTURES.length) {
+                state.mode = 'done';
+              } else {
+                state.mode = 'g1';
+                getActiveG1Posture();
+                state.g1CrossedLabels = {};
+                state.g1Banner = 'Semua 5 soalan rakaat selesai! Teruskan soalan perbuatan.';
+                state.g1BannerTone = 'neutral';
+              }
+            } else {
+              getActiveG2Question();
+              state.wheelNum = 1;
+              state.g2CrossedDigits = {};
+              state.g2Banner = 'Soalan rakaat baharu! Pilih nombor lalu tekan SEMAK.';
+              state.g2BannerTone = 'neutral';
+            }
           }
+
+          gameStage.classList.remove('is-anim-in');
+          void gameStage.offsetWidth;
+          gameStage.classList.add('is-anim-in');
+          syncHud();
+          renderCanvas();
+        }, 780);
+      }
+
+      function handleG1Answer(targetLabelId, hitX, hitY) {
+        var active = getActiveG1Posture();
+        if (!active || state.g1SolvedMap[active.id]) return;
+
+        if (active.id === targetLabelId) {
+          state.g1SolvedMap[active.id] = true;
+          state.g1Banner = 'BETUL! ' + active.label + ' (+' + POINT_PER_CORRECT + ' PT) — Soalan bertukar...';
+          state.g1BannerTone = 'ok';
+          SoundFX.correct();
+          renderCanvas();
+          advanceAfterCorrectAnswer('g1', hitX, hitY);
+        } else {
+          state.g1CrossedLabels[targetLabelId] = true;
+          state.g1Banner = 'SALAH! Cuba label jawapan yang lain.';
+          state.g1BannerTone = 'err';
+          SoundFX.wrong();
+          triggerBlackPantherPower('err', hitX, hitY);
+          renderCanvas();
+        }
+      }
+
+      function handleG2Check(hitX, hitY) {
+        var qObj = getActiveG2Question();
+        if (!qObj) return;
+
+        var idx = qObj.index;
+        var expected = qObj.data.rakaat;
+
+        if (state.wheelNum === expected) {
+          state.g2SolvedMap[idx] = true;
+          state.g2Banner = 'BETUL! ' + qObj.data.solat + ' (' + expected + ' rakaat · +' + POINT_PER_CORRECT + ' PT) — Soalan bertukar...';
+          state.g2BannerTone = 'ok';
+          SoundFX.correct();
+          renderCanvas();
+          advanceAfterCorrectAnswer('g2', hitX, hitY);
+        } else {
+          state.g2CrossedDigits[state.wheelNum] = true;
+          state.g2Banner = 'SALAH! Pilihan ' + state.wheelNum + ' rakaat untuk ' + qObj.data.solat + '.';
+          state.g2BannerTone = 'err';
+          SoundFX.wrong();
+          triggerBlackPantherPower('err', hitX, hitY);
+          renderCanvas();
+        }
+      }
+
+      function exitGameToMainMenu() {
+        SoundFX.exit();
+        openMainHomePage();
+      }
+
+      function addRegion(x, y, w, h, fn) {
+        state.hitRegions.push({ x: x, y: y, w: w, h: h, fn: fn });
+      }
+
+      function roundRect(x, y, w, h, r) {
+        var radius = Math.max(0, Math.min(r || 0, w / 2, h / 2));
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + w, y, x + w, y + h, radius);
+        ctx.arcTo(x + w, y + h, x, y + h, radius);
+        ctx.arcTo(x, y + h, x, y, radius);
+        ctx.arcTo(x, y, x + w, y, radius);
+        ctx.closePath();
+      }
+
+      function drawCanvasBtn(label, x, y, w, h, bg, fg, borderCol, fn) {
+        var pal = getThemePalette();
+        roundRect(x, y, w, h, 10);
+        ctx.fillStyle = bg;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = borderCol || pal.dark;
+        ctx.stroke();
+
+        ctx.fillStyle = fg;
+        ctx.font = '800 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(label, x + w / 2, y + h / 2 + 0.5);
+
+        addRegion(x, y, w, h, fn);
+      }
+
+      function renderCanvas() {
+        state.hitRegions = [];
+        state.cardBox = null;
+        var w = state.width;
+        var h = state.height;
+        var pal = getThemePalette();
+
+        ctx.clearRect(0, 0, w, h);
+
+        var bgGrad = ctx.createLinearGradient(0, 0, w, h);
+        bgGrad.addColorStop(0, 'rgba(20, 56, 84, 0.72)');
+        bgGrad.addColorStop(0.55, 'rgba(9, 28, 44, 0.84)');
+        bgGrad.addColorStop(1, 'rgba(5, 16, 26, 0.92)');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        if (state.mode === 'done') {
+          drawFinalCanvas(w, h);
+          drawBlackPantherCanvasOverlay();
+          return;
+        }
+
+        if (state.mode === 'g2') {
+          drawG2Canvas(w, h);
+          drawBlackPantherCanvasOverlay();
+          return;
+        }
+
+        var isMobile = w < 650;
+        var pad = isMobile ? 10 : 18;
+        var topY = pad + 38;
+        var statusH = 34;
+        var areaH = Math.max(240, h - topY - statusH - pad - 10);
+
+        var cardPanelX = pad;
+        var cardPanelY = topY;
+        var cardPanelW = isMobile ? (w - pad * 2) : Math.floor((w - pad * 2 - 16) * 0.42);
+        var cardPanelH = isMobile ? 168 : areaH;
+
+        var optPanelX = isMobile ? pad : (pad + cardPanelW + 16);
+        var optPanelY = isMobile ? (topY + cardPanelH + 10) : topY;
+        var optPanelW = isMobile ? (w - pad * 2) : (w - optPanelX - pad);
+        var optPanelH = isMobile ? Math.max(190, areaH - cardPanelH - 10) : areaH;
+
+        var solved1 = countSolved(state.g1SolvedMap);
+        ctx.fillStyle = pal.primary;
+        ctx.font = '800 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('01 · PADANKAN PERBUATAN SOLAT (' + solved1 + '/6)', pad, pad + 12);
+
+        drawCanvasBtn('✕ KELUAR', w - pad - 96, pad, 96, 28, 'rgba(255,30,66,0.22)', '#FFD6DD', '#FF5C77', function () {
+          exitGameToMainMenu();
         });
 
-        el.btnJumpSummary.addEventListener('click', function () {
-          AudioFX.tap();
-          showFinalScreen();
-        });
+        roundRect(cardPanelX, cardPanelY, cardPanelW, cardPanelH, 16);
+        var cpGrad = ctx.createLinearGradient(cardPanelX, cardPanelY, cardPanelX + cardPanelW, cardPanelY + cardPanelH);
+        cpGrad.addColorStop(0, 'rgba(247, 250, 252, 0.14)');
+        cpGrad.addColorStop(1, 'rgba(7, 22, 33, 0.56)');
+        ctx.fillStyle = cpGrad;
+        ctx.fill();
+        ctx.lineWidth = 1.6;
+        ctx.strokeStyle = 'rgba(247, 250, 252, 0.38)';
+        ctx.stroke();
 
-        el.btnG1Reset.addEventListener('click', function () {
-          AudioFX.tap();
-          state.matched = {};
-          renderGame01Board();
-          el.g1StatusPill.className = 'solatedu-status-pill';
-          el.g1StatusPill.textContent = 'Seret gambar ke label yang betul';
-        });
+        var activePosture = getActiveG1Posture();
+        if (activePosture) {
+          var maxCardW = Math.min(cardPanelW - 36, isMobile ? 124 : 210);
+          var maxCardH = Math.min(cardPanelH - 44, isMobile ? 116 : 230);
+          var cardSide = Math.max(88, Math.min(maxCardW, maxCardH));
+          var cx = cardPanelX + (cardPanelW - cardSide) / 2;
+          var cy = cardPanelY + (cardPanelH - cardSide) / 2;
 
-        el.btnG1Next.addEventListener('click', function () {
-          AudioFX.tap();
-          goToView('viewSuccess01');
-        });
-
-        el.btnCloseGame01.addEventListener('click', function () {
-          AudioFX.close();
-          goToView('viewHome');
-        });
-
-        el.btnCloseGame02.addEventListener('click', function () {
-          AudioFX.close();
-          goToView('viewHome');
-        });
-
-        el.btnGoWheelFromSuccess.addEventListener('click', function () {
-          AudioFX.tap();
-          loadWheelRound(0);
-          goToView('viewGame02');
-        });
-
-        el.btnWheelMinus.addEventListener('click', function () {
-          setWheelNum(state.wheelValue - 1, true, 'left');
-        });
-
-        el.btnWheelPlus.addEventListener('click', function () {
-          setWheelNum(state.wheelValue + 1, true, 'right');
-        });
-
-        // Swipe / drag wheel control
-        let wheelDrag = null;
-        el.wheelStage.addEventListener('pointerdown', function (e) {
-          if (state.wheelRoundDone) return;
-          if (e.target.closest('.solatedu-wheel-digit.is-edge')) return;
-          wheelDrag = {
-            x: e.clientX,
-            y: e.clientY,
-            startVal: state.wheelValue
+          state.cardBox = {
+            postureId: activePosture.id,
+            x: cx,
+            y: cy,
+            w: cardSide,
+            h: cardSide
           };
-          el.wheelStage.setPointerCapture(e.pointerId);
-        });
 
-        el.wheelStage.addEventListener('pointermove', function (e) {
-          if (!wheelDrag) return;
-          const deltaX = e.clientX - wheelDrag.x;
-          const steps = Math.round(deltaX / 34);
-          if (steps !== 0) {
-            const dir = deltaX < 0 ? 'right' : 'left';
-            setWheelNum(wheelDrag.startVal + steps, true, dir);
+          var isDraggingThis = state.draggingId === activePosture.id;
+          var drawX = isDraggingThis ? (state.pointerX - cardSide / 2) : cx;
+          var drawY = isDraggingThis ? (state.pointerY - cardSide / 2) : cy;
+
+          ctx.save();
+          if (isDraggingThis) {
+            ctx.shadowColor = pal.primary;
+            ctx.shadowBlur = 22;
           }
-        });
+          roundRect(drawX, drawY, cardSide, cardSide, 16);
+          ctx.fillStyle = '#F7FAFC';
+          ctx.fill();
+          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = isDraggingThis ? pal.primary : pal.dark;
+          ctx.stroke();
 
-        el.wheelStage.addEventListener('pointerup', function () {
-          wheelDrag = null;
-        });
-
-        el.wheelStage.addEventListener('keydown', function (e) {
-          if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
-            e.preventDefault();
-            setWheelNum(state.wheelValue + 1, true, 'right');
-          } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
-            e.preventDefault();
-            setWheelNum(state.wheelValue - 1, true, 'left');
-          }
-        });
-
-        el.btnWheelCheck.addEventListener('click', checkWheelChoice);
-
-        el.btnWheelNext.addEventListener('click', function () {
-          AudioFX.tap();
-          if (state.wheelRound + 1 < RAKAAT_ROUNDS.length) {
-            loadWheelRound(state.wheelRound + 1);
+          if (activePosture.img) {
+            var imgPad = 10;
+            ctx.drawImage(activePosture.img, drawX + imgPad, drawY + imgPad, cardSide - imgPad * 2, cardSide - imgPad * 2);
           } else {
-            showFinalScreen();
+            ctx.fillStyle = pal.dark;
+            ctx.font = '800 13px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(activePosture.label, drawX + cardSide / 2, drawY + cardSide / 2);
           }
+          ctx.restore();
+
+          if (!isDraggingThis) {
+            addRegion(cx, cy, cardSide, cardSide, function () {
+              state.g1Banner = 'Seret gambar ini ke label jawapan atau klik label di sebelah.';
+              state.g1BannerTone = 'neutral';
+              renderCanvas();
+            });
+          }
+        }
+
+        roundRect(optPanelX, optPanelY, optPanelW, optPanelH, 16);
+        var opGrad = ctx.createLinearGradient(optPanelX, optPanelY, optPanelX + optPanelW, optPanelY + optPanelH);
+        opGrad.addColorStop(0, 'rgba(247, 250, 252, 0.13)');
+        opGrad.addColorStop(1, 'rgba(7, 22, 33, 0.58)');
+        ctx.fillStyle = opGrad;
+        ctx.fill();
+        ctx.lineWidth = 1.6;
+        ctx.strokeStyle = 'rgba(247, 250, 252, 0.38)';
+        ctx.stroke();
+
+        var cols = 2;
+        var rows = 3;
+        var gap = 8;
+        var lw = (optPanelW - 20 - gap * (cols - 1)) / cols;
+        var lh = (optPanelH - 20 - gap * (rows - 1)) / rows;
+        var pulseWave = 0.5 + 0.5 * Math.sin(Date.now() * 0.012);
+
+        for (var i = 0; i < POSTURES.length; i++) {
+          (function (item, idx) {
+            var c = idx % cols;
+            var r = Math.floor(idx / cols);
+            var lx = optPanelX + 10 + c * (lw + gap);
+            var ly = optPanelY + 10 + r * (lh + gap);
+
+            var isSolved = !!state.g1SolvedMap[item.id];
+            var isCrossed = !!state.g1CrossedLabels[item.id];
+            var isHoveredByDrag = !!(
+              state.draggingId &&
+              state.pointerX >= lx &&
+              state.pointerX <= lx + lw &&
+              state.pointerY >= ly &&
+              state.pointerY <= ly + lh
+            );
+
+            if (isHoveredByDrag) {
+              startEffectLoop();
+            }
+
+            var scaleFactor = isHoveredByDrag ? (1.03 + pulseWave * 0.025) : 1;
+            var drawW = lw * scaleFactor;
+            var drawH = lh * scaleFactor;
+            var drawLx = lx - (drawW - lw) / 2;
+            var drawLy = ly - (drawH - lh) / 2;
+
+            ctx.save();
+            if (isHoveredByDrag) {
+              ctx.shadowColor = pal.primary;
+              ctx.shadowBlur = 18;
+            }
+            roundRect(drawLx, drawLy, drawW, drawH, 13);
+            ctx.fillStyle = isSolved
+              ? 'rgba(52, 211, 153, 0.24)'
+              : (isCrossed
+                ? 'rgba(255, 30, 66, 0.22)'
+                : (isHoveredByDrag ? 'rgba(247, 250, 252, 0.22)' : 'rgba(247, 250, 252, 0.09)'));
+            ctx.fill();
+            ctx.lineWidth = isHoveredByDrag ? 2.8 : 1.6;
+            ctx.strokeStyle = isSolved
+              ? pal.secondary
+              : (isCrossed ? '#FF1E42' : (isHoveredByDrag ? pal.primary : 'rgba(247, 250, 252, 0.34)'));
+            ctx.stroke();
+
+            ctx.fillStyle = isSolved ? '#A7F3D0' : (isCrossed ? '#FF8FA3' : '#F7FAFC');
+            ctx.font = '800 ' + (lw < 130 ? 10 : 12) + 'px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(item.label, drawLx + drawW / 2, drawLy + drawH / 2);
+
+            if (isCrossed) {
+              ctx.fillStyle = '#FF5C77';
+              ctx.font = '900 13px "JetBrains Mono", monospace';
+              ctx.textAlign = 'right';
+              ctx.fillText('✕', drawLx + drawW - 10, drawLy + 14);
+            } else if (isSolved) {
+              ctx.fillStyle = pal.secondary;
+              ctx.font = '900 12px "JetBrains Mono", monospace';
+              ctx.textAlign = 'right';
+              ctx.fillText('✓', drawLx + drawW - 10, drawLy + 14);
+            }
+            ctx.restore();
+
+            addRegion(lx, ly, lw, lh, function (px, py) {
+              if (isSolved) return;
+              handleG1Answer(item.id, px, py);
+            });
+          })(POSTURES[i], i);
+        }
+
+        drawBanner(pad, h - statusH - 8, w - pad * 2, statusH, state.g1Banner, state.g1BannerTone);
+      }
+
+      function drawG2Canvas(w, h) {
+        var isMobile = w < 650;
+        var pad = isMobile ? 10 : 18;
+        var solved2 = countSolved(state.g2SolvedMap);
+        var qObj = getActiveG2Question();
+        var pal = getThemePalette();
+
+        ctx.fillStyle = pal.primary;
+        ctx.font = '800 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('02 · SPIN WHEEL RAKAAT (' + solved2 + '/5)', pad, pad + 12);
+
+        drawCanvasBtn('✕ KELUAR', w - pad - 96, pad, 96, 28, 'rgba(255,30,66,0.22)', '#FFD6DD', '#FF5C77', function () {
+          exitGameToMainMenu();
         });
 
-        el.btnReplayAll.addEventListener('click', function () {
-          AudioFX.tap();
-          resetAll();
-          goToView('viewGame01');
+        var topBarBottom = pad + 36;
+        var statusH = 34;
+        var boxX = pad;
+        var boxY = topBarBottom;
+        var boxW = Math.max(240, w - pad * 2);
+        var boxH = Math.max(250, h - boxY - statusH - 14);
+
+        roundRect(boxX, boxY, boxW, boxH, 18);
+        var singleGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxW, boxY + boxH);
+        singleGrad.addColorStop(0, 'rgba(247, 250, 252, 0.15)');
+        singleGrad.addColorStop(0.55, 'rgba(34, 211, 238, 0.08)');
+        singleGrad.addColorStop(1, 'rgba(247, 250, 252, 0.05)');
+        ctx.fillStyle = singleGrad;
+        ctx.fill();
+        ctx.lineWidth = 1.6;
+        ctx.strokeStyle = 'rgba(247, 250, 252, 0.42)';
+        ctx.stroke();
+
+        ctx.fillStyle = pal.accent;
+        ctx.font = '800 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('SOALAN ' + (qObj ? (qObj.index + 1) : 5) + ' / 5 · WAKTU SOLAT', boxX + boxW / 2, boxY + 22);
+
+        ctx.fillStyle = pal.primary;
+        ctx.font = '900 ' + (isMobile ? 32 : 44) + 'px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(qObj ? qObj.data.solat : 'SELESAI', boxX + boxW / 2, boxY + (isMobile ? 54 : 64));
+
+        ctx.fillStyle = '#E2E8F0';
+        ctx.font = '600 ' + (isMobile ? 12 : 13) + 'px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Pilih bilangan rakaat (looping 1–5) di tengah lalu tekan SEMAK.', boxX + boxW / 2, boxY + (isMobile ? 84 : 98));
+
+        var trackW = Math.min(boxW - 24, isMobile ? (boxW - 24) : 500);
+        var trackH = isMobile ? 116 : 138;
+        var trackX = boxX + (boxW - trackW) / 2;
+        var trackY = boxY + (isMobile ? 102 : 116);
+
+        roundRect(trackX, trackY, trackW, trackH, 18);
+        var trGrad = ctx.createLinearGradient(trackX, trackY, trackX, trackY + trackH);
+        trGrad.addColorStop(0, 'rgba(247, 250, 252, 0.12)');
+        trGrad.addColorStop(1, 'rgba(6, 20, 31, 0.72)');
+        ctx.fillStyle = trGrad;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = pal.primary;
+        ctx.stroke();
+
+        var needleX = trackX + trackW / 2;
+        ctx.beginPath();
+        ctx.moveTo(needleX - 8, trackY + 4);
+        ctx.lineTo(needleX + 8, trackY + 4);
+        ctx.lineTo(needleX, trackY + 14);
+        ctx.closePath();
+        ctx.fillStyle = pal.primary;
+        ctx.fill();
+
+        var slideShift = 0;
+        if (state.wheelAnim && state.wheelAnim.dir) {
+          var wt = Math.min(1, Math.max(0, (Date.now() - state.wheelAnim.startMs) / state.wheelAnim.durationMs));
+          var easeOut = 1 - Math.pow(1 - wt, 3);
+          slideShift = (state.wheelAnim.dir === 'right' ? 1 : -1) * (1 - easeOut) * 38;
+        }
+
+        var slotGap = isMobile ? 6 : 12;
+        var centerSlotW = Math.min(92, Math.floor((trackW - 24 - slotGap * 4) * 0.25));
+        var sideSlotW = Math.min(72, Math.max(44, Math.floor((trackW - 24 - centerSlotW - slotGap * 4) * 0.23)));
+        var baseCenterX = trackX + trackW / 2 + slideShift;
+        var slotMidY = trackY + trackH / 2 + 5;
+
+        ctx.save();
+        roundRect(trackX + 4, trackY + 4, trackW - 8, trackH - 8, 15);
+        ctx.clip();
+
+        var offsets = [-2, -1, 0, 1, 2];
+        for (var oIdx = 0; oIdx < offsets.length; oIdx++) {
+          (function (off) {
+            var numVal = getLoopedWheelNum(state.wheelNum, off);
+            var isSelected = off === 0;
+            var dist = Math.abs(off);
+            var sw = isSelected ? centerSlotW : sideSlotW;
+            var sh = isSelected ? Math.min(92, trackH - 24) : Math.min(70, trackH - 36);
+
+            var cx = baseCenterX;
+            if (off === -1) {
+              cx = baseCenterX - (centerSlotW / 2 + slotGap + sideSlotW / 2);
+            } else if (off === 1) {
+              cx = baseCenterX + (centerSlotW / 2 + slotGap + sideSlotW / 2);
+            } else if (off === -2) {
+              cx = baseCenterX - (centerSlotW / 2 + slotGap * 2 + sideSlotW * 1.5);
+            } else if (off === 2) {
+              cx = baseCenterX + (centerSlotW / 2 + slotGap * 2 + sideSlotW * 1.5);
+            }
+
+            var sx = cx - sw / 2;
+            var sy = slotMidY - sh / 2;
+            var isCrossed = !!state.g2CrossedDigits[numVal];
+
+            ctx.save();
+            ctx.globalAlpha = isSelected ? 1 : (dist === 1 ? 0.65 : 0.34);
+
+            if (isSelected) {
+              ctx.shadowColor = pal.primary;
+              ctx.shadowBlur = 18;
+            }
+
+            roundRect(sx, sy, sw, sh, isSelected ? 16 : 12);
+            ctx.fillStyle = isCrossed
+              ? 'rgba(255, 30, 66, 0.28)'
+              : (isSelected ? pal.primary : '#F7FAFC');
+            ctx.fill();
+            ctx.lineWidth = isSelected ? 3 : 2;
+            ctx.strokeStyle = isCrossed
+              ? '#FF1E42'
+              : (isSelected ? '#FFFFFF' : pal.dark);
+            ctx.stroke();
+
+            ctx.fillStyle = isCrossed ? '#FF8FA3' : pal.dark;
+            ctx.font = '900 ' + (isSelected ? Math.max(30, Math.floor(sh * 0.5)) : Math.max(18, Math.floor(sh * 0.4))) + 'px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(String(numVal), cx, sy + sh / 2 - (isSelected ? 5 : 0));
+
+            if (isSelected) {
+              ctx.fillStyle = pal.dark;
+              ctx.font = '800 9px "Plus Jakarta Sans", sans-serif';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText('RAKAAT', cx, sy + sh - 11);
+            }
+
+            ctx.restore();
+
+            addRegion(sx, sy, sw, sh, function () {
+              if (state.wheelDone || off === 0) return;
+              setWheelSelection(numVal, off > 0 ? 'right' : 'left');
+            });
+          })(offsets[oIdx]);
+        }
+
+        ctx.restore();
+
+        var actY = trackY + trackH + 16;
+        var midX = boxX + boxW / 2;
+        drawCanvasBtn('◀ SLIDE', midX - 146, actY, 64, 42, 'rgba(247,250,252,0.16)', '#FFFFFF', pal.primary, function () {
+          setWheelSelection(state.wheelNum - 1, 'left');
         });
 
-        el.btnFinalToHome.addEventListener('click', function () {
-          AudioFX.tap();
-          goToView('viewHome');
+        drawCanvasBtn('SEMAK', midX - 74, actY, 148, 42, pal.primary, pal.dark, pal.dark, function (px, py) {
+          handleG2Check(px, py);
+        });
+
+        drawCanvasBtn('SLIDE ▶', midX + 82, actY, 64, 42, 'rgba(247,250,252,0.16)', '#FFFFFF', pal.primary, function () {
+          setWheelSelection(state.wheelNum + 1, 'right');
+        });
+
+        drawBanner(pad, h - statusH - 8, w - pad * 2, statusH, state.g2Banner, state.g2BannerTone);
+      }
+
+      function drawFinalCanvas(w, h) {
+        var g1 = countSolved(state.g1SolvedMap);
+        var g2 = countSolved(state.g2SolvedMap);
+        var total = g1 + g2;
+        var pal = getThemePalette();
+
+        var bw = Math.min(460, w - 28);
+        var bh = Math.min(290, h - 32);
+        var bx = (w - bw) / 2;
+        var by = (h - bh) / 2;
+
+        roundRect(bx, by, bw, bh, 18);
+        ctx.fillStyle = 'rgba(52, 211, 153, 0.14)';
+        ctx.fill();
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = pal.secondary;
+        ctx.stroke();
+
+        ctx.fillStyle = pal.secondary;
+        ctx.font = '800 12px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('TAHNIAH! SEMUA SOALAN SELESAI', w / 2, by + 30);
+
+        ctx.fillStyle = pal.primary;
+        ctx.font = '800 38px "JetBrains Mono", monospace';
+        ctx.fillText(total + ' / 11', w / 2, by + 80);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = '700 14px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText('Pelajar: ' + state.studentName + '  (01: ' + g1 + '/6 · 02: ' + g2 + '/5)', w / 2, by + 132);
+
+        drawCanvasBtn('MAIN SEMULA', w / 2 - 74, by + bh - 56, 148, 38, pal.primary, pal.dark, pal.dark, function () {
+          SoundFX.click();
+          initGameSession('g1');
         });
       }
 
-      renderGame01Board();
-      loadWheelRound(0);
-      bindEvents();
-      syncScores();
+      function drawBanner(x, y, w, h, text, tone) {
+        roundRect(x, y, w, h, 10);
+        if (tone === 'ok') {
+          ctx.fillStyle = 'rgba(52, 211, 153, 0.25)';
+          ctx.strokeStyle = '#34D399';
+        } else if (tone === 'err') {
+          ctx.fillStyle = 'rgba(255, 30, 66, 0.25)';
+          ctx.strokeStyle = '#FF1E42';
+        } else {
+          ctx.fillStyle = 'rgba(247, 250, 252, 0.1)';
+          ctx.strokeStyle = 'rgba(247, 250, 252, 0.25)';
+        }
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = '700 11px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, x + w / 2, y + h / 2 + 0.5);
+      }
+
+      /* =====================================================================
+         INTERAKSI KANVAS & BUTANG UI
+      ===================================================================== */
+      function getCanvasPoint(e) {
+        var r = canvas.getBoundingClientRect();
+        return {
+          x: e.clientX - r.left,
+          y: e.clientY - r.top
+        };
+      }
+
+      canvas.addEventListener('pointerdown', function (e) {
+        var pt = getCanvasPoint(e);
+        state.pointerX = pt.x;
+        state.pointerY = pt.y;
+
+        if (state.mode === 'g1' && state.cardBox) {
+          var cb = state.cardBox;
+          if (!state.g1SolvedMap[cb.postureId] && pt.x >= cb.x && pt.x <= cb.x + cb.w && pt.y >= cb.y && pt.y <= cb.y + cb.h) {
+            state.draggingId = cb.postureId;
+            startEffectLoop();
+            renderCanvas();
+            return;
+          }
+        }
+
+        for (var i = state.hitRegions.length - 1; i >= 0; i--) {
+          var rg = state.hitRegions[i];
+          if (pt.x >= rg.x && pt.x <= rg.x + rg.w && pt.y >= rg.y && pt.y <= rg.y + rg.h) {
+            if (typeof rg.fn === 'function') rg.fn(pt.x, pt.y);
+            return;
+          }
+        }
+      });
+
+      canvas.addEventListener('pointermove', function (e) {
+        if (!state.draggingId) return;
+        var pt = getCanvasPoint(e);
+        state.pointerX = pt.x;
+        state.pointerY = pt.y;
+        renderCanvas();
+      });
+
+      canvas.addEventListener('pointerup', function (e) {
+        if (!state.draggingId) return;
+        var draggedId = state.draggingId;
+        state.draggingId = null;
+        var pt = getCanvasPoint(e);
+
+        var isMobile = state.width < 650;
+        var pad = isMobile ? 10 : 18;
+        var topY = pad + 38;
+        var statusH = 34;
+        var areaH = Math.max(240, state.height - topY - statusH - pad - 10);
+        var cardPanelW = isMobile ? (state.width - pad * 2) : Math.floor((state.width - pad * 2 - 16) * 0.42);
+        var cardPanelH = isMobile ? 168 : areaH;
+        var optPanelX = isMobile ? pad : (pad + cardPanelW + 16);
+        var optPanelY = isMobile ? (topY + cardPanelH + 10) : topY;
+        var optPanelW = isMobile ? (state.width - pad * 2) : (state.width - optPanelX - pad);
+        var optPanelH = isMobile ? Math.max(190, areaH - cardPanelH - 10) : areaH;
+
+        var cols = 2;
+        var rows = 3;
+        var gap = 8;
+        var lw = (optPanelW - 20 - gap * (cols - 1)) / cols;
+        var lh = (optPanelH - 20 - gap * (rows - 1)) / rows;
+
+        for (var i = 0; i < POSTURES.length; i++) {
+          var c = i % cols;
+          var r = Math.floor(i / cols);
+          var lx = optPanelX + 10 + c * (lw + gap);
+          var ly = optPanelY + 10 + r * (lh + gap);
+          if (pt.x >= lx && pt.x <= lx + lw && pt.y >= ly && pt.y <= ly + lh) {
+            if (POSTURES[i].id === draggedId) {
+              handleG1Answer(POSTURES[i].id, pt.x, pt.y);
+            } else {
+              state.g1CrossedLabels[POSTURES[i].id] = true;
+              state.g1Banner = 'SALAH! Kad tidak sepadan dengan label tersebut.';
+              state.g1BannerTone = 'err';
+              triggerBlackPantherPower('err', pt.x, pt.y);
+              renderCanvas();
+            }
+            return;
+          }
+        }
+
+        renderCanvas();
+      });
+
+      btnStartWithName.addEventListener('click', function () {
+        var clean = String(studentNameInput.value || '').trim();
+        if (!clean) {
+          SoundFX.wrong();
+          nameGateError.textContent = 'Sila masukkan nama pelajar terlebih dahulu.';
+          studentNameInput.focus();
+          return;
+        }
+        SoundFX.click();
+        nameGateError.textContent = '';
+        state.studentName = clean;
+
+        var matchedRecord = null;
+        for (var i = 0; i < state.records.length; i++) {
+          if (state.records[i].name.toLowerCase() === clean.toLowerCase()) {
+            matchedRecord = state.records[i];
+            break;
+          }
+        }
+        if (matchedRecord && typeof matchedRecord.points === 'number') {
+          state.points = matchedRecord.points;
+        } else {
+          state.points = 0;
+        }
+
+        saveCurrentStudentScore();
+        openMainHomePage();
+      });
+
+      studentNameInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          btnStartWithName.click();
+        }
+      });
+
+      btnHomePlay01.addEventListener('click', function () {
+        startSelectedGame('g1');
+      });
+
+      btnHomePlay02.addEventListener('click', function () {
+        startSelectedGame('g2');
+      });
+
+      function resetToNameGate() {
+        saveCurrentStudentScore();
+        SoundFX.exit();
+        mainHomeView.classList.remove('is-visible');
+        workspaceView.classList.remove('is-visible');
+        topActionBar.style.display = 'none';
+        nameGateView.style.display = 'flex';
+        studentNameInput.value = '';
+        studentNameInput.focus();
+      }
+
+      btnChangeStudent.addEventListener('click', resetToNameGate);
+      btnHomeChangeStudent.addEventListener('click', resetToNameGate);
+
+      document.getElementById('btnTheme_aurora').addEventListener('click', function () {
+        handleThemePurchaseOrEquip('aurora');
+      });
+
+      document.getElementById('btnTheme_amber_rose').addEventListener('click', function () {
+        handleThemePurchaseOrEquip('amber_rose');
+      });
+
+      document.getElementById('btnTheme_emerald_gold').addEventListener('click', function () {
+        handleThemePurchaseOrEquip('emerald_gold');
+      });
+
+      btnMode01.addEventListener('click', function () {
+        SoundFX.click();
+        state.mode = 'g1';
+        syncHud();
+        renderCanvas();
+      });
+
+      btnMode02.addEventListener('click', function () {
+        SoundFX.click();
+        state.mode = 'g2';
+        syncHud();
+        renderCanvas();
+      });
+
+      btnExitGame.addEventListener('click', function () {
+        exitGameToMainMenu();
+      });
+
+      function resizeCanvas() {
+        var rect = canvas.getBoundingClientRect();
+        var w = Math.max(280, Math.floor(rect.width || canvas.parentElement.clientWidth || 760));
+        var h = Math.max(460, Math.floor(rect.height || (w < 600 ? 590 : 560)));
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        state.width = w;
+        state.height = h;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        renderCanvas();
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      loadRecords();
+      loadThemePref();
+      resizeCanvas();
+      tryPlayBgm();
     })();
   </script>
 </body>
