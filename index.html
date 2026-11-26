@@ -685,7 +685,7 @@
         </div>
 
         <div class="se-brand-group">
-          <button type="button" class="se-btn" id="btnToggleMusic" title="Main / Jeda Lagu Latar">♪ LAGU: ON</button>
+          <button type="button" class="se-btn" id="btnToggleMusic" title="Main / Jeda Lagu Latar">♪ LAGU: OFF</button>
         </div>
 
         <div class="se-brand-group" id="topActionBar" style="display:none;">
@@ -865,7 +865,9 @@
       var bgmAudio = new Audio(MUSIC_URL);
       bgmAudio.loop = true;
       bgmAudio.volume = 0.35;
-      var musicEnabled = true;
+      bgmAudio.autoplay = false;
+      bgmAudio.preload = 'none';
+      var musicEnabled = false;
       var btnToggleMusic = document.getElementById('btnToggleMusic');
 
       function syncMusicButton() {
@@ -890,11 +892,6 @@
           }
         });
       }
-
-      document.addEventListener('pointerdown', function onFirstGesture() {
-        tryPlayBgm();
-        document.removeEventListener('pointerdown', onFirstGesture);
-      });
 
       syncMusicButton();
 
@@ -2346,7 +2343,6 @@
       loadRecords();
       loadThemePref();
       resizeCanvas();
-      tryPlayBgm();
     })();
   </script>
 </body>
