@@ -359,7 +359,44 @@
       color: #FF8FA3;
     }
 
-    /* Main Home Page (Selepas Isi Nama: Leaderboard + Pilih Game + Kedai Tema Point) */
+    /* Panel Khas Tukar Warna UI di Bahagian Atas (Menutup Paparan Lain Buat Sementara) */
+    .se-theme-top-view {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: seRefViewIn 300ms var(--ease-out) forwards;
+    }
+
+    .se-theme-top-view.is-visible {
+      display: flex;
+    }
+
+    .se-theme-top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(247, 250, 252, 0.14), rgba(247, 250, 252, 0.04));
+      border: 1.5px solid var(--glass-line-hi);
+    }
+
+    .se-theme-top-header h2 {
+      margin: 0;
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      font-weight: 800;
+      color: var(--lime);
+    }
+
+    .se-theme-top-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /* Main Home Page (Selepas Isi Nama: Leaderboard + Pilih Game) */
     .se-home-view {
       display: none;
       flex-direction: column;
@@ -423,7 +460,7 @@
 
     .se-home-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       align-items: start;
     }
@@ -509,13 +546,13 @@
     }
 
     .se-theme-card {
-      padding: 12px;
+      padding: 14px;
       border-radius: 16px;
       background: rgba(6, 20, 31, 0.56);
       border: 1.5px solid rgba(247, 250, 252, 0.2);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .se-theme-card.is-active-theme {
@@ -528,7 +565,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 800;
     }
 
@@ -548,7 +585,7 @@
 
     .se-theme-status {
       min-height: 18px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--emerald);
     }
@@ -661,7 +698,8 @@
     }
 
     @media (max-width: 960px) {
-      .se-home-grid {
+      .se-home-grid,
+      .se-theme-top-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -685,6 +723,7 @@
         </div>
 
         <div class="se-brand-group">
+          <button type="button" class="se-btn se-btn--lime" id="btnOpenThemeTop" title="Tutup paparan lain & buka Tukar Warna UI di atas">🎨 TUKAR WARNA UI</button>
           <button type="button" class="se-btn" id="btnToggleMusic" title="Main / Jeda Lagu Latar">♪ LAGU: OFF</button>
         </div>
 
@@ -695,6 +734,64 @@
           <button type="button" class="se-btn se-btn--lime" id="btnChangeStudent">TUKAR PELAJAR</button>
         </div>
       </header>
+
+      <!-- PANEL KHAS TUKAR WARNA UI DI ATAS (MENUTUP SEMUA PAPARAN LAIN) -->
+      <section class="se-theme-top-view" id="themeTopView">
+        <div class="se-theme-top-header">
+          <div>
+            <h2>Tukar Warna UI Guna Point</h2>
+            <div class="se-theme-status" id="themeShopStatus">Pilih 1 daripada 3 set tema warna harmoni.</div>
+          </div>
+          <div class="se-brand-group">
+            <div class="se-chip">POINT ANDA: <span id="themeTopPointVal">0</span> PT</div>
+            <button type="button" class="se-btn se-btn--red" id="btnCloseThemeTop">✕ TUTUP &amp; KEMBALI</button>
+          </div>
+        </div>
+
+        <div class="se-theme-top-grid">
+          <!-- Tema 1: Aurora Cobalt (3 Warna: Biru Kobalt, Teal Laut, Indigo) -->
+          <div class="se-theme-card" id="themeCard_aurora">
+            <div class="se-theme-head">
+              <span>Set 1 · Aurora Cobalt</span>
+              <span class="se-chip">30 PT</span>
+            </div>
+            <div class="se-swatches">
+              <span class="se-swatch-dot" style="background:#38BDF8;" title="Biru Kobalt"></span>
+              <span class="se-swatch-dot" style="background:#2DD4BF;" title="Teal Laut"></span>
+              <span class="se-swatch-dot" style="background:#818CF8;" title="Indigo Malam"></span>
+            </div>
+            <button type="button" class="se-btn" id="btnTheme_aurora">Buka &amp; Pakai (30 PT)</button>
+          </div>
+
+          <!-- Tema 2: Amber Rose (3 Warna: Emas Ambar, Mawar Koral, Ungu Lembayung) -->
+          <div class="se-theme-card" id="themeCard_amber_rose">
+            <div class="se-theme-head">
+              <span>Set 2 · Amber Rose</span>
+              <span class="se-chip">50 PT</span>
+            </div>
+            <div class="se-swatches">
+              <span class="se-swatch-dot" style="background:#FBBF24;" title="Emas Ambar"></span>
+              <span class="se-swatch-dot" style="background:#FB7185;" title="Mawar Koral"></span>
+              <span class="se-swatch-dot" style="background:#C084FC;" title="Ungu Lembayung"></span>
+            </div>
+            <button type="button" class="se-btn" id="btnTheme_amber_rose">Buka &amp; Pakai (50 PT)</button>
+          </div>
+
+          <!-- Tema 3: Emerald Gold (3 Warna: Zamrud Hijau, Limau Cerah, Kuning Emas) -->
+          <div class="se-theme-card" id="themeCard_emerald_gold">
+            <div class="se-theme-head">
+              <span>Set 3 · Emerald Gold</span>
+              <span class="se-chip">80 PT</span>
+            </div>
+            <div class="se-swatches">
+              <span class="se-swatch-dot" style="background:#34D399;" title="Zamrud Hijau"></span>
+              <span class="se-swatch-dot" style="background:#A3E635;" title="Limau Cerah"></span>
+              <span class="se-swatch-dot" style="background:#FACC15;" title="Kuning Emas"></span>
+            </div>
+            <button type="button" class="se-btn" id="btnTheme_emerald_gold">Buka &amp; Pakai (80 PT)</button>
+          </div>
+        </div>
+      </section>
 
       <!-- 1. BORANG ISI NAMA PELAJAR SEBELUM MULA -->
       <section class="se-name-gate" id="nameGateView">
@@ -719,12 +816,12 @@
         </div>
       </section>
 
-      <!-- 1B. MAIN HOME PAGE (LEADERBOARD + PILIH GAME + TUKAR WARNA UI GUNA POINT) -->
+      <!-- 1B. MAIN HOME PAGE (LEADERBOARD + PILIH GAME) -->
       <section class="se-home-view" id="mainHomeView">
         <div class="se-home-banner">
           <div>
             <h2>Selamat Datang ke Main Home, <span id="homeWelcomeName">Pelajar</span></h2>
-            <p>Semak kedudukan Leaderboard, pilih permainan untuk kumpul point, atau tukar 3 set warna tema UI.</p>
+            <p>Semak kedudukan Leaderboard, pilih permainan untuk kumpul point, atau tekan Tukar Warna UI di atas.</p>
           </div>
           <div class="se-chip">TEMA AKTIF: <span id="homeActiveThemeName">Asal</span></div>
         </div>
@@ -782,57 +879,6 @@
             <button type="button" class="se-btn" id="btnHomeChangeStudent">
               TUKAR NAMA PELAJAR
             </button>
-          </div>
-
-          <!-- Kolum 3: Tukar Warna UI Guna Point (3 Set Tema Harmoni, 1 Tema = 3 Warna) -->
-          <div class="se-panel-box">
-            <h3 class="se-panel-title">
-              <span>Tukar Warna UI</span>
-              <span class="se-chip"><span id="homePointVal">0</span> PT</span>
-            </h3>
-            <div class="se-theme-status" id="themeShopStatus">Pilih 1 daripada 3 set tema warna harmoni.</div>
-
-            <!-- Tema 1: Aurora Cobalt (3 Warna: Biru Kobalt, Teal Laut, Indigo) -->
-            <div class="se-theme-card" id="themeCard_aurora">
-              <div class="se-theme-head">
-                <span>Set 1 · Aurora Cobalt</span>
-                <span class="se-chip">30 PT</span>
-              </div>
-              <div class="se-swatches">
-                <span class="se-swatch-dot" style="background:#38BDF8;" title="Biru Kobalt"></span>
-                <span class="se-swatch-dot" style="background:#2DD4BF;" title="Teal Laut"></span>
-                <span class="se-swatch-dot" style="background:#818CF8;" title="Indigo Malam"></span>
-              </div>
-              <button type="button" class="se-btn" id="btnTheme_aurora">Buka &amp; Pakai (30 PT)</button>
-            </div>
-
-            <!-- Tema 2: Amber Rose (3 Warna: Emas Ambar, Mawar Koral, Ungu Lembayung) -->
-            <div class="se-theme-card" id="themeCard_amber_rose">
-              <div class="se-theme-head">
-                <span>Set 2 · Amber Rose</span>
-                <span class="se-chip">50 PT</span>
-              </div>
-              <div class="se-swatches">
-                <span class="se-swatch-dot" style="background:#FBBF24;" title="Emas Ambar"></span>
-                <span class="se-swatch-dot" style="background:#FB7185;" title="Mawar Koral"></span>
-                <span class="se-swatch-dot" style="background:#C084FC;" title="Ungu Lembayung"></span>
-              </div>
-              <button type="button" class="se-btn" id="btnTheme_amber_rose">Buka &amp; Pakai (50 PT)</button>
-            </div>
-
-            <!-- Tema 3: Emerald Gold (3 Warna: Zamrud Hijau, Limau Cerah, Kuning Emas) -->
-            <div class="se-theme-card" id="themeCard_emerald_gold">
-              <div class="se-theme-head">
-                <span>Set 3 · Emerald Gold</span>
-                <span class="se-chip">80 PT</span>
-              </div>
-              <div class="se-swatches">
-                <span class="se-swatch-dot" style="background:#34D399;" title="Zamrud Hijau"></span>
-                <span class="se-swatch-dot" style="background:#A3E635;" title="Limau Cerah"></span>
-                <span class="se-swatch-dot" style="background:#FACC15;" title="Kuning Emas"></span>
-              </div>
-              <button type="button" class="se-btn" id="btnTheme_emerald_gold">Buka &amp; Pakai (80 PT)</button>
-            </div>
           </div>
         </div>
       </section>
@@ -1056,6 +1102,7 @@
         points: 0,
         unlockedThemes: {},
         activeTheme: 'default',
+        prevViewBeforeTheme: 'home', // 'gate' | 'home' | 'game'
         mode: 'g1', // 'g1' | 'g2' | 'done'
         width: 780,
         height: 560,
@@ -1092,6 +1139,10 @@
       };
 
       var solatEduRoot = document.getElementById('solatEduRoot');
+      var themeTopView = document.getElementById('themeTopView');
+      var btnOpenThemeTop = document.getElementById('btnOpenThemeTop');
+      var btnCloseThemeTop = document.getElementById('btnCloseThemeTop');
+      var themeTopPointVal = document.getElementById('themeTopPointVal');
       var nameGateView = document.getElementById('nameGateView');
       var mainHomeView = document.getElementById('mainHomeView');
       var workspaceView = document.getElementById('workspaceView');
@@ -1111,7 +1162,6 @@
       var homeActiveThemeName = document.getElementById('homeActiveThemeName');
       var hudScoreVal = document.getElementById('hudScoreVal');
       var hudPointVal = document.getElementById('hudPointVal');
-      var homePointVal = document.getElementById('homePointVal');
       var hudQuestionVal = document.getElementById('hudQuestionVal');
       var recordsList = document.getElementById('recordsList');
       var recordsCountBadge = document.getElementById('recordsCountBadge');
@@ -1120,6 +1170,60 @@
       var gameStage = document.getElementById('gameStage');
       var canvas = document.getElementById('gameCanvas');
       var ctx = canvas.getContext('2d');
+
+      function detectCurrentActiveView() {
+        if (workspaceView && workspaceView.classList.contains('is-visible')) return 'game';
+        if (mainHomeView && mainHomeView.classList.contains('is-visible')) return 'home';
+        return 'gate';
+      }
+
+      function openThemeTopPanel() {
+        SoundFX.click();
+        state.draggingId = null;
+        if (themeTopView && !themeTopView.classList.contains('is-visible')) {
+          state.prevViewBeforeTheme = detectCurrentActiveView();
+        }
+        nameGateView.style.display = 'none';
+        mainHomeView.classList.remove('is-visible');
+        workspaceView.classList.remove('is-visible');
+        topActionBar.style.display = 'none';
+        if (themeTopView) {
+          themeTopView.classList.add('is-visible');
+        }
+        if (btnOpenThemeTop) {
+          btnOpenThemeTop.classList.add('is-active-mode');
+        }
+        syncHud();
+        renderThemeShopUI();
+        gameStage.classList.remove('is-anim-in');
+        void gameStage.offsetWidth;
+        gameStage.classList.add('is-anim-in');
+      }
+
+      function closeThemeTopPanel() {
+        SoundFX.click();
+        if (themeTopView) {
+          themeTopView.classList.remove('is-visible');
+        }
+        if (btnOpenThemeTop) {
+          btnOpenThemeTop.classList.remove('is-active-mode');
+        }
+        if (state.prevViewBeforeTheme === 'game') {
+          workspaceView.classList.add('is-visible');
+          topActionBar.style.display = 'flex';
+          resizeCanvas();
+        } else if (state.prevViewBeforeTheme === 'home') {
+          mainHomeView.classList.add('is-visible');
+          if (menuRecordsPanel) {
+            menuRecordsPanel.classList.add('is-menu-visible');
+          }
+        } else {
+          nameGateView.style.display = 'flex';
+        }
+        gameStage.classList.remove('is-anim-in');
+        void gameStage.offsetWidth;
+        gameStage.classList.add('is-anim-in');
+      }
 
       function getThemePalette() {
         if (state.activeTheme === 'aurora') {
@@ -1345,6 +1449,12 @@
           state.autoAdvanceTimer = null;
         }
         state.draggingId = null;
+        if (themeTopView) {
+          themeTopView.classList.remove('is-visible');
+        }
+        if (btnOpenThemeTop) {
+          btnOpenThemeTop.classList.remove('is-active-mode');
+        }
         if (homeWelcomeName) {
           homeWelcomeName.textContent = state.studentName || 'Pelajar';
         }
@@ -1373,6 +1483,12 @@
 
       function startSelectedGame(modeKey) {
         SoundFX.click();
+        if (themeTopView) {
+          themeTopView.classList.remove('is-visible');
+        }
+        if (btnOpenThemeTop) {
+          btnOpenThemeTop.classList.remove('is-active-mode');
+        }
         mainHomeView.classList.remove('is-visible');
         nameGateView.style.display = 'none';
         workspaceView.classList.add('is-visible');
@@ -1435,7 +1551,9 @@
         hudStudentName.textContent = state.studentName || '-';
         hudScoreVal.textContent = String(total);
         hudPointVal.textContent = String(state.points);
-        homePointVal.textContent = String(state.points);
+        if (themeTopPointVal) {
+          themeTopPointVal.textContent = String(state.points);
+        }
 
         if (state.mode === 'g1') {
           var solved1 = countSolved(state.g1SolvedMap);
@@ -1835,7 +1953,11 @@
 
           if (activePosture.img) {
             var imgPad = 10;
+            ctx.save();
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(activePosture.img, drawX + imgPad, drawY + imgPad, cardSide - imgPad * 2, cardSide - imgPad * 2);
+            ctx.restore();
           } else {
             ctx.fillStyle = pal.dark;
             ctx.font = '800 13px "Plus Jakarta Sans", sans-serif';
@@ -2320,6 +2442,12 @@
         saveCurrentStudentScore();
         SoundFX.exit();
         stopBgmNow();
+        if (themeTopView) {
+          themeTopView.classList.remove('is-visible');
+        }
+        if (btnOpenThemeTop) {
+          btnOpenThemeTop.classList.remove('is-active-mode');
+        }
         mainHomeView.classList.remove('is-visible');
         workspaceView.classList.remove('is-visible');
         topActionBar.style.display = 'none';
@@ -2330,6 +2458,20 @@
 
       btnChangeStudent.addEventListener('click', resetToNameGate);
       btnHomeChangeStudent.addEventListener('click', resetToNameGate);
+
+      if (btnOpenThemeTop) {
+        btnOpenThemeTop.addEventListener('click', function () {
+          if (themeTopView && themeTopView.classList.contains('is-visible')) {
+            closeThemeTopPanel();
+          } else {
+            openThemeTopPanel();
+          }
+        });
+      }
+
+      if (btnCloseThemeTop) {
+        btnCloseThemeTop.addEventListener('click', closeThemeTopPanel);
+      }
 
       document.getElementById('btnTheme_aurora').addEventListener('click', function () {
         handleThemePurchaseOrEquip('aurora');
@@ -2365,13 +2507,16 @@
         var rect = canvas.getBoundingClientRect();
         var w = Math.max(280, Math.floor(rect.width || canvas.parentElement.clientWidth || 760));
         var h = Math.max(460, Math.floor(rect.height || (w < 600 ? 590 : 560)));
-        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var nativeDpr = window.devicePixelRatio || 1;
+        var hdScale = Math.max(nativeDpr, 3);
 
         state.width = w;
         state.height = h;
-        canvas.width = Math.floor(w * dpr);
-        canvas.height = Math.floor(h * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        canvas.width = Math.floor(w * hdScale);
+        canvas.height = Math.floor(h * hdScale);
+        ctx.setTransform(hdScale, 0, 0, hdScale, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         renderCanvas();
       }
 
