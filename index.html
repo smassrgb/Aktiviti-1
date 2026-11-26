@@ -93,6 +93,7 @@
 
     .se-stage {
       position: relative;
+      min-height: calc(100vh - clamp(20px, 3.6vw, 44px));
       border-radius: 28px;
       padding: clamp(14px, 2vw, 24px);
       background:
@@ -120,6 +121,18 @@
         transform: translateY(12px) scale(0.985);
       }
       to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Animasi lembut dan profesional khusus Name Gate */
+    @keyframes seGateFloatIn {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.975);
+      }
+      100% {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
@@ -293,36 +306,68 @@
       color: var(--navy-deep);
     }
 
-    /* Borang Nama Pelajar Sebelum Mula */
+    /* =====================================================================
+       1. BORANG NAMA PELAJAR SEBELUM MULA (.se-name-gate)
+       - Kedudukan tepat di tengah secara horizontal & vertikal menggunakan Flexbox
+       - Latar belakang transparent sepenuhnya agar background asal kelihatan
+       - Kesan kaca ringan, lembut, border nipis & bayang-bayang minimal
+    ===================================================================== */
     .se-name-gate {
+      flex: 1 1 auto;
+      min-height: 100%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 16px;
-      padding: clamp(22px, 4vw, 44px) 16px;
+      padding: clamp(20px, 3.5vw, 40px) clamp(12px, 2.5vw, 24px);
       text-align: center;
-      animation: seRefViewIn 340ms var(--ease-out) forwards;
+      background: transparent;
+      animation: seGateFloatIn 460ms var(--ease-out) forwards;
     }
 
     .se-gate-card {
       width: 100%;
-      max-width: 480px;
-      padding: clamp(20px, 3vw, 30px);
-      border-radius: 22px;
-      background: linear-gradient(155deg, rgba(247, 250, 252, 0.13), rgba(255, 30, 66, 0.08) 55%, rgba(52, 211, 153, 0.08));
-      backdrop-filter: blur(20px);
-      border: 1.5px solid var(--glass-line-hi);
-      box-shadow: 0 22px 48px -16px rgba(0, 0, 0, 0.65);
+      max-width: 540px;
+      padding: clamp(26px, 4vw, 38px) clamp(22px, 3.6vw, 34px);
+      border-radius: 24px;
+      background: rgba(247, 250, 252, 0.06);
+      backdrop-filter: blur(12px) saturate(135%);
+      -webkit-backdrop-filter: blur(12px) saturate(135%);
+      border: 1px solid rgba(247, 250, 252, 0.28);
+      box-shadow: 0 14px 32px -18px rgba(0, 0, 0, 0.45);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+      transition: border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+    }
+
+    .se-gate-card:hover {
+      border-color: rgba(247, 250, 252, 0.42);
+      box-shadow: 0 18px 38px -18px rgba(0, 0, 0, 0.52);
+    }
+
+    .se-gate-badge {
+      align-self: center;
+      background: rgba(247, 250, 252, 0.07);
+      border-color: rgba(247, 250, 252, 0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .se-gate-title {
       margin: 0;
-      font-size: clamp(1.45rem, 3vw, 2rem);
+      width: 100%;
+      text-align: center;
+      font-size: clamp(1.65rem, 3.4vw, 2.25rem);
       font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
     }
 
     .se-gate-title em {
@@ -330,29 +375,58 @@
       color: var(--lime);
     }
 
+    .se-gate-desc {
+      margin: 0;
+      width: 100%;
+      max-width: 44ch;
+      text-align: center;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: rgba(247, 250, 252, 0.84);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+    }
+
     .se-input {
       width: 100%;
-      padding: 13px 15px;
+      padding: 13px 16px;
       border-radius: 14px;
-      border: 1.5px solid var(--glass-line-hi);
-      background: rgba(6, 20, 31, 0.65);
-      color: var(--white);
+      border: 1px solid rgba(247, 250, 252, 0.34);
+      background: rgba(6, 20, 31, 0.32);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #F8FAFC;
       font-family: inherit;
       font-size: 0.96rem;
       font-weight: 700;
+      text-align: center;
       outline: none;
+      transition: border-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out), background 180ms var(--ease-out);
+    }
+
+    .se-input::placeholder {
+      color: rgba(226, 232, 240, 0.68);
+      font-weight: 600;
     }
 
     .se-input:focus {
+      background: rgba(6, 20, 31, 0.44);
       border-color: var(--lime);
       box-shadow: 0 0 0 3px var(--lime-glow);
     }
 
+    .se-gate-submit {
+      width: 100%;
+      padding: 12px 18px;
+    }
+
     .se-error-msg {
       min-height: 20px;
+      width: 100%;
+      text-align: center;
       font-size: 0.84rem;
       font-weight: 700;
       color: #FF8FA3;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
     }
 
     /* Panel Khas Tukar Warna UI di Bahagian Atas (Menutup Paparan Lain Buat Sementara) */
@@ -701,6 +775,11 @@
     }
 
     @media (max-width: 600px) {
+      .se-gate-card {
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+
       #gameCanvas {
         height: 590px;
       }
@@ -792,9 +871,9 @@
       <!-- 1. BORANG ISI NAMA PELAJAR SEBELUM MULA -->
       <section class="se-name-gate" id="nameGateView">
         <div class="se-gate-card">
-          <div class="se-chip" style="align-self:center;">REKOD MARKAH AUTOMATIK</div>
+          <div class="se-chip se-gate-badge">REKOD MARKAH AUTOMATIK</div>
           <h1 class="se-gate-title">SOLAT <em>EDU</em></h1>
-          <p style="margin:0;font-size:0.9rem;color:var(--muted);">
+          <p class="se-gate-desc">
             Sila isi nama penuh anda untuk ke Main Home Page, lihat Leaderboard, pilih permainan, dan tukar warna UI menggunakan point.
           </p>
           <input
@@ -806,7 +885,7 @@
             autocomplete="name"
           />
           <div class="se-error-msg" id="nameGateError"></div>
-          <button type="button" class="se-btn se-btn--lime" id="btnStartWithName">
+          <button type="button" class="se-btn se-btn--lime se-gate-submit" id="btnStartWithName">
             SIMPAN NAMA &amp; KE MAIN HOME ▶
           </button>
         </div>
